@@ -26,9 +26,11 @@ class ProjectController extends AdminController
     {
         $grid = new Grid(new Project());
 
-        $grid->column('no', __('项目编号'));
+        $grid->column('no', __('项目编号'))->display(function ($no){
+            $url = url('/admin/projects/'.$this->id);
+            return "<a href='{$url}'>$no</a>";
+        });
         $grid->column('name', __('项目名称'));
-        $grid->column('customer_po', __('客户PO'));
         $grid->column('created_at', __('创建时间'));
 
         return $grid;
@@ -42,16 +44,35 @@ class ProjectController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Project::findOrFail($id));
+        $project = Project::with(['salesOrders'=>function($query){
+            $query->with(['purchaseOrders' => function($query){
+                $query->with('vendor', 'receiptBatches', 'paymentBatches');
+            }]);
+        }])->findOrFail($id);
 
-        $show->field('id', __('Id'));
-        $show->field('name', __('项目名称'));
-        $show->field('no', __('项目编号'));
-        $show->field('customer_po', __('客户PO'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
+        $salesOrders = $project->salesOrders->map(function ($item){
+            if(count($item->vendors) == 0){
+                $item['progress'] = 0;//未设置供应商进度为0
+            }else{
+                $item['progress'] = 0.5;//设置了供应商清单，下单进度为50%
+                $vendor_ids = $item->purchaseOrders->pluck('vendor_id')->toArray();
+                $in_array = 0;
+                foreach ($item->vendors as $vendor){
+                    $in_array = in_array($vendor, $vendor_ids) ? ++$in_array : $in_array;
+                }
+                if($in_array == count($item->vendors)){ //如果设置的采购计划供应商数量和实际下单的数量相等 则进度为 100%
+                    $item['progress'] = 1;
+                }else{
+                    $item['progress'] += 0.5/count($item->vendors) * $in_array;
+                }
+            }
 
-        return $show;
+            return $item;
+        });
+
+        $project->setAttribute('sales_orders', $salesOrders);
+
+        return view('admin/project',compact('project'));
     }
 
     /**
@@ -66,7 +87,6 @@ class ProjectController extends AdminController
         $form->text('no', __('项目编号'))->creationRules(['required', "unique:projects"])
             ->updateRules(['required', "unique:projects,no,{{id}}"]);
         $form->text('name', __('项目名称'))->required();
-        $form->text('customer_po', __('客户PO'));
 
         return $form;
     }

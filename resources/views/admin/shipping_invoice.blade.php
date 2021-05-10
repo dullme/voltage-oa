@@ -64,10 +64,10 @@
             </div>
 
             <div class="col-md-8">
-                <div class="col-md-12" style="text-align: center;font-size: 22px;padding-bottom: 20px">发票清单</div>
+                <div class="col-md-12" style="text-align: center;font-size: 22px;padding-bottom: 20px">发票清单 <a href="{{ url('/admin/print/shipping-invoices/'.$shipping_invoice->id) }}" target="_blank"><i class="fa fa-print"></i></a></div>
                 <div class="col-md-12">
                     <div class="col-md-3" style="border-bottom: 1px solid black;padding: 8px 10px;background-color: #e8e8e8">客户PO：</div>
-                    <div class="col-md-9" style="border-bottom: 1px solid black;padding: 8px 10px">{{ $shipping_invoice->project->customer_po }}</div>
+                    <div class="col-md-9" style="border-bottom: 1px solid black;padding: 8px 10px">{{ $customer_po }}</div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-3" style="border-bottom: 1px solid black;padding: 8px 10px;background-color: #e8e8e8">货代：</div>
@@ -94,7 +94,7 @@
                             @foreach($shipping_invoice->detail as $item)
                             <tr>
                                 <td>{{ $orders->where('id', $item['po'])->first()->po  }}</td>
-                                <td style="text-align: center">{{ $orders->where('id', $item['po'])->first()->vendor }}</td>
+                                <td style="text-align: center">{{ $orders->where('id', $item['po'])->first()->vendor->name }}</td>
                                 <td style="text-align: center;">{{ $shipping_invoice->batch }}</td>
                                 <td style="text-align: center">¥ {{ $item['amount'] }}</td>
                                 <td style="text-align: center;">{{ $shipping_invoice->delivery_time }}</td>

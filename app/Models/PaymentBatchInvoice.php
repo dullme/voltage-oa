@@ -6,12 +6,12 @@ use Encore\Admin\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class PaymentBatchInvoice extends Model
 {
     use HasFactory, DefaultDatetimeFormat;
 
-    public function project()
+    public function invoice()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Invoice::class);
     }
 }

@@ -22,8 +22,18 @@ class Invoice extends Model
         return json_decode($file, true);
     }
 
-    public function order()
+    public function purchaseOrder()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(PurchaseOrder::class);
+    }
+
+    public function receiptBatchInvoices()
+    {
+        return $this->hasMany(ReceiptBatchInvoice::class);
+    }
+
+    public function paymentBatchInvoices()
+    {
+        return $this->hasMany(PaymentBatchInvoice::class);
     }
 }

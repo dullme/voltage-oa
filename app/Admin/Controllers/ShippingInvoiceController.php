@@ -2,7 +2,8 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Order;
+use PDF;
+use App\Models\PurchaseOrder;
 use App\Models\Project;
 use App\Models\ShippingInvoice;
 use Encore\Admin\Controllers\AdminController;
@@ -62,9 +63,31 @@ class ShippingInvoiceController extends AdminController
 
         $shipping_invoices = ShippingInvoice::where('b_l', $shipping_invoice->b_l)->get();
 
-        $orders = Order::whereIn('id', collect($shipping_invoice->detail)->pluck('po'))->get();
+        $orders = PurchaseOrder::with('salesOrder')->whereIn('id', collect($shipping_invoice->detail)->pluck('po'))->get();
 
-        return view('admin/shipping_invoice', compact('shipping_invoice', 'orders', 'shipping_invoices'));
+
+        $customer_po= implode('/', $orders->pluck('salesOrder')->pluck('customer_po')->unique()->toArray());
+
+        return view('admin/shipping_invoice', compact('shipping_invoice', 'orders', 'shipping_invoices', 'customer_po'));
+    }
+
+    protected function printDetail($id)
+    {
+        $shipping_invoice = ShippingInvoice::with('project')->findOrFail($id);
+
+        $shipping_invoices = ShippingInvoice::where('b_l', $shipping_invoice->b_l)->get();
+
+        $orders = PurchaseOrder::with('salesOrder')->whereIn('id', collect($shipping_invoice->detail)->pluck('po'))->get();
+
+
+        $customer_po= implode('/', $orders->pluck('salesOrder')->pluck('customer_po')->unique()->toArray());
+
+
+        $pdf = PDF::loadView('admin.print_shipping_invoice', compact('shipping_invoice', 'orders', 'shipping_invoices', 'customer_po'));
+        return $pdf->inline();
+//        return $pdf->download($shipping_invoice->invoice_no.'shipping_invoices.pdf');
+
+//        return view('admin.print_shipping_invoice', compact('shipping_invoice', 'orders', 'shipping_invoices', 'customer_po'));
     }
 
     /**
@@ -90,7 +113,7 @@ class ShippingInvoiceController extends AdminController
 
         $form->table('detail', '详情', function ($table) {
 
-            $orders = Order::orderBy('id', 'DESC')->get();
+            $orders = PurchaseOrder::orderBy('id', 'DESC')->get();
             $orders = $orders->map(function ($item){
                 return [
                     'id' => $item->id,

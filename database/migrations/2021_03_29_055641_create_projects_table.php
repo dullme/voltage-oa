@@ -17,7 +17,6 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->string('name')->comment('项目名称');
             $table->string('no')->unique()->comment('项目编号');
-            $table->string('customer_po')->nullable()->comment('客户PO');
             $table->timestamps();
         });
     }

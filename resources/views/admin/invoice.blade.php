@@ -26,7 +26,7 @@
                 <p>发票金额：{{ $invoice->amount }}</p>
                 <p>开票时间：{{ $invoice->billing_time }}</p>
                 <p>标题：{{ $invoice->title }}</p>
-                <p>项目编号：{{ $invoice->order->project->no }}</p>
+                <p>项目编号：{{ $invoice->purchaseOrder->project->no }}</p>
                 @if($invoice->comment)
                     <p>备注：{{ $invoice->comment }}</p>
                 @endif
@@ -35,22 +35,22 @@
                 <table class="table table-bordered" style="max-width: 380px">
                     <tbody>
                         <tr>
-                            <th colspan="3" style="text-align: center">发票清单</th>
+                            <th colspan="3" style="text-align: center">发票清单 <a href="{{ url('/admin/print/invoices/'.$invoice->id) }}" target="_blank"><i class="fa fa-print"></i></a></th>
                         </tr>
                         <tr>
-                            <td colspan="3">客户PO：{{ $invoice->order->project->customer_po }}</td>
+                            <td colspan="3">客户PO：{{ $invoice->purchaseOrder->salesOrder->customer_po }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">工厂：{{ $invoice->order->vendor }}</td>
+                            <td colspan="3">工厂：{{ $invoice->purchaseOrder->vendor->name }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">项目：{{ $invoice->order->project->name }}</td>
+                            <td colspan="3">项目：{{ $invoice->purchaseOrder->project->name }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">工厂PO：{{ $invoice->order->po }}</td>
+                            <td colspan="3">工厂PO：{{ $invoice->purchaseOrder->po }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">工厂PO总额：<span style="font-weight: bold">¥ {{ $invoice->order->amount }}</span></td>
+                            <td colspan="3">工厂PO总额：<span style="font-weight: bold">¥ {{ $invoice->purchaseOrder->amount }}</span></td>
                         </tr>
                         @foreach($invoices as $item)
                             <tr style="{{ $item->where('id', $invoice->id)->count() ? 'background-color: #bbbbbb;' : '' }}">
@@ -61,7 +61,7 @@
 {{--                                <td><span style="cursor: pointer" tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="left" title="发票号 - 金额" data-content="@foreach($item as $fapiao) {{ $fapiao->invoice_no }} @endforeach">共 {{ $item->count() }} 张</span></td>--}}
                         @endforeach
                         <tr>
-                            <td colspan="3">剩余发票总额：<span class="{{ $invoice->order->amount - $invoice_total_amount < 0 ? 'text-danger' : '' }}" style="font-weight: bold;">¥ {{ $invoice->order->amount - $invoice_total_amount }}</span></td>
+                            <td colspan="3">剩余发票总额：<span class="{{ $invoice->purchaseOrder->amount - $invoice_total_amount < 0 ? 'text-danger' : '' }}" style="font-weight: bold;">¥ {{ $invoice->purchaseOrder->amount - $invoice_total_amount }}</span></td>
                         </tr>
                     </tbody>
                 </table>

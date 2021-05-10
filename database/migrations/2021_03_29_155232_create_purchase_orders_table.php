@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrdersTable extends Migration
+class PurchaseOrdersCreateTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
-            $table->string('vendor')->comment('供应商');
+            $table->unsignedBigInteger('sales_order_id');
+            $table->unsignedBigInteger('vendor_id')->comment('供应商');
             $table->string('po')->comment('供应商PO');
             $table->decimal('amount', 10, 2)->comment('PO总金额');
+            $table->date('order_at')->nullable()->comment('下单日期');
+            $table->date('double_signed_at')->nullable()->comment('获取双签合同时间');
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('purchase_orders');
     }
 }

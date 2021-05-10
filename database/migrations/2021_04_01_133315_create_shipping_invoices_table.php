@@ -29,6 +29,7 @@ class CreateShippingInvoicesTable extends Migration
             $table->string('invoice_image')->comment('发票凭证');
             $table->json('file')->nullable()->comment('其他凭证');
             $table->string('comment')->nullable()->comment('备注');
+            $table->tinyInteger('status')->default(0)->comment('发票状态0:与录入；1:财务已签收');
             $table->timestamps();
         });
     }

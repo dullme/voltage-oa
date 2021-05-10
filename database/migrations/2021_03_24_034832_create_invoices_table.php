@@ -15,7 +15,8 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id')->unsigned()->comment('工厂PO');
+            $table->integer('purchase_order_id')->unsigned()->comment('工厂PO');
+            $table->integer('vendor_id')->unsigned()->comment('供应商');
             $table->string('invoice_no')->unique()->comment('发票号码');
             $table->date('billing_time')->comment('开票时间');
             $table->string('invoice_image')->comment('发票凭证');
@@ -24,6 +25,7 @@ class CreateInvoicesTable extends Migration
             $table->string('title')->nullable()->comment('标题');
             $table->string('comment')->nullable()->comment('备注');
             $table->decimal('amount', 10, 2)->comment('发票总金额');
+            $table->tinyInteger('status')->default(0)->comment('发票状态0:与录入；1:财务已签收');
             $table->timestamps();
         });
     }
