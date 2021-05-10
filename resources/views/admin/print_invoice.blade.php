@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="http://voltage-oa.test/vendor/laravel-admin/AdminLTE/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('/vendor/laravel-admin/AdminLTE/bootstrap/css/bootstrap.min.css') }}">
     <style>
         .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
             border: 1px solid #000000;
