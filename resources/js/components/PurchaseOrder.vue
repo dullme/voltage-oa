@@ -537,7 +537,7 @@
                         response.data.data,
                         'success'
                     ).then(()=>{
-                        this.invoice(this.payment_res.id)
+                        this.invoice(this.res.id)
                     })
 
                 }).catch(error =>{

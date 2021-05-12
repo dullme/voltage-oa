@@ -113,14 +113,13 @@ class ShippingInvoiceController extends AdminController
 
         $form->table('detail', '详情', function ($table) {
 
-            $orders = PurchaseOrder::orderBy('id', 'DESC')->get();
+            $orders = PurchaseOrder::with('vendor')->orderBy('id', 'DESC')->get();
             $orders = $orders->map(function ($item){
                 return [
                     'id' => $item->id,
-                    'po' => $item->po .' / ' .$item->vendor . ' / '. $item->amount,
+                    'po' => $item->po .' / ' .$item->vendor->name . ' / '. $item->amount,
                 ];
             });
-
             $table->select('po', '工厂PO / 工厂 / PO总金额')->options($orders->pluck('po', 'id'))->rules('required');
             $table->decimal('amount', '货值')->rules('required');
         });
