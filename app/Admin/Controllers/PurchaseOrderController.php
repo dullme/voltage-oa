@@ -102,7 +102,14 @@ EOF
     protected function form()
     {
         $form = new Form(new PurchaseOrder());
-        $form->select('project_id', __('项目'))->options(Project::pluck('name', 'id'))->load('sales_order_id', "/admin/get-sales-orders")->required();
+        $projects = Project::all();
+        $projects = $projects->map(function ($item){
+            return [
+                'id' => $item->id,
+                'name' => $item->no .'【' .$item->name.'】',
+            ];
+        });
+        $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', "/admin/get-sales-orders")->required();
 
         $form->select('sales_order_id', '销售订单')->required();
 
