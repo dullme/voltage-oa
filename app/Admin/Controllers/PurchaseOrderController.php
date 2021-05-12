@@ -116,7 +116,7 @@ EOF
             if(request()->get('sales_order_id')){
                 $salesOrder = SalesOrder::findOrFail(request()->get('sales_order_id'));
                 $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', url('/admin/get-sales-orders'))->default($salesOrder->project_id)->required();
-                $form->select('sales_order_id', '销售订单')->options(SalesOrder::where('project_id', '$salesOrder->project_id')->get(['id', DB::raw('no as text')]))->required();
+                $form->select('sales_order_id', '销售订单')->options(SalesOrder::where('project_id', $salesOrder->project_id)->pluck('no', 'id'))->required();
             }else{
                 $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', url('/admin/get-sales-orders'))->required();
                 $form->select('sales_order_id', '销售订单')->required();
