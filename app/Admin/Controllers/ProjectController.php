@@ -26,6 +26,12 @@ class ProjectController extends AdminController
     {
         $grid = new Grid(new Project());
 
+        $grid->filter(function ($filter) {
+            $filter->disableIdFilter();
+            $filter->like('no', '项目编号');
+            $filter->like('name', '项目名称');
+        });
+
         $grid->column('no', __('项目编号'))->display(function ($no){
             $url = url('/admin/projects/'.$this->id);
             return "<a href='{$url}'>$no</a>";
