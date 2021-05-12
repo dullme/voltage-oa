@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\PurchaseOrder;
 use App\Models\Project;
+use App\Models\SalesOrder;
 use App\Models\Vendor;
 use Carbon\Carbon;
 use Encore\Admin\Admin;
@@ -102,14 +103,24 @@ EOF
     protected function form()
     {
         $form = new Form(new PurchaseOrder());
-        $projects = Project::all();
-        $projects = $projects->map(function ($item){
-            return [
-                'id' => $item->id,
-                'name' => $item->no .'【' .$item->name.'】',
-            ];
-        });
-        $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', "/admin/get-sales-orders")->required();
+
+        if($form->isCreating()){
+            $projects = Project::all();
+            $projects = $projects->map(function ($item){
+                return [
+                    'id' => $item->id,
+                    'name' => $item->no .'【' .$item->name.'】',
+                ];
+            });
+            if(request()->get('sales_order_id')){
+                $salesOrder = SalesOrder::findOrFail(request()->get('sales_order_id'));
+                $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', url('/admin/get-sales-orders'))->default($salesOrder->project_id)->required();
+            }else{
+                $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', url('/admin/get-sales-orders'))->required();
+            }
+        }
+
+//        $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', "/admin/get-sales-orders")->required();
 
         $form->select('sales_order_id', '销售订单')->required();
 

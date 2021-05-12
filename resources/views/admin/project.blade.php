@@ -53,7 +53,7 @@
             <h3 class="box-title">销售单号：<a href="{{ url('/admin/sales-orders/'.$salesOrder->id) }}">{{ $salesOrder->no }}</a></h3>
             <div class="box-tools pull-right">
                 <a href="{{ url('/admin/sales-orders/'.$salesOrder->id.'/edit') }}" class="btn btn-box-tool"><i class="fa fa-edit"></i></a>
-                <a href="{{ url('/admin/purchase-orders/create') }}" class="btn btn-box-tool"><i class="fa fa-plus"></i></a>
+                <a href="{{ url('/admin/purchase-orders/create?sales_order_id='.$salesOrder->id) }}" class="btn btn-box-tool"><i class="fa fa-plus"></i></a>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div>
             <!-- /.box-tools -->
