@@ -34,7 +34,10 @@ class SalesOrderController extends AdminController
     {
         $grid = new Grid(new SalesOrder());
 
-        $grid->project()->name('项目名称');
+        $grid->project()->name('项目名称')->display(function ($name){
+            $url = url('/admin/projects/'.$this->project->id);
+            return "<a href='{$url}'>{$this->project->no}【{$name}】</a>";
+        });
         $grid->column('no', __('采购编号'));
         $grid->column('amount', __('采购金额'));
         $grid->column('customer_po', __('客户PO'));
