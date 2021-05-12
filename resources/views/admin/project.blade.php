@@ -60,7 +60,7 @@
             <div style="display: flex;margin-top: 10px">
                 <div>
                     <div>销售金额：$ {{ $salesOrder->amount }}</div>
-                    <div class="description" style="margin-top: 10px">下单时间：2021-10-01</div>
+                    <div class="description" style="margin-top: 10px">下单时间：{{ $salesOrder->order_at }}</div>
                     <div style="display: flex; margin-top: 10px">
                         <span>下单进度：</span>
                         <div class="progress progress-striped active" style="min-width: 300px;margin-bottom:unset;border-radius: .25em">

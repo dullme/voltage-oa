@@ -104,15 +104,14 @@ EOF
     protected function form()
     {
         $form = new Form(new PurchaseOrder());
-
+        $projects = Project::all();
+        $projects = $projects->map(function ($item){
+            return [
+                'id' => $item->id,
+                'name' => $item->no .'【' .$item->name.'】',
+            ];
+        });
         if($form->isCreating()){
-            $projects = Project::all();
-            $projects = $projects->map(function ($item){
-                return [
-                    'id' => $item->id,
-                    'name' => $item->no .'【' .$item->name.'】',
-                ];
-            });
             if(request()->get('sales_order_id')){
                 $salesOrder = SalesOrder::findOrFail(request()->get('sales_order_id'));
                 $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', url('/admin/get-sales-orders'))->default($salesOrder->project_id)->required();
@@ -121,6 +120,11 @@ EOF
                 $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', url('/admin/get-sales-orders'))->required();
                 $form->select('sales_order_id', '销售订单')->required();
             }
+        }elseif ($form->isEditing()){
+            $purchase_order_id = request()->route()->parameters()['purchase_order'];
+            $purchaseOrder = PurchaseOrder::findOrFail($purchase_order_id);
+            $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', url('/admin/get-sales-orders'))->default($purchaseOrder->project_id)->required();
+            $form->select('sales_order_id', '销售订单')->options(SalesOrder::where('project_id', $purchaseOrder->project_id)->pluck('no', 'id'))->default($purchaseOrder->sales_order_id)->required();
         }
 
         $form->select('vendor_id', __('供应商'))->options(Vendor::pluck('name', 'id'))->required();
