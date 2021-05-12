@@ -74,10 +74,17 @@ class SalesOrderController extends AdminController
         $form = new Form(new SalesOrder());
 
         if($form->isCreating()){
+            $projects = Project::all();
+            $projects = $projects->map(function ($item){
+                return [
+                    'id' => $item->id,
+                    'name' => $item->no .'【' .$item->name.'】',
+                ];
+            });
             if(request()->get('project_id')){
-                $form->select('project_id', __('项目'))->options(Project::pluck('name', 'id'))->default(request()->get('project_id'))->required();
+                $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->default(request()->get('project_id'))->required();
             }else{
-                $form->select('project_id', __('项目'))->options(Project::pluck('name', 'id'))->required();
+                $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->required();
             }
         }
 
