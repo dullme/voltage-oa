@@ -41,6 +41,14 @@ class SalesOrderController extends AdminController
         $grid->column('no', __('采购编号'));
         $grid->column('amount', __('采购金额'));
         $grid->column('customer_po', __('客户PO'));
+        $grid->purchaseOrders(__('采购订单'))->display(function ($purchases){
+            $pos = collect($purchases)->pluck('po')->toArray();
+            $res = '';
+            foreach ($pos as $po){
+                $res .= "<span class='label label-info' style='margin-right: 2px'>{$po}</span>";
+            }
+            return $res;
+        });
         $grid->column('order_at', __('下单时间'));
 
         return $grid;

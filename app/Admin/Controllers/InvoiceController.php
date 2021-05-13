@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use Encore\Admin\Facades\Admin;
 use PDF;
 use App\Models\Invoice;
 use App\Models\PaymentBatch;
@@ -349,5 +350,11 @@ class InvoiceController extends ResponseController
         PaymentBatchInvoice::destroy($id);
 
         return $this->responseSuccess('撤销成功');
+    }
+
+    public function destroy($id)
+    {
+        dd(Admin::user()->can('invoice.delete'));
+        return $this->form()->destroy($id);
     }
 }
