@@ -61,7 +61,7 @@
 {{--                                <td><span style="cursor: pointer" tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="left" title="发票号 - 金额" data-content="@foreach($item as $fapiao) {{ $fapiao->invoice_no }} @endforeach">共 {{ $item->count() }} 张</span></td>--}}
                         @endforeach
                         <tr>
-                            <td colspan="3">剩余发票总额：<span class="{{ $invoice->purchaseOrder->amount - $invoice_total_amount < 0 ? 'text-danger' : '' }}" style="font-weight: bold;">¥ {{ $invoice->purchaseOrder->amount - $invoice_total_amount }}</span></td>
+                            <td colspan="3">剩余发票总额：<span class="{{ $invoice->purchaseOrder->amount - $invoice_total_amount < 0 ? 'text-danger' : '' }}" style="font-weight: bold;">¥ {{ bigNumber($invoice->purchaseOrder->amount)->subtract($invoice_total_amount)->getValue()  }}</span></td>
                         </tr>
                     </tbody>
                 </table>
