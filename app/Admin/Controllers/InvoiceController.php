@@ -4,6 +4,9 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Actions\Post\InvoiceAction;
 use Encore\Admin\Facades\Admin;
+use DB;
+use Encore\Admin\Widgets\Box;
+use Encore\Admin\Widgets\InfoBox;
 use PDF;
 use App\Models\Invoice;
 use App\Models\PaymentBatch;
@@ -12,7 +15,6 @@ use App\Models\PurchaseOrder;
 use App\Models\Project;
 use App\Models\ReceiptBatch;
 use App\Models\ReceiptBatchInvoice;
-use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
@@ -27,7 +29,7 @@ class InvoiceController extends ResponseController
      *
      * @var string
      */
-    protected $title = 'Invoice';
+    protected $title = '工厂发票';
 
     /**
      * Make a grid builder.
@@ -38,6 +40,8 @@ class InvoiceController extends ResponseController
     {
         $grid = new Grid(new Invoice());
         $grid->model()->orderBy('status', 'ASC')->orderByDesc('created_at');
+        $grid->disableExport();
+        $grid->disableRowSelector();
 
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
@@ -51,6 +55,19 @@ class InvoiceController extends ResponseController
             $actions->add(new InvoiceAction());
         });
 
+        $grid->header(function ($query) {
+            $invoice = $query->select('status')->get();
+            $not_signed = $invoice->where('status', 0)->count();
+            $signed = $invoice->where('status', 1)->count();
+            return view('admin.invoice.invoice', compact('not_signed', 'signed'));
+        });
+
+        $grid->column('项目编号')->display(function () {
+            return $this->purchaseOrder->project->no;
+        });
+        $grid->column('项目名称')->display(function () {
+            return $this->purchaseOrder->project->name;
+        });
 
         $grid->column('invoice_no', __('发票号码'))->display(function () {
             $url = asset('/admin/invoices/' . $this->id);
@@ -65,12 +82,7 @@ class InvoiceController extends ResponseController
             return $this->purchaseOrder->po;
         });
 
-        $grid->column('项目名称')->display(function () {
-            return $this->purchaseOrder->project->name;
-        });
-        $grid->column('项目编号')->display(function () {
-            return $this->purchaseOrder->project->no;
-        });
+
 
         $grid->column('billing_time', __('开票时间'));
 

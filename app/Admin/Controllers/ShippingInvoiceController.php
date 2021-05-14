@@ -18,7 +18,7 @@ class ShippingInvoiceController extends AdminController
      *
      * @var string
      */
-    protected $title = 'ShippingInvoice';
+    protected $title = '货运发票';
 
     /**
      * Make a grid builder.

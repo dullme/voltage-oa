@@ -21,7 +21,7 @@ class PurchaseOrderController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Order';
+    protected $title = '采购订单';
 
     /**
      * Make a grid builder.
@@ -31,6 +31,7 @@ class PurchaseOrderController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new PurchaseOrder());
+        $grid->model()->orderByDesc('created_at');
         $grid->column('po', __('采购单号'))->display(function($po){
             $url = url('/admin/purchase-orders/'.$this->id);
             return "<a href='{$url}'>{$po}</a>";

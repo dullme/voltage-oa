@@ -15,7 +15,7 @@ class VendorController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Vendor';
+    protected $title = '供应商管理';
 
     /**
      * Make a grid builder.

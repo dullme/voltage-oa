@@ -15,7 +15,7 @@ class ProjectController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Project';
+    protected $title = '项目管理';
 
     /**
      * Make a grid builder.
@@ -25,6 +25,7 @@ class ProjectController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Project());
+        $grid->model()->orderByDesc('no');
 
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
@@ -37,7 +38,22 @@ class ProjectController extends AdminController
             return "<a href='{$url}'>$no</a>";
         });
         $grid->column('name', __('项目名称'));
-        $grid->column('type', __('类型'))->label();
+        $grid->column('type', __('类型'))->label([
+            'HARNESS' => 'success',
+            'PV'      => 'danger',
+            'MV'      => 'warning',
+            'OTHER'   => 'info',
+        ]);
+
+        $grid->salesOrders(__('销售订单'))->display(function ($salesOrders){
+            $nos = collect($salesOrders)->pluck('no')->toArray();
+            $res = '';
+            foreach ($nos as $no){
+                $res .= "<span class='label label-info' style='margin-right: 2px'>{$no}</span>";
+            }
+            return $res;
+        });
+
         $grid->column('remark', __('备注'));
         $grid->column('created_at', __('创建时间'));
 

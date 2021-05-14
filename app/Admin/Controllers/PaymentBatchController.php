@@ -16,7 +16,7 @@ class PaymentBatchController extends AdminController
      *
      * @var string
      */
-    protected $title = 'PaymentBatch';
+    protected $title = '付款批次';
 
     /**
      * Make a grid builder.

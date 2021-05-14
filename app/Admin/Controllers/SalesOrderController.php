@@ -23,7 +23,7 @@ class SalesOrderController extends AdminController
      *
      * @var string
      */
-    protected $title = 'SalesOrder';
+    protected $title = '销售订单';
 
     /**
      * Make a grid builder.
@@ -33,6 +33,7 @@ class SalesOrderController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new SalesOrder());
+        $grid->model()->orderByDesc('order_at');
 
         $grid->project()->name('项目名称')->display(function ($name){
             $url = url('/admin/projects/'.$this->project->id);

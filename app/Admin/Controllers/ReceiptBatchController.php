@@ -16,7 +16,7 @@ class ReceiptBatchController extends AdminController
      *
      * @var string
      */
-    protected $title = 'ReceiptBatch';
+    protected $title = '收货批次';
 
     /**
      * Make a grid builder.
