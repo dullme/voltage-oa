@@ -65,28 +65,36 @@ class InvoiceController extends ResponseController
         $grid->column('项目编号')->display(function () {
             return $this->purchaseOrder->project->no;
         });
-        $grid->column('项目名称')->display(function () {
-            return $this->purchaseOrder->project->name;
+        $grid->column('工厂PO')->display(function () {
+            return $this->purchaseOrder->po;
         });
+//        $grid->column('项目名称')->display(function () {
+//            return $this->purchaseOrder->project->name;
+//        });
 
         $grid->column('invoice_no', __('发票号码'))->display(function () {
             $url = asset('/admin/invoices/' . $this->id);
 
             return "<a href='$url'>$this->invoice_no</a>";
         });
+
+        $grid->column('amount', __('发票总金额'))->prefix('¥');
+        $grid->column('invoice_image', __('发票原件'))->display(function ($invoice_image){
+            $url = asset('uploads/'.$invoice_image);
+            $name = str_replace('files/', '', $invoice_image);
+            return "<a target='_blank' href='{$url}' class='label label-success'>{$name}</a>";
+        });
+
         $grid->column('title', __('标题'));
         $grid->column('工厂')->display(function () {
             return $this->purchaseOrder->vendor->name;
-        });
-        $grid->column('工厂PO')->display(function () {
-            return $this->purchaseOrder->po;
         });
 
 
 
         $grid->column('billing_time', __('开票时间'));
 
-        $grid->column('status','发票签收情况')->display(function ($status){
+        $grid->column('status','签收情况')->display(function ($status){
             return $status ? '已签收' : '待签收';
         })->label([
             0 => 'danger',
