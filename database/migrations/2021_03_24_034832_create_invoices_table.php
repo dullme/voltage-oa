@@ -26,6 +26,7 @@ class CreateInvoicesTable extends Migration
             $table->string('comment')->nullable()->comment('备注');
             $table->decimal('amount', 10, 2)->comment('发票总金额');
             $table->tinyInteger('status')->default(0)->comment('发票状态0:与录入；1:财务已签收');
+            $table->timestamp('submission_at')->nullable()->comment('发票签收时间');
             $table->timestamps();
         });
     }

@@ -7,7 +7,7 @@
 </style>
 <div class="box box-info">
     <div class="box-header with-border">
-        <h3 class="box-title">Detail</h3>
+        <h3 class="box-title"><label class="label label-{{ $invoice->status ? 'success' : 'danger' }}">{{ $invoice->status ? '已签收' : '待签收' }}</label></h3>
 
         <div class="box-tools">
             <div class="btn-group pull-right" style="margin-right: 5px">
@@ -22,9 +22,12 @@
     <div class="box-body">
         <div class="col-md-12" style="padding: 20px 0">
             <div class="col-md-4">
-                <p><span class="text-success" style="font-weight: bold;font-size: 35px"><span style="margin-right: 10px;font-weight:100;color: #333 !important;">No</span>{{ $invoice->invoice_no }}</span></p>
+                <p>
+                    <span class="text-success" style="font-weight: bold;font-size: 35px"><span style="margin-right: 10px;font-weight:100;color: #333 !important;">No</span>{{ $invoice->invoice_no }}</span>
+                </p>
                 <p>发票金额：{{ $invoice->amount }}</p>
                 <p>开票时间：{{ $invoice->billing_time }}</p>
+                <p>签收时间：{{ $invoice->submission_at }}</p>
                 <p>标题：{{ $invoice->title }}</p>
                 <p>项目编号：{{ $invoice->purchaseOrder->project->no }}</p>
                 @if($invoice->comment)

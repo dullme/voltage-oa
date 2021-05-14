@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\Post\InvoiceAction;
 use Encore\Admin\Facades\Admin;
 use PDF;
 use App\Models\Invoice;
@@ -36,13 +37,18 @@ class InvoiceController extends ResponseController
     protected function grid()
     {
         $grid = new Grid(new Invoice());
-        $grid->model()->orderByDesc('created_at');
+        $grid->model()->orderBy('status', 'ASC')->orderByDesc('created_at');
 
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
             $filter->like('invoice_no', '发票号码');
             $filter->equal('purchaseOrder.project.id', '项目名称')->select(Project::pluck('name', 'id'));
             $filter->equal('purchaseOrder.id', '工厂PO')->select(PurchaseOrder::pluck('po', 'id'));
+        });
+
+        $grid->actions(function ($actions) {
+            $actions->disableDelete();
+            $actions->add(new InvoiceAction());
         });
 
 
@@ -68,11 +74,12 @@ class InvoiceController extends ResponseController
 
         $grid->column('billing_time', __('开票时间'));
 
-        $states = [
-            'on'  => ['value' => 1, 'text' => '已签收', 'color' => 'success'],
-            'off' => ['value' => 0, 'text' => '待签收', 'color' => 'default'],
-        ];
-        $grid->column('status','发票签收情况')->switch($states);
+        $grid->column('status','发票签收情况')->display(function ($status){
+            return $status ? '已签收' : '待签收';
+        })->label([
+            0 => 'danger',
+            1 => 'success',
+        ]);
 
 
 //        $grid->column('created_at', __('创建时间'));
@@ -137,11 +144,6 @@ class InvoiceController extends ResponseController
         $form->file('invoice_image', __('发票凭证'))->required()->removable();
         $form->multipleFile('file', __('其他凭证'))->sortable()->removable();
         $form->textarea('comment', __('备注'));
-        $states = [
-            'on'  => ['value' => 1, 'text' => '已签收', 'color' => 'success'],
-            'off' => ['value' => 0, 'text' => '待签收', 'color' => 'default'],
-        ];
-        $form->switch('status')->states($states);
 
         $form->saving(function (Form $form) {
             if($form->purchase_order_id){
@@ -354,7 +356,16 @@ class InvoiceController extends ResponseController
 
     public function destroy($id)
     {
-        dd(Admin::user()->can('invoice.delete'));
+        if(Admin::user()->cannot('invoice.delete')){
+            return admin_toastr('您没有权限删除发票', 'error');
+        }
+
+        $invoice = Invoice::findOrFail($id);
+
+        if($invoice->status == 1){
+            return admin_toastr('改发票已签收无法删除', 'error');
+        }
+
         return $this->form()->destroy($id);
     }
 }
