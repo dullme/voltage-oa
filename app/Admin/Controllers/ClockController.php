@@ -25,6 +25,7 @@ class ClockController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Clock());
+        $grid->model()->orderByDesc('star');
 
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
