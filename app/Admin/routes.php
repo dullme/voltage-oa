@@ -33,4 +33,6 @@ Route::group([
     $router->post('associated-invoice/payment/delete/{id}', 'InvoiceController@deletePaymentMatchAmount');//撤销付款关联发票
 
     $router->resource('payment-batches', PaymentBatchController::class);
+
+    $router->resource('clocks', ClockController::class);
 });

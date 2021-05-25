@@ -49,7 +49,7 @@ class ProjectController extends AdminController
             $nos = collect($salesOrders)->pluck('no')->toArray();
             $res = '';
             foreach ($nos as $no){
-                $res .= "<span class='label label-info' style='margin-right: 2px'>{$no}</span>";
+                $res .= "<span class='label label-default' style='margin-right: 2px'>{$no}</span>";
             }
             return $res;
         });
@@ -75,21 +75,7 @@ class ProjectController extends AdminController
         }])->findOrFail($id);
 
         $salesOrders = $project->salesOrders->map(function ($item){
-            if(count($item->vendors) == 0){
-                $item['progress'] = 0;//未设置供应商进度为0
-            }else{
-                $item['progress'] = 0.5;//设置了供应商清单，下单进度为50%
-                $vendor_ids = $item->purchaseOrders->pluck('vendor_id')->toArray();
-                $in_array = 0;
-                foreach ($item->vendors as $vendor){
-                    $in_array = in_array($vendor, $vendor_ids) ? ++$in_array : $in_array;
-                }
-                if($in_array == count($item->vendors)){ //如果设置的采购计划供应商数量和实际下单的数量相等 则进度为 100%
-                    $item['progress'] = 1;
-                }else{
-                    $item['progress'] += 0.5/count($item->vendors) * $in_array;
-                }
-            }
+            $item['progress'] = getSalesOrderProgress($item->vendors, $item->purchaseOrders->pluck('vendor_id')->toArray());
 
             return $item;
         });

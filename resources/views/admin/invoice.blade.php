@@ -33,9 +33,39 @@
                 @if($invoice->comment)
                     <p>备注：{{ $invoice->comment }}</p>
                 @endif
+
+
+                <div class="col-md-12" style="margin-top: 20px;border: 2px solid #02ab5d;padding: 10px;border-radius: 4px;">
+                    <div class="col-md-12" style="text-align: center;font-size: 22px;padding-bottom: 20px">关联发票</div>
+                    <div class="col-md-12">
+                        <table class="table table-hover" style="margin-bottom: unset">
+                            <thead>
+                            <tr>
+                                <th>发票号</th>
+                                <th>金额</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($invoices[$invoice->serial] as $item)
+                                <tr>
+                                    <td>
+                                        <a href="{{ asset('/admin/invoices/'.$item->id) }}">{{ $item->invoice_no }}</a>
+                                        @if($item->id == $invoice->id)
+                                            <i class="text-success fa fa-check"></i>
+                                        @endif
+                                    </td>
+                                    <td>¥ {{ $item->amount }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
             </div>
             <div class="col-md-5">
-                <table class="table table-bordered" style="max-width: 380px">
+                <table class="table table-bordered">
                     <tbody>
                         <tr>
                             <th colspan="3" style="text-align: center">发票清单 <a href="{{ url('/admin/print/invoices/'.$invoice->id) }}" target="_blank"><i class="fa fa-print"></i></a></th>

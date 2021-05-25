@@ -33,22 +33,28 @@ class SalesOrderController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new SalesOrder());
-        $grid->model()->orderByDesc('order_at');
+        $grid->model()->with('purchaseOrders')->orderByDesc('order_at');
 
         $grid->project()->name('项目名称')->display(function ($name){
             $url = url('/admin/projects/'.$this->project->id);
             return "<a href='{$url}'>{$this->project->no}【{$name}】</a>";
         });
-        $grid->column('no', __('采购编号'));
-        $grid->column('amount', __('采购金额'));
+        $grid->column('no', __('销售编号'));
+        $grid->column('amount', __('销售金额'))->prefix('$');
         $grid->column('customer_po', __('客户PO'));
         $grid->purchaseOrders(__('采购订单'))->display(function ($purchases){
             $pos = collect($purchases)->pluck('po')->toArray();
             $res = '';
             foreach ($pos as $po){
-                $res .= "<span class='label label-info' style='margin-right: 2px'>{$po}</span>";
+                $res .= "<span class='label label-default' style='margin-right: 2px'>{$po}</span>";
             }
             return $res;
+        });
+
+        $grid->column('prefix', '下单进度')->display(function (){
+            $progress = getSalesOrderProgress($this->vendors, $this->purchaseOrders->pluck('vendor_id')->toArray()) * 100;
+            return '<div><div class="progress progress-xs progress-striped active"><div class="progress-bar progress-bar-primary" style="width: '.$progress.'%"></div></div><span>'.$progress.'%</span></div>';
+
         });
         $grid->column('order_at', __('下单时间'));
 
@@ -106,7 +112,7 @@ class SalesOrderController extends AdminController
 
         $form->text('no', __('订单编号'))->creationRules(['required', "unique:sales_orders"])
             ->updateRules(['required', "unique:sales_orders,no,{{id}}"]);
-        $form->decimal('amount', __('总金额'));
+        $form->decimal('amount', __('总金额'))->icon('fa-dollar');
         $form->date('order_at', __('下单时间'))->default(date('Y-m-d'));
         $form->text('customer_po', __('客户 PO'));
         $form->number('vendors_count', __('Vendors count'))->setDisplay(false);
