@@ -41,7 +41,9 @@ class ClockController extends AdminController
         $grid->column('star', __('Star'))->switch();
 //        $grid->column('created_at', __('Created at'));
 //        $grid->column('updated_at', __('Updated at'));
-
+        $grid->header(function ($query) {
+            return '<a href="'.url('/clock').'" target="_blank">世界时钟</a>';
+        });
         return $grid;
     }
 
