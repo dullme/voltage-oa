@@ -14,4 +14,14 @@ class Project extends Model
     {
         return $this->hasMany(SalesOrder::class);
     }
+
+    public function getTypeAttribute($value)
+    {
+        return explode(',', $value);
+    }
+
+    public function setTypeAttribute($value)
+    {
+        $this->attributes['type'] = implode(',', $value);
+    }
 }

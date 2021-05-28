@@ -38,7 +38,9 @@ class ProjectController extends AdminController
             return "<a href='{$url}'>$no</a>";
         });
         $grid->column('name', __('项目名称'));
-        $grid->column('type', __('类型'))->label([
+        $grid->column('type', __('类型'))->display(function ($item){
+            return $item;
+        })->label([
             'HARNESS' => 'success',
             'PV'      => 'danger',
             'MV'      => 'warning',
@@ -55,7 +57,7 @@ class ProjectController extends AdminController
         });
 
         $grid->column('remark', __('备注'));
-        $grid->column('created_at', __('创建时间'));
+//        $grid->column('created_at', __('创建时间'));
 
         return $grid;
     }
@@ -69,13 +71,15 @@ class ProjectController extends AdminController
     protected function detail($id)
     {
         $project = Project::with(['salesOrders'=>function($query){
-            $query->with(['purchaseOrders' => function($query){
+            $query->with(['salesOrderBatches', 'receivePaymentBatches', 'purchaseOrders' => function($query){
                 $query->with('vendor', 'receiptBatches', 'paymentBatches');
             }]);
         }])->findOrFail($id);
 
         $salesOrders = $project->salesOrders->map(function ($item){
-            $item['progress'] = getSalesOrderProgress($item->vendors, $item->purchaseOrders->pluck('vendor_id')->toArray());
+            $item['order_progress'] = getOrderProgress($item->vendors, $item->purchaseOrders->pluck('vendor_id')->toArray()); //下单进度
+            $item['shipped_progress'] = getDeliveryProgress($item->salesOrderBatches->sum('amount'), $item->amount); //发货进度
+            $item['received_progress'] = getReceivedProgress($item->receivePaymentBatches->sum('amount'), $item->amount); //收款进度
 
             return $item;
         });
@@ -97,7 +101,7 @@ class ProjectController extends AdminController
         $form->text('no', __('项目编号'))->creationRules(['required', "unique:projects"])
             ->updateRules(['required', "unique:projects,no,{{id}}"]);
         $form->text('name', __('项目名称'))->required();
-        $form->select('type', __('类型'))->options(['MV'=>'MV','PV'=>'PV', 'HARNESS'=>'HARNESS', 'OTHER'=>'OTHER']);
+        $form->multipleSelect('type', __('类型'))->options(['MV'=>'MV','PV'=>'PV', 'HARNESS'=>'HARNESS', 'OTHER'=>'OTHER']);
         $form->text('remark', __('备注'));
 
         return $form;

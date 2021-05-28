@@ -14,7 +14,7 @@ function bigNumber($number, $scale = 2): \Moontoast\Math\BigNumber
 /**
  * 下单进度
  */
-function getSalesOrderProgress(array $vendors, array $vendor_ids){
+function getOrderProgress(array $vendors, array $vendor_ids){
     if(count($vendors) == 0){
         $progress = 0;//未设置供应商进度为0
     }else{
@@ -30,5 +30,23 @@ function getSalesOrderProgress(array $vendors, array $vendor_ids){
         }
     }
 
-    return $progress;
+    return $progress * 100;
+}
+
+/**
+ * 发货进度
+ */
+function getDeliveryProgress($shipped, $total_amount){
+
+    return bigNumber($shipped)->divide($total_amount)->getValue() * 100;
+}
+
+/**
+ * 收款进度
+ * @param $received
+ * @param $total_amount
+ * @return float|int
+ */
+function getReceivedProgress($received, $total_amount){
+    return bigNumber($received)->divide($total_amount)->getValue() * 100;
 }

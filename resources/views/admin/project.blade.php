@@ -61,14 +61,35 @@
                 <div>
                     <div>销售金额：$ {{ $salesOrder->amount }}</div>
                     <div class="description" style="margin-top: 10px">下单时间：{{ $salesOrder->order_at }}</div>
-                    <div style="display: flex; margin-top: 10px">
-                        <span>下单进度：</span>
-                        <div class="progress progress-striped active" style="min-width: 300px;margin-bottom:unset;border-radius: .25em">
-                            <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{ round($salesOrder->progress, 2) * 100 }}%">
-                                <span>{{ round($salesOrder->progress, 2) * 100 }}%</span>
+                    <div style="">
+                        <div style="display: flex; margin-top: 10px">
+                            <span>下单进度：</span>
+                            <div class="progress progress-striped active" style="min-width: 300px;margin-bottom:unset;border-radius: .25em">
+                                <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{ $salesOrder->order_progress }}%">
+                                    <span>{{ $salesOrder->order_progress }}%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; margin-top: 10px">
+                            <span>发货进度：</span>
+                            <div class="progress progress-striped active" style="min-width: 300px;margin-bottom:unset;border-radius: .25em">
+                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{ $salesOrder->shipped_progress }}%">
+                                    <span>{{ $salesOrder->shipped_progress }}%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; margin-top: 10px">
+                            <span>收款进度：</span>
+                            <div class="progress progress-striped active" style="min-width: 300px;margin-bottom:unset;border-radius: .25em">
+                                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{ $salesOrder->received_progress }}%">
+                                    <span>{{ $salesOrder->received_progress }}%</span>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div style="padding-left: 20px">
                     待采购：
@@ -117,7 +138,7 @@
                                         <span class="progress-number" style="font-size: 12px"><b>{{ $receipt_progress }}%</b></span>
 
                                         <div class="progress sm active">
-                                            <div class="progress-bar progress-bar-yellow progress-bar-striped"  style="width: {{ $receipt_progress }}%"></div>
+                                            <div class="progress-bar progress-bar-success progress-bar-striped"  style="width: {{ $receipt_progress }}%"></div>
                                         </div>
                                     </div>
 
@@ -126,7 +147,7 @@
                                         <span class="progress-number" style="font-size: 12px"><b>{{ $payment_progress }}%</b></span>
 
                                         <div class="progress sm active">
-                                            <div class="progress-bar progress-bar-success progress-bar-striped" style="width: {{ $payment_progress }}%"></div>
+                                            <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: {{ $payment_progress }}%"></div>
                                         </div>
                                     </div>
                                 </td>

@@ -2304,33 +2304,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2467,6 +2440,154 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -20156,85 +20277,42 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "col-md-3" }, [
-              this.purchaseOrder.be_received > 0
-                ? _c("div", { staticClass: "info-box bg-aqua-gradient" }, [
-                    _vm._m(0),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "info-box-content" }, [
-                      _c("span", { staticClass: "info-box-text" }, [
+              _c("div", { staticClass: "info-box bg-green-gradient" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "info-box-content" }, [
+                  this.purchaseOrder.be_received > 0
+                    ? _c("span", { staticClass: "info-box-text" }, [
                         _vm._v("待收货金额")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "info-box-number" }, [
-                        _vm._v(_vm._s(this.purchaseOrder.be_received))
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "progress" }, [
-                        _c("div", {
-                          staticClass: "progress-bar",
-                          style: "width:" + this.purchaseOrder.progress + "%"
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "progress-description" }, [
-                        _vm._v(
-                          _vm._s(this.purchaseOrder.days) +
-                            " 天增加 " +
-                            _vm._s(this.purchaseOrder.progress) +
-                            "%"
-                        )
                       ])
-                    ])
-                  ])
-                : this.purchaseOrder.be_received == 0
-                ? _c("div", { staticClass: "info-box bg-green-gradient" }, [
-                    _vm._m(1),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "info-box-content" }, [
-                      _c("span", { staticClass: "info-box-text" }, [
-                        _vm._v("待收货金额")
+                    : this.purchaseOrder.be_received == 0
+                    ? _c("span", { staticClass: "info-box-text" }, [
+                        _vm._v("完成收货")
+                      ])
+                    : _c("span", { staticClass: "info-box-text" }, [
+                        _vm._v("收货金额超出采购金额")
                       ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "info-box-number" }, [
-                        _vm._v(_vm._s(this.purchaseOrder.be_received))
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "progress" }, [
-                        _c("div", {
-                          staticClass: "progress-bar",
-                          style: "width:" + this.purchaseOrder.progress + "%"
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "progress-description" }, [
+                  _vm._v(" "),
+                  _c("span", { staticClass: "info-box-number" }, [
+                    _vm._v(_vm._s(this.purchaseOrder.be_received))
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "progress" }, [
+                    _c("div", {
+                      staticClass: "progress-bar",
+                      style: "width:" + this.purchaseOrder.progress + "%"
+                    })
+                  ]),
+                  _vm._v(" "),
+                  this.purchaseOrder.be_received == 0
+                    ? _c("span", { staticClass: "progress-description" }, [
                         _vm._v(
                           "耗时 " +
                             _vm._s(this.purchaseOrder.days) +
                             " 天完成收货"
                         )
                       ])
-                    ])
-                  ])
-                : _c("div", { staticClass: "info-box bg-red-gradient" }, [
-                    _vm._m(2),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "info-box-content" }, [
-                      _c("span", { staticClass: "info-box-text" }, [
-                        _vm._v("收货金额超出采购金额")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "info-box-number" }, [
-                        _vm._v(_vm._s(this.purchaseOrder.be_received))
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "progress" }, [
-                        _c("div", {
-                          staticClass: "progress-bar",
-                          style: "width:" + this.purchaseOrder.progress + "%"
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "progress-description" }, [
+                    : _c("span", { staticClass: "progress-description" }, [
                         _vm._v(
                           _vm._s(this.purchaseOrder.days) +
                             " 天增加 " +
@@ -20242,13 +20320,13 @@ var render = function() {
                             "%"
                         )
                       ])
-                    ])
-                  ])
+                ])
+              ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-3" }, [
-              _c("div", { staticClass: "info-box bg-aqua-gradient" }, [
-                _vm._m(3),
+              _c("div", { staticClass: "info-box bg-yellow-gradient" }, [
+                _vm._m(1),
                 _vm._v(" "),
                 _c("div", { staticClass: "info-box-content" }, [
                   _c("span", { staticClass: "info-box-text" }, [
@@ -20328,7 +20406,7 @@ var render = function() {
           _c(
             "tbody",
             [
-              _vm._m(4),
+              _vm._m(2),
               _vm._v(" "),
               _vm._l(_vm.purchaseOrder.receipt_batches, function(item, key) {
                 return _c("tr", [
@@ -20430,7 +20508,7 @@ var render = function() {
           _c(
             "tbody",
             [
-              _vm._m(5),
+              _vm._m(3),
               _vm._v(" "),
               _vm._l(_vm.purchaseOrder.payment_batches, function(item, key) {
                 return _c("tr", [
@@ -20519,7 +20597,7 @@ var render = function() {
           [
             _c("div", { staticClass: "modal-content" }, [
               _c("div", { staticClass: "modal-header" }, [
-                _vm._m(6),
+                _vm._m(4),
                 _vm._v(" "),
                 _c(
                   "h4",
@@ -20551,7 +20629,7 @@ var render = function() {
                               _c("p", [_vm._v("全部金额匹配完成")])
                             ]),
                             _vm._v(" "),
-                            _vm._m(7),
+                            _vm._m(5),
                             _vm._v(" "),
                             _c("span", { staticClass: "small-box-footer" }, [
                               _vm._v(
@@ -20576,7 +20654,7 @@ var render = function() {
                               _c("p", [_vm._v("批次总金额")])
                             ]),
                             _vm._v(" "),
-                            _vm._m(8),
+                            _vm._m(6),
                             _vm._v(" "),
                             _c("span", { staticClass: "small-box-footer" }, [
                               _vm._v(
@@ -20610,7 +20688,7 @@ var render = function() {
                               _c("p", [_vm._v("待匹配金额")])
                             ]),
                             _vm._v(" "),
-                            _vm._m(9),
+                            _vm._m(7),
                             _vm._v(" "),
                             _c("span", { staticClass: "small-box-footer" }, [
                               _vm._v(
@@ -20637,7 +20715,7 @@ var render = function() {
                   _c("div", { staticClass: "panel-body" }, [
                     _vm.res.receipt_batch && _vm.res.receipt_batch.length
                       ? _c("table", { staticClass: "table" }, [
-                          _vm._m(10),
+                          _vm._m(8),
                           _vm._v(" "),
                           _c(
                             "tbody",
@@ -20697,12 +20775,12 @@ var render = function() {
                 _vm._v(" "),
                 _vm.res.receipt_batch_total_amount < _vm.res.amount
                   ? _c("div", { staticClass: "panel panel-info" }, [
-                      _vm._m(11),
+                      _vm._m(9),
                       _vm._v(" "),
                       _c("div", { staticClass: "panel-body" }, [
                         _vm.res.invoices && _vm.res.invoices.length
                           ? _c("table", { staticClass: "table" }, [
-                              _vm._m(12),
+                              _vm._m(10),
                               _vm._v(" "),
                               _c(
                                 "tbody",
@@ -20852,7 +20930,7 @@ var render = function() {
           [
             _c("div", { staticClass: "modal-content" }, [
               _c("div", { staticClass: "modal-header" }, [
-                _vm._m(13),
+                _vm._m(11),
                 _vm._v(" "),
                 _c(
                   "h4",
@@ -20890,7 +20968,7 @@ var render = function() {
                               _c("p", [_vm._v("全部金额匹配完成")])
                             ]),
                             _vm._v(" "),
-                            _vm._m(14),
+                            _vm._m(12),
                             _vm._v(" "),
                             _c("span", { staticClass: "small-box-footer" }, [
                               _vm._v(
@@ -20917,7 +20995,7 @@ var render = function() {
                               _c("p", [_vm._v("批次总金额")])
                             ]),
                             _vm._v(" "),
-                            _vm._m(15),
+                            _vm._m(13),
                             _vm._v(" "),
                             _c("span", { staticClass: "small-box-footer" }, [
                               _vm._v(
@@ -20952,7 +21030,7 @@ var render = function() {
                               _c("p", [_vm._v("待匹配金额")])
                             ]),
                             _vm._v(" "),
-                            _vm._m(16),
+                            _vm._m(14),
                             _vm._v(" "),
                             _c("span", { staticClass: "small-box-footer" }, [
                               _vm._v(
@@ -20981,7 +21059,7 @@ var render = function() {
                     _vm.payment_res.payment_batch &&
                     _vm.payment_res.payment_batch.length
                       ? _c("table", { staticClass: "table" }, [
-                          _vm._m(17),
+                          _vm._m(15),
                           _vm._v(" "),
                           _c(
                             "tbody",
@@ -21044,13 +21122,13 @@ var render = function() {
                 _vm.payment_res.payment_batch_total_amount <
                 _vm.payment_res.amount
                   ? _c("div", { staticClass: "panel panel-info" }, [
-                      _vm._m(18),
+                      _vm._m(16),
                       _vm._v(" "),
                       _c("div", { staticClass: "panel-body" }, [
                         _vm.payment_res.invoices &&
                         _vm.payment_res.invoices.length
                           ? _c("table", { staticClass: "table" }, [
-                              _vm._m(19),
+                              _vm._m(17),
                               _vm._v(" "),
                               _c(
                                 "tbody",
@@ -21185,22 +21263,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "info-box-icon" }, [
-      _c("i", { staticClass: "fa fa-cny" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "info-box-icon" }, [
-      _c("i", { staticClass: "fa fa-cny" })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -21462,9 +21524,345 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("123")])
+  return _c("div", [
+    _c("div", { staticClass: "box box-info" }, [
+      _c("div", { staticClass: "box-header with-border" }, [
+        _c("h3", { staticClass: "box-title" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "box-tools" }, [
+          _c(
+            "div",
+            {
+              staticClass: "btn-group pull-right",
+              staticStyle: { "margin-right": "5px" }
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-sm btn-default",
+                  attrs: {
+                    href: "/admin/projects/" + this.salesOrder.project_id,
+                    title: "List"
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-arrow-left" }),
+                  _c("span", { staticClass: "hidden-xs" }, [_vm._v(" 返回")])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "btn-group pull-right",
+              staticStyle: { "margin-right": "5px" }
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-sm btn-primary",
+                  attrs: {
+                    href: "/admin/sales-orders/" + this.salesOrder.id + "/edit",
+                    title: "编辑"
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-edit" }),
+                  _c("span", { staticClass: "hidden-xs" }, [_vm._v(" 编辑")])
+                ]
+              )
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-body" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "col-md-3" }, [
+              _c("div", { staticClass: "info-box bg-green-gradient" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "info-box-content" }, [
+                  this.salesOrder.not_shipped < 0
+                    ? _c("span", { staticClass: "info-box-text" }, [
+                        _vm._v("发货总金额超出销售总金额")
+                      ])
+                    : _c("span", { staticClass: "info-box-text" }, [
+                        _vm._v("待发货总金额")
+                      ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "info-box-number" }, [
+                    _vm._v(_vm._s(this.salesOrder.not_shipped))
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "progress" }, [
+                    _c("div", {
+                      staticClass: "progress-bar",
+                      style: "width:" + this.salesOrder.shipped_progress + "%"
+                    })
+                  ]),
+                  _vm._v(" "),
+                  this.salesOrder.not_shipped == 0
+                    ? _c("span", { staticClass: "progress-description" }, [
+                        _vm._v(
+                          "耗时 " + _vm._s(this.salesOrder.days) + " 天完成发货"
+                        )
+                      ])
+                    : _c("span", { staticClass: "progress-description" }, [
+                        _vm._v(
+                          _vm._s(this.salesOrder.days) +
+                            " 天增加 " +
+                            _vm._s(this.salesOrder.shipped_progress) +
+                            "%"
+                        )
+                      ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-3" }, [
+              _c("div", { staticClass: "info-box bg-yellow-gradient" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "info-box-content" }, [
+                  this.salesOrder.not_received < 0
+                    ? _c("span", { staticClass: "info-box-text" }, [
+                        _vm._v("收款总金额超出销售总金额")
+                      ])
+                    : this.salesOrder.not_received > 0
+                    ? _c("span", { staticClass: "info-box-text" }, [
+                        _vm._v("待收款总金额")
+                      ])
+                    : _c("span", { staticClass: "info-box-text" }, [
+                        _vm._v("收款完成")
+                      ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "info-box-number" }, [
+                    _vm._v(_vm._s(this.salesOrder.not_received))
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "progress" }, [
+                    _c("div", {
+                      staticClass: "progress-bar",
+                      style: "width:" + this.salesOrder.received_progress + "%"
+                    })
+                  ]),
+                  _vm._v(" "),
+                  this.salesOrder.not_received == 0
+                    ? _c("span", { staticClass: "progress-description" }, [
+                        _vm._v(
+                          "耗时 " + _vm._s(this.salesOrder.days) + " 天完成收款"
+                        )
+                      ])
+                    : _c("span", { staticClass: "progress-description" }, [
+                        _vm._v(
+                          _vm._s(this.salesOrder.days) +
+                            " 天增加 " +
+                            _vm._s(this.salesOrder.received_progress) +
+                            "%"
+                        )
+                      ])
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("p", [_vm._v("销售订单编号：" + _vm._s(this.salesOrder.no))]),
+          _vm._v(" "),
+          _c("p", [_vm._v("销售总金额：" + _vm._s(this.salesOrder.amount))])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "box" }, [
+      _c("div", { staticClass: "box-header" }, [
+        _c("h3", { staticClass: "box-title" }, [_vm._v("发货顺序")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "box-tools" }, [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-xs btn-success",
+              attrs: {
+                href:
+                  "/admin/sales-order-batches/create?so_id=" +
+                  this.salesOrder.id
+              }
+            },
+            [_c("i", { staticClass: "fa fa-plus" })]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-body no-padding" }, [
+        _c("table", { staticClass: "table table-striped" }, [
+          _c(
+            "tbody",
+            [
+              _vm._m(2),
+              _vm._v(" "),
+              _vm._l(_vm.salesOrder.sales_order_batches, function(item, key) {
+                return _c("tr", [
+                  _c("td", [_vm._v(_vm._s(++key))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.no))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.delivery_at))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("$ " + _vm._s(item.amount))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.comment))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-xs btn-default",
+                        attrs: {
+                          href:
+                            "/admin/sales-order-batches/" + item.id + "/edit"
+                        }
+                      },
+                      [_c("i", { staticClass: "fa fa-edit" })]
+                    )
+                  ])
+                ])
+              })
+            ],
+            2
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "box" }, [
+      _c("div", { staticClass: "box-header" }, [
+        _c("h3", { staticClass: "box-title" }, [_vm._v("收款顺序")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "box-tools" }, [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-xs btn-success",
+              attrs: {
+                href:
+                  "/admin/receive-payment-batches/create?so_id=" +
+                  this.salesOrder.id
+              }
+            },
+            [_c("i", { staticClass: "fa fa-plus" })]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-body no-padding" }, [
+        _c("table", { staticClass: "table table-striped" }, [
+          _c(
+            "tbody",
+            [
+              _vm._m(3),
+              _vm._v(" "),
+              _vm._l(_vm.salesOrder.receive_payment_batches, function(
+                item,
+                key
+              ) {
+                return _c("tr", [
+                  _c("td", [_vm._v(_vm._s(++key))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.no))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.receive_payment_at))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v("$ " + _vm._s(item.amount))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.comment))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-xs btn-default",
+                        attrs: {
+                          href:
+                            "/admin/receive-payment-batches/" +
+                            item.id +
+                            "/edit"
+                        }
+                      },
+                      [_c("i", { staticClass: "fa fa-edit" })]
+                    )
+                  ])
+                ])
+              })
+            ],
+            2
+          )
+        ])
+      ])
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "info-box-icon" }, [
+      _c("i", { staticClass: "fa fa-cny" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "info-box-icon" }, [
+      _c("i", { staticClass: "fa fa-cny" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { staticStyle: { width: "10px" } }, [_vm._v("#")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("DO 编号")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("发货时间")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("批次金额")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("备注")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("操作")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", { staticStyle: { width: "10px" } }, [_vm._v("#")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("NO")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("收款时间")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("收款金额")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("备注")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("操作")])
+    ])
+  }
+]
 render._withStripped = true
 
 

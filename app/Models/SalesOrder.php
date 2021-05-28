@@ -25,6 +25,11 @@ class SalesOrder extends Model
         return $this->hasMany(SalesOrderBatch::class);
     }
 
+    public function receivePaymentBatches()
+    {
+        return $this->hasMany(ReceivePaymentBatch::class);
+    }
+
     public function setVendorsAttribute($vendors)
     {
         if (is_array($vendors)) {

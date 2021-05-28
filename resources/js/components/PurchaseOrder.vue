@@ -25,53 +25,26 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="col-md-3">
-                            <div class="info-box bg-aqua-gradient" v-if="this.purchaseOrder.be_received > 0">
+                            <div class="info-box bg-green-gradient">
                                 <span class="info-box-icon"><i class="fa fa-cny"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">待收货金额</span>
+                                    <span class="info-box-text" v-if="this.purchaseOrder.be_received > 0">待收货金额</span>
+                                    <span class="info-box-text" v-else-if="this.purchaseOrder.be_received == 0">完成收货</span>
+                                    <span class="info-box-text" v-else>收货金额超出采购金额</span>
                                     <span class="info-box-number">{{ this.purchaseOrder.be_received }}</span>
 
                                     <div class="progress">
                                         <div class="progress-bar" :style="'width:' +this.purchaseOrder.progress+'%'"></div>
                                     </div>
-                                    <span class="progress-description">{{ this.purchaseOrder.days }} 天增加 {{ this.purchaseOrder.progress }}%</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-
-                            <div class="info-box bg-green-gradient" v-else-if="this.purchaseOrder.be_received == 0">
-                                <span class="info-box-icon"><i class="fa fa-cny"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">待收货金额</span>
-                                    <span class="info-box-number">{{ this.purchaseOrder.be_received }}</span>
-
-                                    <div class="progress">
-                                        <div class="progress-bar" :style="'width:' +this.purchaseOrder.progress+'%'"></div>
-                                    </div>
-                                    <span class="progress-description">耗时 {{ this.purchaseOrder.days }} 天完成收货</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-
-                            <div class="info-box bg-red-gradient" v-else>
-                                <span class="info-box-icon"><i class="fa fa-cny"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">收货金额超出采购金额</span>
-                                    <span class="info-box-number">{{ this.purchaseOrder.be_received }}</span>
-
-                                    <div class="progress">
-                                        <div class="progress-bar" :style="'width:' +this.purchaseOrder.progress+'%'"></div>
-                                    </div>
-                                    <span class="progress-description">{{ this.purchaseOrder.days }} 天增加 {{ this.purchaseOrder.progress }}%</span>
+                                    <span class="progress-description" v-if="this.purchaseOrder.be_received == 0">耗时 {{ this.purchaseOrder.days }} 天完成收货</span>
+                                    <span class="progress-description" v-else>{{ this.purchaseOrder.days }} 天增加 {{ this.purchaseOrder.progress }}%</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="info-box bg-aqua-gradient">
+                            <div class="info-box bg-yellow-gradient">
                                 <span class="info-box-icon"><i class="fa fa-credit-card"></i></span>
 
                                 <div class="info-box-content">

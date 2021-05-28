@@ -32,27 +32,36 @@ class PurchaseOrderController extends AdminController
     {
         $grid = new Grid(new PurchaseOrder());
         $grid->model()->orderByDesc('created_at');
+        $grid->filter(function ($filter) {
+            $filter->disableIdFilter();
+            $filter->equal('project_id', '项目编号')->select(Project::pluck('no', 'id'));
+            $filter->like('po', '采购单号');
+        });
+
         $grid->column('po', __('采购单号'))->display(function($po){
             $url = url('/admin/purchase-orders/'.$this->id);
             return "<a href='{$url}'>{$po}</a>";
         });
         $grid->vendor()->name('供应商');
         $grid->salesOrder()->no('销售订单');
-        $grid->filter(function ($filter) {
-            $filter->disableIdFilter();
-            $filter->equal('project_id', '项目编号')->select(Project::pluck('name', 'id'));
-        });
-
         $grid->column('项目名称')->display(function (){
             return $this->project->name;
         });
         $grid->column('项目编号')->display(function (){
             return $this->project->no;
         });
-        $grid->column('amount', __('订单总额'));
+        $grid->column('amount', __('订单总额（人民币）'))->prefix('¥');
 
         $grid->column('double_signed_at', __('获取双签合同时间'));
-        $grid->column('created_at', __('创建时间'));
+
+        $grid->column('progress', __('进度'))->display(function (){
+            $receipt_progress = bigNumber($this->receiptBatches->sum('amount'))->divide($this->amount)->getValue() * 100;//收货进度
+            $payment_progress = bigNumber($this->paymentBatches->sum('amount'))->divide($this->amount)->getValue() * 100;//付款进度
+
+            return '<div style="display: flex;align-items: flex-end"><span>收货进度：</span><div class="progress progress-striped active" style="min-width: 200px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-success" style="width: '.$receipt_progress.'%"><span>'.$receipt_progress.'%</span></div></div></div> <div style="display: flex;align-items: flex-end"><span>付款进度：</span><div class="progress progress-striped active" style="min-width: 200px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-warning" style="width: '.$payment_progress.'%"><span>'.$payment_progress.'%</span></div></div></div>';
+        });
+
+        $grid->column('order_at', __('下单时间'))->sortable();
 
         return $grid;
     }

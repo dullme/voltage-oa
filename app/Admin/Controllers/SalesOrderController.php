@@ -35,27 +35,45 @@ class SalesOrderController extends AdminController
         $grid = new Grid(new SalesOrder());
         $grid->model()->with('purchaseOrders')->orderByDesc('order_at');
 
+        $grid->filter(function ($filter) {
+            $filter->disableIdFilter();
+            $filter->like('no', '销售编号');
+        });
+
+        $grid->column('no', __('销售编号'))->display(function ($no){
+            $url = url('/admin/sales-orders/'.$this->id);
+            return "<a href='{$url}'>{$no}</a>";
+        });
+
         $grid->project()->name('项目名称')->display(function ($name){
             $url = url('/admin/projects/'.$this->project->id);
             return "<a href='{$url}'>{$this->project->no}【{$name}】</a>";
         });
-        $grid->column('no', __('销售编号'));
-        $grid->column('amount', __('销售金额'))->prefix('$');
+
+        $grid->column('amount', __('销售总额（美元）'))->prefix('$');
         $grid->column('customer_po', __('客户PO'));
         $grid->purchaseOrders(__('采购订单'))->display(function ($purchases){
             $pos = collect($purchases)->pluck('po')->toArray();
             $res = '';
-            foreach ($pos as $po){
-                $res .= "<span class='label label-default' style='margin-right: 2px'>{$po}</span>";
+            foreach ($pos as $key => $po){
+                $res .= "<p>{$po}</p>";
+
             }
             return $res;
         });
 
-        $grid->column('prefix', '下单进度')->display(function (){
-            $progress = getSalesOrderProgress($this->vendors, $this->purchaseOrders->pluck('vendor_id')->toArray()) * 100;
-            return '<div><div class="progress progress-xs progress-striped active"><div class="progress-bar progress-bar-primary" style="width: '.$progress.'%"></div></div><span>'.$progress.'%</span></div>';
+        $grid->column('progress', __('进度'))->display(function (){
+            $order_progress = getOrderProgress($this->vendors, $this->purchaseOrders->pluck('vendor_id')->toArray()); //下单进度
 
+            $shipped = collect($this->salesOrderBatches)->sum('amount');
+            $shipped_progress = getDeliveryProgress($shipped, $this->amount); //发货进度
+
+            $received = collect($this->receivePaymentBatches)->sum('amount');
+            $received_progress = getReceivedProgress($received, $this->amount); //收款进度
+
+            return '<div style="display: flex;align-items: flex-end"><span>下单进度：</span><div class="progress progress-striped active" style="min-width: 200px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-primary" style="width: '.$order_progress.'%"><span>'.$order_progress.'%</span></div></div></div> <div style="display: flex;align-items: flex-end"><span>发货进度：</span><div class="progress progress-striped active" style="min-width: 200px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-success" style="width: '.$shipped_progress.'%"><span>'.$shipped_progress.'%</span></div></div></div> <div style="display: flex;align-items: flex-end"><span>收款进度：</span><div class="progress progress-striped active" style="min-width: 200px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-warning" style="width: '.$received_progress.'%"><span>'.$received_progress.'%</span></div></div></div>';
         });
+
         $grid->column('order_at', __('下单时间'));
 
         return $grid;
@@ -76,7 +94,17 @@ class SalesOrderController extends AdminController
 EOF
         );
 
-        $salesOder = SalesOrder::with('salesOrderBatches')->findOrFail($id);
+        $salesOder = SalesOrder::with('salesOrderBatches', 'receivePaymentBatches')->findOrFail($id);
+        $shipped = bigNumber($salesOder->salesOrderBatches->sum('amount'))->getValue();//已发货总金额
+        $received = bigNumber($salesOder->receivePaymentBatches->sum('amount'))->getValue();//已收款总金额
+        $salesOder->setAttribute('shipped', $shipped);
+        $salesOder->setAttribute('not_shipped', bigNumber($salesOder->amount)->subtract($shipped)->getValue());
+        $salesOder->setAttribute('shipped_progress', getDeliveryProgress($shipped, $salesOder->amount));
+        $salesOder->setAttribute('received', $received);
+        $salesOder->setAttribute('not_received', bigNumber($salesOder->amount)->subtract($received)->getValue());
+        $salesOder->setAttribute('received_progress', getReceivedProgress($received, $salesOder->amount));
+        $salesOder->setAttribute('days', Carbon::parse($salesOder->order_at)->diffInDays(Carbon::now(), false));
+
 
         return view('admin.sales_order', compact('salesOder'));
     }

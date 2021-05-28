@@ -24,6 +24,8 @@ Route::group([
     $router->get('get-sales-orders', 'SalesOrderController@getSalesOrders');
     $router->resource('vendors', VendorController::class);
     $router->resource('receipt-batches', ReceiptBatchController::class);
+    $router->resource('sales-order-batches', SalesOrderBatchController::class);//发货批次
+    $router->resource('receive-payment-batches', ReceivePaymentBatchController::class);//收款批次
 
     $router->get('associated-invoice/{id}', 'InvoiceController@associatedInvoice');//关联发票
     $router->get('associated-invoice/payment/{id}', 'InvoiceController@associatedPaymentInvoice');//关联付款发票

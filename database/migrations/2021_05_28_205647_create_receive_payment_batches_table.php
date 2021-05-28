@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSalesOrderBatchesTable extends Migration
+class CreateReceivePaymentBatchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateSalesOrderBatchesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sales_order_batches', function (Blueprint $table) {
+        Schema::create('receive_payment_batches', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sales_order_id');
-            $table->string('no')->comment('DO 编号');
-            $table->decimal('amount',10, 2)->comment('发货总金额');
-            $table->date('delivery_at')->comment('发货时间');
+            $table->string('no')->comment('单据编号');
+            $table->decimal('amount',10, 2)->comment('收款总金额');
+            $table->date('receive_payment_at')->comment('收款时间');
             $table->string('comment')->nullable()->comment('备注');
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ class CreateSalesOrderBatchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sales_order_batches');
+        Schema::dropIfExists('receive_payment_batches');
     }
 }
