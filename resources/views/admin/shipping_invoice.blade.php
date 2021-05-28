@@ -75,11 +75,11 @@
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-3" style="border-bottom: 1px solid black;padding: 8px 10px;background-color: #e8e8e8">项目：</div>
-                    <div class="col-md-9" style="border-bottom: 1px solid black;padding: 8px 10px">{{ $shipping_invoice->project->name }}</div>
+                    <div class="col-md-9" style="border-bottom: 1px solid black;padding: 8px 10px">{{ $shipping_invoice->project->no .'【'.$shipping_invoice->project->name .'】' }}</div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-3" style="border-bottom: 1px solid black;padding: 8px 10px;background-color: #e8e8e8">货物信息：</div>
-                    <div class="col-md-9" style="border-bottom: 1px solid black;padding: 8px 10px">{{ $shipping_invoice->info }}</div>
+                    <div class="col-md-9" style="height:37px;border-bottom: 1px solid black;padding: 8px 10px">{{ $shipping_invoice->info }}</div>
                 </div>
                 <div class="col-md-12">
                     <table class="table" style="margin-bottom: unset">
@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-3" style="border-top: 1px solid black;border-bottom: 1px solid black;padding: 8px 10px;background-color: #e8e8e8">发票信息：</div>
-                    <div class="col-md-9" style="border-top: 1px solid black;border-bottom: 1px solid black;padding: 8px 10px">{{ $shipping_invoice->invoice_info }}</div>
+                    <div class="col-md-9" style="height:38px;border-top: 1px solid black;border-bottom: 1px solid black;padding: 8px 10px">{{ $shipping_invoice->invoice_info }}</div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-3" style="border-bottom: 1px solid black;padding: 8px 10px;">货代国内发票总额：</div>

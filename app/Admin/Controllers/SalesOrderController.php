@@ -69,16 +69,16 @@ class SalesOrderController extends AdminController
      */
     protected function detail($id)
     {
-//        Admin::script(<<<EOF
-//        const app = new Vue({
-//        el: '#app'
-//    });
-//EOF
-//        );
+        Admin::script(<<<EOF
+        const app = new Vue({
+        el: '#app'
+    });
+EOF
+        );
 
-//        $salesOder = SalesOrder::with('salesOrderBatches')->findOrFail($id);
+        $salesOder = SalesOrder::with('salesOrderBatches')->findOrFail($id);
 
-//        return view('admin.sales_order', compact('salesOder'));
+        return view('admin.sales_order', compact('salesOder'));
     }
 
     /**

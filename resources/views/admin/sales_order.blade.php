@@ -1,5 +1,4 @@
-
-{{--<sales-order so="{{ $salesOrder }}"></sales-order>--}}
+<sales-order so="{{ $salesOder }}"></sales-order>
 
 {{--<style>--}}
 {{--    .table-bordered>tbody>tr>th,--}}

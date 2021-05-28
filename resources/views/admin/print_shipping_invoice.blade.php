@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <td width="30%" style="background-color: #e8e8e8">项目：</td>
-            <td colspan="2">{{ $shipping_invoice->project->name }}</td>
+            <td colspan="2">{{ $shipping_invoice->project->no .'【'.$shipping_invoice->project->name .'】' }}</td>
         </tr>
         <tr>
             <td width="30%" style="background-color: #e8e8e8">货物信息：</td>

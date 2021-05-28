@@ -18,9 +18,9 @@ class CreateShippingInvoicesTable extends Migration
             $table->string('project_id');
             $table->string('invoice_no')->unique()->comment('发票号码');
             $table->string('shipping')->comment('货代');
-            $table->string('info')->comment('货物信息');
+            $table->string('info')->nullable()->comment('货物信息');
             $table->string('batch')->comment('批次');
-            $table->string('invoice_info')->comment('发票信息');
+            $table->string('invoice_info')->nullable()->comment('发票信息');
             $table->json('detail')->comment('详细信息');
             $table->string('b_l')->comment('海运提单号');
             $table->decimal('amount', 10, 2);

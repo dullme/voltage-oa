@@ -98,14 +98,23 @@ class ShippingInvoiceController extends AdminController
     protected function form()
     {
         $form = new Form(new ShippingInvoice());
-        $form->select('project_id', __('项目'))->options(Project::pluck('name', 'id'))->required();
+        $projects = Project::all();
+        $projects = $projects->map(function ($item){
+            return [
+                'id' => $item->id,
+                'name' => $item->no .'【' .$item->name.'】',
+            ];
+        });
+
+
+        $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->required();
         $form->text('invoice_no', __('发票号码'))->creationRules(['required', "unique:shipping_invoices"])
             ->updateRules(['required', "unique:shipping_invoices,invoice_no,{{id}}"]);
         $form->decimal('amount', __('发票金额'))->required();
         $form->text('shipping', __('货代'))->required();
-        $form->text('info', __('货物信息'))->required();
+        $form->text('info', __('货物信息'));
         $form->text('batch', __('批次'))->required();
-        $form->text('invoice_info', __('发票信息'))->required();
+        $form->text('invoice_info', __('发票信息'));
         $form->text('b_l', __('提单号'))->required();
         $form->date('billing_time','开票时间')->required();
         $form->date('delivery_time','出货时间')->required();
