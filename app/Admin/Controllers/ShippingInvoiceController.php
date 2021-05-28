@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use PDF;
 use App\Models\PurchaseOrder;
 use App\Models\Project;
@@ -59,7 +60,7 @@ class ShippingInvoiceController extends AdminController
      */
     protected function detail($id)
     {
-        $shipping_invoice = ShippingInvoice::with('project')->findOrFail($id);
+        $shipping_invoice = ShippingInvoice::with('project', 'adminUser')->findOrFail($id);
 
         $shipping_invoices = ShippingInvoice::where('b_l', $shipping_invoice->b_l)->get();
 
@@ -106,7 +107,7 @@ class ShippingInvoiceController extends AdminController
             ];
         });
 
-
+        $form->select('admin_users_id', __('制单人'))->options(DB::table('admin_users')->pluck('name', 'id'))->required();
         $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->required();
         $form->text('invoice_no', __('发票号码'))->creationRules(['required', "unique:shipping_invoices"])
             ->updateRules(['required', "unique:shipping_invoices,invoice_no,{{id}}"]);

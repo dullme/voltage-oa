@@ -113,7 +113,15 @@
                     <div class="col-md-4" style="border-bottom: 1px solid black;padding: 8px 10px">共<span style="padding: 0 20px;font-weight: bold">{{ $shipping_invoices->count() }}</span>张</div>
                 </div>
                 <div class="col-md-12">
-                    <div style="padding: 8px 10px;">备注： {{ $shipping_invoice->comment }}</div>
+                    <div class="col-md-8">
+                        <div style="padding: 8px 10px;">备注： {{ $shipping_invoice->comment }}</div>
+                    </div>
+                    <div class="col-md-4" style="margin-top: 20px">
+                        <div style="padding: 8px 10px;float: right">
+                            <p>制单人： {{ optional($shipping_invoice->adminUser)->name }}</p>
+                            <p>日&nbsp;&nbsp;&nbsp;&nbsp;期： {{ $shipping_invoice->updated_at->toDateString() }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 

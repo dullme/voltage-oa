@@ -17,6 +17,11 @@ class Invoice extends Model
         }
     }
 
+    public function adminUser()
+    {
+        return $this->belongsTo(AdminUser::class, 'admin_users_id')->select('id', 'username', 'name', 'email');
+    }
+
     public function getFileAttribute($file)
     {
         return json_decode($file, true);

@@ -42,5 +42,10 @@
         </tr>
         </tbody>
     </table>
+
+    <div style="float: right">
+        <p>制单人： {{ optional($invoice->adminUser)->name }}</p>
+        <p>日&nbsp;&nbsp;&nbsp;&nbsp;期： {{ $invoice->updated_at->toDateString() }}</p>
+    </div>
 </body>
 </html>

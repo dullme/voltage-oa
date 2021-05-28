@@ -15,7 +15,8 @@ class CreateShippingInvoicesTable extends Migration
     {
         Schema::create('shipping_invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('project_id');
+            $table->unsignedInteger('project_id');
+            $table->unsignedInteger('admin_users_id')->comment('制单人');
             $table->string('invoice_no')->unique()->comment('发票号码');
             $table->string('shipping')->comment('货代');
             $table->string('info')->nullable()->comment('货物信息');

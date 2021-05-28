@@ -64,7 +64,11 @@
             <td>共<span style="padding: 0 20px;font-weight: bold">{{ $shipping_invoices->count() }}</span>张</td>
         </tr>
         <tr>
-            <td colspan="3">备注： {{ $shipping_invoice->comment }}</td>
+            <td colspan="2">备注： {{ $shipping_invoice->comment }}</td>
+            <td width="20%">
+                <p>制单人： {{ optional($shipping_invoice->adminUser)->name }}</p>
+                <p>日&nbsp;&nbsp;&nbsp;&nbsp;期： {{ $shipping_invoice->updated_at->toDateString() }}</p>
+            </td>
         </tr>
 
     </table>

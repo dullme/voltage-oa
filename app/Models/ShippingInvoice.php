@@ -14,6 +14,11 @@ class ShippingInvoice extends Model
         'detail' => 'json',
     ];
 
+    public function adminUser()
+    {
+        return $this->belongsTo(AdminUser::class, 'admin_users_id')->select('id', 'username', 'name', 'email');
+    }
+
     public function project()
     {
         return $this->belongsTo(Project::class);

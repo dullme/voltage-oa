@@ -115,7 +115,7 @@ class InvoiceController extends ResponseController
      */
     protected function detail($id)
     {
-        $invoice = Invoice::with(['purchaseOrder' => function($query){
+        $invoice = Invoice::with(['adminUser', 'purchaseOrder' => function($query){
             $query->with('project', 'salesOrder');
         }])->findOrFail($id);
 
@@ -153,6 +153,7 @@ class InvoiceController extends ResponseController
     protected function form()
     {
         $form = new Form(new Invoice());
+        $form->select('admin_users_id', __('制单人'))->options(\Illuminate\Support\Facades\DB::table('admin_users')->pluck('name', 'id'))->required();
         $form->select('purchase_order_id', __('工厂PO'))->options(PurchaseOrder::pluck('po', 'id'))->required();
         $form->hidden('vendor_id');
         $form->number('serial', __('序号'))->rules('required|numeric|min:0|max:100')->default('');
