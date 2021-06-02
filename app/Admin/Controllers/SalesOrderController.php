@@ -105,7 +105,6 @@ EOF
         $salesOder->setAttribute('received_progress', getReceivedProgress($received, $salesOder->amount));
         $salesOder->setAttribute('days', Carbon::parse($salesOder->order_at)->diffInDays(Carbon::now(), false));
 
-
         return view('admin.sales_order', compact('salesOder'));
     }
 

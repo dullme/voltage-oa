@@ -30,7 +30,7 @@ function getOrderProgress(array $vendors, array $vendor_ids){
         }
     }
 
-    return $progress * 100;
+    return intval(bigNumber($progress)->multiply(100)->getValue());
 }
 
 /**
@@ -38,7 +38,7 @@ function getOrderProgress(array $vendors, array $vendor_ids){
  */
 function getDeliveryProgress($shipped, $total_amount){
 
-    return bigNumber($shipped)->divide($total_amount)->getValue() * 100;
+    return intval(bigNumber($shipped)->divide($total_amount)->multiply(100)->getValue());
 }
 
 /**
@@ -48,5 +48,5 @@ function getDeliveryProgress($shipped, $total_amount){
  * @return float|int
  */
 function getReceivedProgress($received, $total_amount){
-    return bigNumber($received)->divide($total_amount)->getValue() * 100;
+    return intval(bigNumber($received)->divide($total_amount)->multiply(100)->getValue());
 }
