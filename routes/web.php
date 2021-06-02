@@ -19,7 +19,7 @@ Route::get('/', function () {
         $b = rand(0.1,9999999999);
         $a = num2rmb($a) . '('.$a.')';
         $b = num2rmb($b) . '('.$b.')';
-        dump($a, $b);
+//        dump($a, $b);
     }
     $a = rand(0.1,9999999999) / 100;
     num2rmb($a) . '('.$a.')';
