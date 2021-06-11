@@ -63,7 +63,7 @@ class InvoiceController extends ResponseController
         });
 
         $grid->column('项目编号')->display(function () {
-            return optional($this->purchaseOrder)->project->no;
+            return optional(optional($this->purchaseOrder)->project)->no;
         });
         $grid->column('工厂PO')->display(function () {
             return $this->purchaseOrder->po;
