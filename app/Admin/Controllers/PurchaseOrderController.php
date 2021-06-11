@@ -43,7 +43,10 @@ class PurchaseOrderController extends AdminController
             return "<a href='{$url}'>{$po}</a>";
         });
         $grid->vendor()->name('供应商');
-        $grid->salesOrder()->no('销售订单');
+        $grid->column('salesOrder', '销售订单')->display(function(){
+            $url = url('/admin/sales-orders/'.$this->salesOrder->id);
+            return "<a href='{$url}'>{$this->salesOrder->no}</a>";
+        });
         $grid->column('项目名称')->display(function (){
             return $this->project->name;
         });
