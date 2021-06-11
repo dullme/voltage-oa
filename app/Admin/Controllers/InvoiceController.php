@@ -87,7 +87,7 @@ class InvoiceController extends ResponseController
 
         $grid->column('title', __('标题'));
         $grid->column('工厂')->display(function () {
-            return $this->purchaseOrder->vendor->name;
+            return optional(optional($this->purchaseOrder)->vendor)->name;
         });
 
 
