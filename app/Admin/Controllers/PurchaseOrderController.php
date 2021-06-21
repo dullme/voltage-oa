@@ -12,6 +12,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Encore\Admin\Widgets\Table;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseOrderController extends AdminController
@@ -36,35 +37,97 @@ class PurchaseOrderController extends AdminController
             $filter->disableIdFilter();
             $filter->equal('project_id', '项目编号')->select(Project::pluck('no', 'id'));
             $filter->like('po', '采购单号');
+            $filter->between('order_at', '下单时间')->date();
         });
 
         $grid->column('po', __('采购单号'))->display(function($po){
             $url = url('/admin/purchase-orders/'.$this->id);
             return "<a href='{$url}'>{$po}</a>";
         });
-        $grid->vendor()->name('供应商');
-        $grid->column('salesOrder', '销售订单')->display(function(){
-            $url = url('/admin/sales-orders/'.$this->salesOrder->id);
-            return "<a href='{$url}'>{$this->salesOrder->no}</a>";
-        });
-        $grid->column('项目名称')->display(function (){
-            return $this->project->name;
-        });
-        $grid->column('项目编号')->display(function (){
-            return $this->project->no;
-        });
-        $grid->column('amount', __('订单总额（人民币）'))->prefix('¥');
 
-        $grid->column('double_signed_at', __('获取双签合同时间'));
+        $grid->column('salesOrder', '销售订单')->display(function(){
+            $url = url('/admin/sales-orders/'.optional($this->salesOrder)->id);
+            $no = optional($this->salesOrder)->no;
+            return "<a href='{$url}'>{$no}</a>";
+        });
+
+        $grid->column('项目名称')->display(function (){
+            $url = url('/admin/projects/'.$this->project->id);
+            return '<a href="'.$url.'"><p>'.$this->project->name.'</p>'.$this->project->no.'</a>';
+        });
+
+        $grid->column('type', __('类别'))->label([
+            'HARNESS' => 'success',
+            'PV'      => 'danger',
+            'MV'      => 'warning',
+            'OTHER'   => 'info',
+        ]);
+
+        $grid->column('创建日期')->display(function (){
+            return optional(optional($this->salesOrder)->created_at)->toDateString();
+        })->width(81);
+
+        $grid->column('order_at', __('下单时间'))->sortable()->width(90);
+
+        $grid->column('double_signed_at', __('双签时间'))->width(81);
+        $grid->column('amount', __('订单总额'))->prefix('¥');
+        $grid->vendor()->name('供应商');
+
+        $grid->column('交货批次')->display(function (){
+            return $this->receiptBatches->count();
+        })->expand(function () {
+            $comments = $this->receiptBatches->map(function ($item, $key) {
+                $item['key'] = ++$key;
+
+                return $item->only(['key', 'receipt_at', 'estimated_delivery', 'actual_delivery', 'comment']);
+            });
+
+            return new Table(['#', '收货时间', '预计交期', '实际交期', '交货数量'], $comments->toArray());
+        });
+
+
+//        $grid->column('交货数量')->display(function (){
+//            $data = $this->receiptBatches->pluck('comment')->values();
+//            $res = '';
+//            foreach ($data as $key => $value){
+//                $value = $value ??'-';
+//                $res .= "<p>".++$key."、 {$value}</p>";
+//
+//            }
+//
+//            return $res;
+//        });
+//
+//
+//        $grid->column('预计交期')->display(function (){
+//            $data = $this->receiptBatches->pluck('estimated_delivery')->values();
+//            $res = '';
+//            foreach ($data as $key => $value){
+//                $value = $value ??'-';
+//                $res .= "<p>".++$key."、 ".$value."</p>";
+//            }
+//            return $res;
+//        })->width(105);
+//
+//        $grid->column('实际交期')->display(function (){
+//            $data = $this->receiptBatches->pluck('actual_delivery')->values();
+//            $res = '';
+//            foreach ($data as $key => $value){
+//                $value = $value ??'-';
+//                $res .= "<p>".++$key."、 ".$value."</p>";
+//            }
+//            return $res;
+//        })->width(105);
 
         $grid->column('progress', __('进度'))->display(function (){
             $receipt_progress = bigNumber($this->receiptBatches->sum('amount'))->divide($this->amount)->getValue() * 100;//收货进度
             $payment_progress = bigNumber($this->paymentBatches->sum('amount'))->divide($this->amount)->getValue() * 100;//付款进度
 
-            return '<div style="display: flex;align-items: flex-end"><span>收货进度：</span><div class="progress progress-striped active" style="min-width: 200px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-success" style="width: '.$receipt_progress.'%"><span>'.$receipt_progress.'%</span></div></div></div> <div style="display: flex;align-items: flex-end"><span>付款进度：</span><div class="progress progress-striped active" style="min-width: 200px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-warning" style="width: '.$payment_progress.'%"><span>'.$payment_progress.'%</span></div></div></div>';
-        });
+            '<span data-toggle="tooltip" data-placement="top" data-original-title="收货进度">Status</span>';
 
-        $grid->column('order_at', __('下单时间'))->sortable();
+
+            return '<div style="display: flex;align-items: flex-end"><div data-toggle="tooltip" data-placement="top" data-original-title="收货进度" class="progress progress-striped active" style="min-width: 100px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-success" style="width: '.$receipt_progress.'%"><span>'.$receipt_progress.'%</span></div></div></div> <div style="display: flex;align-items: flex-end"><div data-toggle="tooltip" data-placement="top" data-original-title="付款进度" class="progress progress-striped active" style="min-width: 100px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-warning" style="width: '.$payment_progress.'%"><span>'.$payment_progress.'%</span></div></div></div>';
+        });
 
         return $grid;
     }
@@ -140,6 +203,7 @@ EOF
             $form->select('sales_order_id', '销售订单')->options(SalesOrder::where('project_id', $purchaseOrder->project_id)->pluck('no', 'id'))->default($purchaseOrder->sales_order_id)->required();
         }
 
+        $form->select('type', __('类型'))->options(['MV'=>'MV','PV'=>'PV', 'HARNESS'=>'HARNESS', 'OTHER'=>'OTHER']);
         $form->select('vendor_id', __('供应商'))->options(Vendor::pluck('name', 'id'))->required();
         $form->text('po', __('采购单号'))->required();
         $form->decimal('amount', __('订单总额'))->required();

@@ -105,7 +105,8 @@
                         <td>¥ {{ item.amount }}</td>
                         <td>¥ {{ item.matched_amount.toFixed(2) }}</td>
                         <td>
-                            <label class="label label-danger" v-if="(item.amount - item.matched_amount).toFixed(2) < 0">¥ {{ (item.amount - item.matched_amount).toFixed(2) }}</label>
+                            <label class="label label-default" v-if="item.amount == null">-</label>
+                            <label class="label label-danger" v-else-if="(item.amount - item.matched_amount).toFixed(2) < 0">¥ {{ (item.amount - item.matched_amount).toFixed(2) }}</label>
                             <label v-else-if="(item.amount - item.matched_amount).toFixed(2) == 0"><i class="text-success fa fa-check"></i></label>
                             <label class="label label-default" v-else>¥ {{ (item.amount - item.matched_amount).toFixed(2) }}</label>
                         </td>

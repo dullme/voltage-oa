@@ -26,7 +26,7 @@
                     <div class="col-md-12">
                         <div class="col-md-3">
                             <div class="info-box bg-green-gradient">
-                                <span class="info-box-icon"><i class="fa fa-cny"></i></span>
+                                <span class="info-box-icon"><i class="fa fa-dollar"></i></span>
 
                                 <div class="info-box-content">
                                     <span class="info-box-text" v-if="this.salesOrder.not_shipped < 0">发货总金额超出销售总金额</span>
@@ -44,7 +44,7 @@
 
                         <div class="col-md-3">
                             <div class="info-box bg-yellow-gradient">
-                                <span class="info-box-icon"><i class="fa fa-cny"></i></span>
+                                <span class="info-box-icon"><i class="fa fa-dollar"></i></span>
 
                                 <div class="info-box-content">
                                     <span class="info-box-text" v-if="this.salesOrder.not_received < 0">收款总金额超出销售总金额</span>

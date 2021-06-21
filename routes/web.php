@@ -18,3 +18,5 @@ Route::get('/', function () {
 });
 
 Route::get('/clock', 'HomeController@clock');
+Route::get('/cn/signature', 'HomeController@cnSignature');
+Route::get('/en/signature', 'HomeController@enSignature');
