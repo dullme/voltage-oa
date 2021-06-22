@@ -9,7 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class PaymentBatchController extends AdminController
+class PaymentBatchController extends BaseController
 {
     /**
      * Title for current resource.
@@ -30,10 +30,10 @@ class PaymentBatchController extends AdminController
         //        $grid->purchaseOrder()->po('工厂PO');
         $grid->column('purchaseOrder.po', '采购单号');
         $grid->column('purchaseOrder', '供应商')->display(function (){
-            return $this->purchaseOrder()->with('vendor')->first()->vendor->name;
+            return optional(optional($this->purchaseOrder()->with('vendor')->first())->vendor)->name;
         });
         $grid->column('salesOrder', '销售单号')->display(function (){
-            return $this->purchaseOrder()->with('salesOrder')->first()->salesOrder->no;
+            return optional(optional($this->purchaseOrder()->with('salesOrder')->first())->salesOrder)->no;
         });
         $grid->column('amount', __('金额'));
         $grid->column('payment_at', __('付款时间'));

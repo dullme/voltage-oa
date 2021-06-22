@@ -16,7 +16,7 @@ use Encore\Admin\Show;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 
-class SalesOrderController extends AdminController
+class SalesOrderController extends BaseController
 {
     /**
      * Title for current resource.
@@ -50,7 +50,9 @@ class SalesOrderController extends AdminController
             return "<a href='{$url}'>{$this->project->no}【{$name}】</a>";
         });
 
-        $grid->column('amount', __('销售总额（美元）'))->prefix('$');
+        $grid->column('amount', __('销售总额（美元）'))->display(function ($amount){
+            return is_null($amount) ? '-' : '$ '.$amount;
+        });
         $grid->column('customer_po', __('客户PO'));
         $grid->purchaseOrders(__('采购订单'))->display(function ($purchases){
             $pos = collect($purchases)->pluck('po')->toArray();
@@ -139,7 +141,7 @@ EOF
 
         $form->text('no', __('订单编号'))->creationRules(['required', "unique:sales_orders"])
             ->updateRules(['required', "unique:sales_orders,no,{{id}}"]);
-        $form->decimal('amount', __('总金额'))->icon('fa-dollar');
+        $form->decimal('amount', __('总金额'))->icon('fa-dollar')->rules('nullable|gt:0');
         $form->date('order_at', __('下单时间'))->default(date('Y-m-d'));
         $form->text('customer_po', __('客户 PO'));
         $form->number('vendors_count', __('Vendors count'))->setDisplay(false);

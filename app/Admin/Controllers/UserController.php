@@ -9,7 +9,7 @@ use Encore\Admin\Show;
 use Illuminate\Support\Facades\Hash;
 use Overtrue\Pinyin\Pinyin;
 
-class UserController extends AdminController
+class UserController extends BaseController
 {
 
     /**

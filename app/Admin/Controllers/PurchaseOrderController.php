@@ -8,14 +8,13 @@ use App\Models\SalesOrder;
 use App\Models\Vendor;
 use Carbon\Carbon;
 use Encore\Admin\Admin;
-use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
 use Illuminate\Support\Facades\DB;
 
-class PurchaseOrderController extends AdminController
+class PurchaseOrderController extends BaseController
 {
     /**
      * Title for current resource.
@@ -52,8 +51,8 @@ class PurchaseOrderController extends AdminController
         });
 
         $grid->column('项目名称')->display(function (){
-            $url = url('/admin/projects/'.$this->project->id);
-            return '<a href="'.$url.'"><p>'.$this->project->name.'</p>'.$this->project->no.'</a>';
+            $url = url('/admin/projects/'.optional($this->project)->id);
+            return '<a href="'.$url.'"><p>'.optional($this->project)->name.'</p>'.optional($this->project)->no.'</a>';
         });
 
         $grid->column('type', __('类别'))->label([
@@ -79,10 +78,10 @@ class PurchaseOrderController extends AdminController
             $comments = $this->receiptBatches->map(function ($item, $key) {
                 $item['key'] = ++$key;
 
-                return $item->only(['key', 'receipt_at', 'estimated_delivery', 'actual_delivery', 'comment']);
+                return $item->only(['key', 'receipt_at', 'amount', 'estimated_delivery', 'actual_delivery', 'comment']);
             });
 
-            return new Table(['#', '收货时间', '预计交期', '实际交期', '交货数量'], $comments->toArray());
+            return new Table(['#', '收货时间', '批次总金额', '预计交期', '实际交期', '交货数量'], $comments->toArray());
         });
 
 

@@ -8,7 +8,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class ClockController extends AdminController
+class ClockController extends BaseController
 {
     /**
      * Title for current resource.

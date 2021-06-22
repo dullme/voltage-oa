@@ -59,7 +59,7 @@
             <!-- /.box-tools -->
             <div style="display: flex;margin-top: 10px">
                 <div>
-                    <div>销售金额：$ {{ $salesOrder->amount }}</div>
+                    <div>销售金额：{{ is_null($salesOrder->amount) ? '-' : '$ '.$salesOrder->amount }}</div>
                     <div class="description" style="margin-top: 10px">下单时间：{{ $salesOrder->order_at }}</div>
                     <div style="">
                         <div style="display: flex; margin-top: 10px">

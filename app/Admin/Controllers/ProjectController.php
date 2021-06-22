@@ -8,7 +8,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class ProjectController extends AdminController
+class ProjectController extends BaseController
 {
     /**
      * Title for current resource.

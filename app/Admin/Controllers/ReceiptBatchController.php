@@ -9,7 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class ReceiptBatchController extends AdminController
+class ReceiptBatchController extends BaseController
 {
     /**
      * Title for current resource.

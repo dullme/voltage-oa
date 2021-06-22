@@ -4,7 +4,7 @@ namespace App\Admin\Controllers;
 
 use Encore\Admin\Controllers\AdminController;
 
-class ResponseController extends AdminController
+class ResponseController extends BaseController
 {
     protected $statusCode = 200;
 
