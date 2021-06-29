@@ -39,7 +39,9 @@ class PurchaseOrderController extends BaseController
             $filter->between('order_at', '下单时间')->date();
             $filter->equal('type', '类别')->select([
                 'HARNESS' => 'HARNESS',
-                'PV'      => 'PV',
+                'EXTENDER' => 'EXTENDER',
+                'PV AL' => 'PV AL',
+                'PV CU'      => 'PV CU',
                 'MV'      => 'MV',
                 'OTHER'   => 'OTHER',
             ]);
@@ -63,7 +65,9 @@ class PurchaseOrderController extends BaseController
 
         $grid->column('type', __('类别'))->label([
             'HARNESS' => 'success',
-            'PV'      => 'danger',
+            'EXTENDER' => 'success',
+            'PV AL' => 'danger',
+            'PV CU'      => 'danger',
             'MV'      => 'warning',
             'OTHER'   => 'info',
         ]);
@@ -208,7 +212,14 @@ EOF
             $form->select('sales_order_id', '销售订单')->options(SalesOrder::where('project_id', $purchaseOrder->project_id)->pluck('no', 'id'))->default($purchaseOrder->sales_order_id)->required();
         }
 
-        $form->select('type', __('类型'))->options(['MV'=>'MV','PV'=>'PV', 'HARNESS'=>'HARNESS', 'OTHER'=>'OTHER']);
+        $form->select('type', __('类型'))->options([
+            'HARNESS' => 'HARNESS',
+            'EXTENDER' => 'EXTENDER',
+            'PV AL' => 'PV AL',
+            'PV CU'      => 'PV CU',
+            'MV'      => 'MV',
+            'OTHER'   => 'OTHER',
+        ]);
         $form->select('vendor_id', __('供应商'))->options(Vendor::pluck('name', 'id'))->required();
         $form->text('po', __('采购单号'))->required();
         $form->decimal('amount', __('订单总额'))->required();
