@@ -37,6 +37,12 @@ class PurchaseOrderController extends BaseController
             $filter->equal('project_id', '项目编号')->select(Project::pluck('no', 'id'));
             $filter->like('po', '采购单号');
             $filter->between('order_at', '下单时间')->date();
+            $filter->equal('type', '类别')->select([
+                'HARNESS' => 'HARNESS',
+                'PV'      => 'PV',
+                'MV'      => 'MV',
+                'OTHER'   => 'OTHER',
+            ]);
         });
 
         $grid->column('po', __('采购单号'))->display(function($po){
