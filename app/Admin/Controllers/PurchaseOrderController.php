@@ -34,7 +34,13 @@ class PurchaseOrderController extends BaseController
         $grid->model()->orderByDesc('created_at');
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
-            $filter->equal('project_id', '项目编号')->select(Project::pluck('no', 'id'));
+            $projects = Project::all();
+            $projects = $projects->map(function ($item){
+                $item['name'] = $item['name'] .'【' .$item['no'] . '】';
+                return $item;
+            });
+
+            $filter->equal('project.id', '项目名称')->select($projects->pluck('name', 'id'));
             $filter->like('po', '采购单号');
             $filter->between('order_at', '下单时间')->date();
             $filter->equal('type', '类别')->select([
@@ -45,14 +51,6 @@ class PurchaseOrderController extends BaseController
                 'MV'      => 'MV',
                 'OTHER'   => 'OTHER',
             ]);
-
-            $projects = Project::all();
-            $projects = $projects->map(function ($item){
-                $item['name'] = $item['name'] .'【' .$item['no'] . '】';
-                return $item;
-            });
-
-            $filter->equal('project.id', '项目名称')->select($projects->pluck('name', 'id'));
         });
 
         $grid->column('po', __('采购单号'))->display(function($po){
