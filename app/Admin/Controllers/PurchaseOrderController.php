@@ -45,6 +45,14 @@ class PurchaseOrderController extends BaseController
                 'MV'      => 'MV',
                 'OTHER'   => 'OTHER',
             ]);
+
+            $projects = Project::all();
+            $projects = $projects->map(function ($item){
+                $item['name'] = $item['name'] .'【' .$item['no'] . '】';
+                return $item;
+            });
+
+            $filter->equal('project.id', '项目名称')->select($projects->pluck('name', 'id'));
         });
 
         $grid->column('po', __('采购单号'))->display(function($po){
