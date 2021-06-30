@@ -47,7 +47,8 @@ class SalesOrderController extends BaseController
 
         $grid->project()->name('项目名称')->display(function ($name){
             $url = url('/admin/projects/'.optional($this->project)->id);
-            return "<a href='{$url}'>{optional($this->project)->no}【{$name}】</a>";
+            $no = optional($this->project)->no;
+            return "<a href='{$url}'>{$no}【{$name}】</a>";
         });
 
         $grid->column('amount', __('销售总额（美元）'))->display(function ($amount){
