@@ -2,21 +2,21 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\DeliveryBatch;
 use App\Models\PurchaseOrder;
-use App\Models\ReceiptBatch;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class ReceiptBatchController extends BaseController
+class DeliveryBatchController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = '收货批次';
+    protected $title = 'DeliveryBatch';
 
     /**
      * Make a grid builder.
@@ -25,19 +25,14 @@ class ReceiptBatchController extends BaseController
      */
     protected function grid()
     {
-        $grid = new Grid(new ReceiptBatch());
+        $grid = new Grid(new DeliveryBatch());
 
-//        $grid->purchaseOrder()->po('工厂PO');
-        $grid->column('purchaseOrder.po', '采购单号');
-        $grid->column('purchaseOrder', '供应商')->display(function (){
-            return $this->purchaseOrder()->with('vendor')->first()->vendor->name;
-        });
-        $grid->column('salesOrder', '销售单号')->display(function (){
-            return $this->purchaseOrder()->with('salesOrder')->first()->salesOrder->no;
-        });
-        $grid->column('amount', __('金额'));
-        $grid->column('receipt_at', __('实际交期'));
-        $grid->column('comment', __('备注'));
+        $grid->column('id', __('Id'));
+        $grid->column('purchase_order_id', __('Purchase order id'));
+        $grid->column('estimated_delivery', __('Estimated delivery'));
+        $grid->column('comment', __('Comment'));
+        $grid->column('created_at', __('Created at'));
+        $grid->column('updated_at', __('Updated at'));
 
         return $grid;
     }
@@ -50,12 +45,11 @@ class ReceiptBatchController extends BaseController
      */
     protected function detail($id)
     {
-        $show = new Show(ReceiptBatch::findOrFail($id));
+        $show = new Show(DeliveryBatch::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('purchase_order_id', __('Purchase order id'));
-        $show->field('amount', __('Amount'));
-        $show->field('receipt_at', __('Receipt at'));
+        $show->field('estimated_delivery', __('Estimated delivery'));
         $show->field('comment', __('Comment'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
@@ -70,20 +64,20 @@ class ReceiptBatchController extends BaseController
      */
     protected function form()
     {
-        $form = new Form(new ReceiptBatch());
-
+        $form = new Form(new DeliveryBatch());
         if(request()->get('po_id')){
             $form->select('purchase_order_id', __('采购单号'))->options(PurchaseOrder::pluck('po', 'id'))->default(request()->get('po_id'))->required();
         }else{
             $form->select('purchase_order_id', __('采购单号'))->options(PurchaseOrder::pluck('po', 'id'));
         }
 
-        $form->decimal('amount', __('金额'));
-        $form->date('receipt_at', __('实际交期'));
+
+        $form->date('estimated_delivery', __('预计交期'))->required();
+        $form->number('order_by', __('排序'))->required();
         $form->textarea('comment', __('备注'));
 
         $form->saved(function (Form $form) {
-            admin_toastr('批次添加成功！', 'success');
+            admin_toastr('交货批次添加成功！', 'success');
             return redirect('/admin/purchase-orders/'.$form->model()->purchase_order_id);
         });
 

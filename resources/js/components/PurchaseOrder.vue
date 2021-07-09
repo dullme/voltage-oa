@@ -74,60 +74,93 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">收货序列</h3>
+                        <div class="box-tools">
+                            <a :href="'/admin/receipt-batches/create?po_id='+this.purchaseOrder.id" class="btn btn-xs btn-success"><i class="fa fa-plus"></i></a>
+                        </div>
+                    </div>
 
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">收货顺序</h3>
-                <div class="box-tools">
-                    <a :href="'/admin/receipt-batches/create?po_id='+this.purchaseOrder.id" class="btn btn-xs btn-success"><i class="fa fa-plus"></i></a>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>批次总金额</th>
+                                <th>已匹配发票金额</th>
+                                <th>待匹配发票金额</th>
+                                <th>实际交期</th>
+                                <th>备注</th>
+                                <th>操作</th>
+                            </tr>
+
+                            <tr v-for="(item,key) in purchaseOrder.receipt_batches">
+                                <td>{{ ++key }}</td>
+                                <td>¥ {{ item.amount }}</td>
+                                <td>¥ {{ item.matched_amount.toFixed(2) }}</td>
+                                <td>
+                                    <label class="label label-default" v-if="item.amount == null">-</label>
+                                    <label class="label label-danger" v-else-if="(item.amount - item.matched_amount).toFixed(2) < 0">¥ {{ (item.amount - item.matched_amount).toFixed(2) }}</label>
+                                    <label v-else-if="(item.amount - item.matched_amount).toFixed(2) == 0"><i class="text-success fa fa-check"></i></label>
+                                    <label class="label label-default" v-else>¥ {{ (item.amount - item.matched_amount).toFixed(2) }}</label>
+                                </td>
+                                <td>{{ item.receipt_at }}</td>
+                                <td>{{ item.comment }}</td>
+                                <td>
+                                    <a :href="'/admin/receipt-batches/'+item.id+'/edit'" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
+                                    <button class="btn btn-xs btn-default" @click="invoice(item.id)"><i class="fa fa-ticket"></i></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
                 </div>
             </div>
+            <div class="col-lg-5">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">交货批次</h3>
+                        <div class="box-tools">
+                            <a :href="'/admin/delivery-batches/create?po_id='+this.purchaseOrder.id" class="btn btn-xs btn-success"><i class="fa fa-plus"></i></a>
+                        </div>
+                    </div>
 
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-                <table class="table table-striped">
-                    <tbody>
-                    <tr>
-                        <th style="width: 10px">#</th>
-                        <th>收货时间</th>
-                        <th>批次总金额</th>
-                        <th>已匹配发票金额</th>
-                        <th>待匹配发票金额</th>
-                        <th>预计交期</th>
-                        <th>实际交期</th>
-                        <th>备注</th>
-                        <th>操作</th>
-                    </tr>
-
-                    <tr v-for="(item,key) in purchaseOrder.receipt_batches">
-                        <td>{{ ++key }}</td>
-                        <td>{{ item.receipt_at }}</td>
-                        <td>¥ {{ item.amount }}</td>
-                        <td>¥ {{ item.matched_amount.toFixed(2) }}</td>
-                        <td>
-                            <label class="label label-default" v-if="item.amount == null">-</label>
-                            <label class="label label-danger" v-else-if="(item.amount - item.matched_amount).toFixed(2) < 0">¥ {{ (item.amount - item.matched_amount).toFixed(2) }}</label>
-                            <label v-else-if="(item.amount - item.matched_amount).toFixed(2) == 0"><i class="text-success fa fa-check"></i></label>
-                            <label class="label label-default" v-else>¥ {{ (item.amount - item.matched_amount).toFixed(2) }}</label>
-                        </td>
-                        <td>{{ item.estimated_delivery }}</td>
-                        <td>{{ item.actual_delivery }}</td>
-                        <td>{{ item.comment }}</td>
-                        <td>
-                            <a :href="'/admin/receipt-batches/'+item.id+'/edit'" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
-                            <button class="btn btn-xs btn-default" @click="invoice(item.id)"><i class="fa fa-ticket"></i></button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>预计交期</th>
+                                    <th>备注</th>
+                                    <th>操作</th>
+                                </tr>
+                                <tr v-for="(item,key) in purchaseOrder.delivery_batches">
+                                    <td>{{ ++key }}</td>
+                                    <td><span data-toggle="tooltip" data-placement="top" :data-original-title="'排序编号'+item.order_by">{{ item.estimated_delivery }}</span></td>
+                                    <td>{{ item.comment }}</td>
+                                    <td>
+                                        <a :href="'/admin/delivery-batches/'+item.id+'/edit'" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
             </div>
-            <!-- /.box-body -->
         </div>
 
 
+
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">付款顺序</h3>
+                <h3 class="box-title">付款序列</h3>
                 <div class="box-tools">
                     <a :href="'/admin/payment-batches/create?po_id='+this.purchaseOrder.id" class="btn btn-xs btn-success"><i class="fa fa-plus"></i></a>
                 </div>

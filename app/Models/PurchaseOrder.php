@@ -35,6 +35,11 @@ class PurchaseOrder extends Model
         return $this->hasMany(PaymentBatch::class);
     }
 
+    public function deliveryBatches()
+    {
+        return $this->hasMany(DeliveryBatch::class)->orderBy('order_by', 'ASC');
+    }
+
     public function invoices()
     {
         return $this->hasMany(Invoice::class);

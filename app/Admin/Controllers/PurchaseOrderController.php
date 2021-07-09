@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\PurchaseOrderExporter;
 use App\Models\PurchaseOrder;
 use App\Models\Project;
 use App\Models\SalesOrder;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 class PurchaseOrderController extends BaseController
 {
+
     /**
      * Title for current resource.
      *
@@ -32,11 +34,14 @@ class PurchaseOrderController extends BaseController
     {
         $grid = new Grid(new PurchaseOrder());
         $grid->model()->orderByDesc('created_at');
+        $grid->disableExport(false);
+        $grid->exporter(new PurchaseOrderExporter());
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
             $projects = Project::all();
-            $projects = $projects->map(function ($item){
-                $item['name'] = $item['name'] .'【' .$item['no'] . '】';
+            $projects = $projects->map(function ($item) {
+                $item['name'] = $item['name'] . '【' . $item['no'] . '】';
+
                 return $item;
             });
 
@@ -44,41 +49,44 @@ class PurchaseOrderController extends BaseController
             $filter->like('po', '采购单号');
             $filter->between('order_at', '下单时间')->date();
             $filter->equal('type', '类别')->select([
-                'HARNESS' => 'HARNESS',
+                'HARNESS'  => 'HARNESS',
                 'EXTENDER' => 'EXTENDER',
-                'PV AL' => 'PV AL',
-                'PV CU'      => 'PV CU',
-                'MV'      => 'MV',
-                'OTHER'   => 'OTHER',
+                'PV AL'    => 'PV AL',
+                'PV CU'    => 'PV CU',
+                'MV'       => 'MV',
+                'OTHER'    => 'OTHER',
             ]);
         });
 
-        $grid->column('po', __('采购单号'))->display(function($po){
-            $url = url('/admin/purchase-orders/'.$this->id);
+        $grid->column('po', __('采购单号'))->display(function ($po) {
+            $url = url('/admin/purchase-orders/' . $this->id);
+
             return "<a href='{$url}'>{$po}</a>";
         });
 
-        $grid->column('salesOrder', '销售订单')->display(function(){
-            $url = url('/admin/sales-orders/'.optional($this->salesOrder)->id);
+        $grid->column('salesOrder', '销售订单')->display(function () {
+            $url = url('/admin/sales-orders/' . optional($this->salesOrder)->id);
             $no = optional($this->salesOrder)->no;
+
             return "<a href='{$url}'>{$no}</a>";
         });
 
-        $grid->column('项目名称')->display(function (){
-            $url = url('/admin/projects/'.optional($this->project)->id);
-            return '<a href="'.$url.'"><p>'.optional($this->project)->name.'</p>'.optional($this->project)->no.'</a>';
+        $grid->column('项目名称')->display(function () {
+            $url = url('/admin/projects/' . optional($this->project)->id);
+
+            return '<a href="' . $url . '"><p>' . optional($this->project)->name . '</p>' . optional($this->project)->no . '</a>';
         });
 
         $grid->column('type', __('类别'))->label([
-            'HARNESS' => 'success',
+            'HARNESS'  => 'success',
             'EXTENDER' => 'success',
-            'PV AL' => 'danger',
-            'PV CU'      => 'danger',
-            'MV'      => 'warning',
-            'OTHER'   => 'info',
+            'PV AL'    => 'danger',
+            'PV CU'    => 'danger',
+            'MV'       => 'warning',
+            'OTHER'    => 'info',
         ]);
 
-        $grid->column('创建日期')->display(function (){
+        $grid->column('创建日期')->display(function () {
             return optional(optional($this->salesOrder)->created_at)->toDateString();
         })->width(81);
 
@@ -88,17 +96,17 @@ class PurchaseOrderController extends BaseController
         $grid->column('amount', __('订单总额'))->prefix('¥');
         $grid->vendor()->name('供应商');
 
-        $grid->column('交货批次')->display(function (){
-            return $this->receiptBatches->count();
-        })->expand(function () {
-            $comments = $this->receiptBatches->map(function ($item, $key) {
-                $item['key'] = ++$key;
-
-                return $item->only(['key', 'receipt_at', 'amount', 'estimated_delivery', 'actual_delivery', 'comment']);
-            });
-
-            return new Table(['#', '收货时间', '批次总金额', '预计交期', '实际交期', '交货数量'], $comments->toArray());
-        });
+//        $grid->column('交货批次')->display(function (){
+//            return $this->receiptBatches->count();
+//        })->expand(function () {
+//            $comments = $this->receiptBatches->map(function ($item, $key) {
+//                $item['key'] = ++$key;
+//
+//                return $item->only(['key', 'amount', 'receipt_at', 'actual_delivery', 'comment']);
+//            });
+//
+//            return new Table(['#', '批次总金额', '交货数量'], $comments->toArray());
+//        });
 
 
 //        $grid->column('交货数量')->display(function (){
@@ -134,14 +142,14 @@ class PurchaseOrderController extends BaseController
 //            return $res;
 //        })->width(105);
 
-        $grid->column('progress', __('进度'))->display(function (){
+        $grid->column('progress', __('进度'))->display(function () {
             $receipt_progress = bigNumber($this->receiptBatches->sum('amount'))->divide($this->amount)->getValue() * 100;//收货进度
             $payment_progress = bigNumber($this->paymentBatches->sum('amount'))->divide($this->amount)->getValue() * 100;//付款进度
 
             '<span data-toggle="tooltip" data-placement="top" data-original-title="收货进度">Status</span>';
 
 
-            return '<div style="display: flex;align-items: flex-end"><div data-toggle="tooltip" data-placement="top" data-original-title="收货进度" class="progress progress-striped active" style="min-width: 100px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-success" style="width: '.$receipt_progress.'%"><span>'.$receipt_progress.'%</span></div></div></div> <div style="display: flex;align-items: flex-end"><div data-toggle="tooltip" data-placement="top" data-original-title="付款进度" class="progress progress-striped active" style="min-width: 100px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-warning" style="width: '.$payment_progress.'%"><span>'.$payment_progress.'%</span></div></div></div>';
+            return '<div style="display: flex;align-items: flex-end"><div data-toggle="tooltip" data-placement="top" data-original-title="收货进度" class="progress progress-striped active" style="min-width: 100px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-success" style="width: ' . $receipt_progress . '%"><span>' . $receipt_progress . '%</span></div></div></div> <div style="display: flex;align-items: flex-end"><div data-toggle="tooltip" data-placement="top" data-original-title="付款进度" class="progress progress-striped active" style="min-width: 100px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-warning" style="width: ' . $payment_progress . '%"><span>' . $payment_progress . '%</span></div></div></div>';
         });
 
         return $grid;
@@ -162,15 +170,17 @@ class PurchaseOrderController extends BaseController
 EOF
         );
 
-        $purchaseOrder = PurchaseOrder::with('salesOrder', 'vendor', 'receiptBatches.receiptBatchInvoices', 'paymentBatches.paymentBatchInvoices')->findOrFail($id);
+        $purchaseOrder = PurchaseOrder::with('salesOrder', 'vendor', 'deliveryBatches', 'receiptBatches.receiptBatchInvoices', 'paymentBatches.paymentBatchInvoices')->findOrFail($id);
 
-        $receipt_batches = $purchaseOrder->receiptBatches->map(function ($item){
+        $receipt_batches = $purchaseOrder->receiptBatches->map(function ($item) {
             $item['matched_amount'] = $item->receiptBatchInvoices->sum('amount');
+
             return $item;
         });
 
-        $payment_batches = $purchaseOrder->paymentBatches->map(function ($item){
+        $payment_batches = $purchaseOrder->paymentBatches->map(function ($item) {
             $item['matched_amount'] = $item->paymentBatchInvoices->sum('amount');
+
             return $item;
         });
 
@@ -196,22 +206,22 @@ EOF
     {
         $form = new Form(new PurchaseOrder());
         $projects = Project::all();
-        $projects = $projects->map(function ($item){
+        $projects = $projects->map(function ($item) {
             return [
-                'id' => $item->id,
-                'name' => $item->no .'【' .$item->name.'】',
+                'id'   => $item->id,
+                'name' => $item->no . '【' . $item->name . '】',
             ];
         });
-        if($form->isCreating()){
-            if(request()->get('sales_order_id')){
+        if ($form->isCreating()) {
+            if (request()->get('sales_order_id')) {
                 $salesOrder = SalesOrder::findOrFail(request()->get('sales_order_id'));
                 $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', url('/admin/get-sales-orders'))->default($salesOrder->project_id)->required();
                 $form->select('sales_order_id', '销售订单')->options(SalesOrder::where('project_id', $salesOrder->project_id)->pluck('no', 'id'))->default($salesOrder->id)->required();
-            }else{
+            } else {
                 $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', url('/admin/get-sales-orders'))->required();
                 $form->select('sales_order_id', '销售订单')->required();
             }
-        }elseif ($form->isEditing()){
+        } else if ($form->isEditing()) {
             $purchase_order_id = request()->route()->parameters()['purchase_order'];
             $purchaseOrder = PurchaseOrder::findOrFail($purchase_order_id);
             $form->select('project_id', __('项目'))->options($projects->pluck('name', 'id'))->load('sales_order_id', url('/admin/get-sales-orders'))->default($purchaseOrder->project_id)->required();
@@ -219,12 +229,12 @@ EOF
         }
 
         $form->select('type', __('类型'))->options([
-            'HARNESS' => 'HARNESS',
+            'HARNESS'  => 'HARNESS',
             'EXTENDER' => 'EXTENDER',
-            'PV AL' => 'PV AL',
-            'PV CU'      => 'PV CU',
-            'MV'      => 'MV',
-            'OTHER'   => 'OTHER',
+            'PV AL'    => 'PV AL',
+            'PV CU'    => 'PV CU',
+            'MV'       => 'MV',
+            'OTHER'    => 'OTHER',
         ]);
         $form->select('vendor_id', __('供应商'))->options(Vendor::pluck('name', 'id'))->required();
         $form->text('po', __('采购单号'))->required();
@@ -234,7 +244,7 @@ EOF
 
         $form->saved(function (Form $form) {
 
-            return redirect('/admin/purchase-orders/'.$form->model()->id);
+            return redirect('/admin/purchase-orders/' . $form->model()->id);
         });
 
         return $form;
