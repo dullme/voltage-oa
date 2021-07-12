@@ -107,6 +107,8 @@ EOF
         $salesOder->setAttribute('not_received', bigNumber($salesOder->amount)->subtract($received)->getValue());
         $salesOder->setAttribute('received_progress', getReceivedProgress($received, $salesOder->amount));
         $salesOder->setAttribute('days', Carbon::parse($salesOder->order_at)->diffInDays(Carbon::now(), false));
+        $salesOder->setAttribute('total_sales_order_batches_amount', bigNumber($salesOder->salesOrderBatches->sum('amount'))->getValue());
+        $salesOder->setAttribute('total_receive_payment_batches_amount', bigNumber($salesOder->receivePaymentBatches->sum('amount'))->getValue());
 
         return view('admin.sales_order', compact('salesOder'));
     }

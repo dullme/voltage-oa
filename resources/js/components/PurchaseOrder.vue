@@ -89,7 +89,7 @@
                         <table class="table table-striped">
                             <tbody>
                             <tr>
-                                <th style="width: 10px">#</th>
+                                <th style="width: 60px">#</th>
                                 <th>批次总金额</th>
                                 <th>已匹配发票金额</th>
                                 <th>待匹配发票金额</th>
@@ -115,6 +115,16 @@
                                     <button class="btn btn-xs btn-default" @click="invoice(item.id)"><i class="fa fa-ticket"></i></button>
                                 </td>
                             </tr>
+
+                            <tr>
+                                <td>统计：</td>
+                                <td>¥{{ purchaseOrder.batches_total_amount }}</td>
+                                <td>¥{{ purchaseOrder.batches_matched_amount }}</td>
+                                <td>¥{{ purchaseOrder.batches_unmatched_amount }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -135,7 +145,7 @@
                         <table class="table table-striped">
                             <tbody>
                                 <tr>
-                                    <th style="width: 10px">#</th>
+                                    <th style="width: 60px">#</th>
                                     <th>预计交期</th>
                                     <th>备注</th>
                                     <th>操作</th>
@@ -171,18 +181,17 @@
                 <table class="table table-striped">
                     <tbody>
                     <tr>
-                        <th style="width: 10px">#</th>
-                        <th>付款时间</th>
+                        <th style="width: 60px">#</th>
                         <th>付款金额</th>
                         <th>已匹配发票金额</th>
                         <th>待匹配发票金额</th>
+                        <th>付款时间</th>
                         <th>备注</th>
                         <th>操作</th>
                     </tr>
 
                     <tr v-for="(item,key) in purchaseOrder.payment_batches">
                         <td>{{ ++key }}</td>
-                        <td>{{ item.payment_at }}</td>
                         <td>¥ {{ item.amount }}</td>
                         <td>¥ {{ item.matched_amount }}</td>
                         <td>
@@ -190,11 +199,22 @@
                             <label v-else-if="item.amount - item.matched_amount == 0"><i class="text-success fa fa-check"></i></label>
                             <label class="label label-default" v-else>¥ {{ (item.amount - item.matched_amount).toFixed(2) }}</label>
                         </td>
+                        <td>{{ item.payment_at }}</td>
                         <td>{{ item.comment }}</td>
                         <td>
                             <a :href="'/admin/payment-batches/'+item.id+'/edit'" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
                             <button class="btn btn-xs btn-default" @click="payment(item.id)"><i class="fa fa-ticket"></i></button>
                         </td>
+                    </tr>
+
+                    <tr>
+                        <td>统计：</td>
+                        <td>¥{{ purchaseOrder.payment_batches_total_amount }}</td>
+                        <td>¥{{ purchaseOrder.payment_batches_matched_total_amount }}</td>
+                        <td>¥{{ purchaseOrder.payment_batches_unmatched_total_amount }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     </tbody>
                 </table>

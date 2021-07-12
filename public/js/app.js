@@ -2338,6 +2338,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2474,6 +2494,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -20529,7 +20572,35 @@ var render = function() {
                         )
                       ])
                     ])
-                  })
+                  }),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("统计：")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "¥" + _vm._s(_vm.purchaseOrder.batches_total_amount)
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "¥" + _vm._s(_vm.purchaseOrder.batches_matched_amount)
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "¥" + _vm._s(_vm.purchaseOrder.batches_unmatched_amount)
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td"),
+                    _vm._v(" "),
+                    _c("td")
+                  ])
                 ],
                 2
               )
@@ -20643,8 +20714,6 @@ var render = function() {
                 return _c("tr", [
                   _c("td", [_vm._v(_vm._s(++key))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.payment_at))]),
-                  _vm._v(" "),
                   _c("td", [_vm._v("¥ " + _vm._s(item.amount))]),
                   _vm._v(" "),
                   _c("td", [_vm._v("¥ " + _vm._s(item.matched_amount))]),
@@ -20669,6 +20738,8 @@ var render = function() {
                           )
                         ])
                   ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.payment_at))]),
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(item.comment))]),
                   _vm._v(" "),
@@ -20698,7 +20769,41 @@ var render = function() {
                     )
                   ])
                 ])
-              })
+              }),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("统计：")]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "¥" + _vm._s(_vm.purchaseOrder.payment_batches_total_amount)
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "¥" +
+                      _vm._s(
+                        _vm.purchaseOrder.payment_batches_matched_total_amount
+                      )
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "¥" +
+                      _vm._s(
+                        _vm.purchaseOrder.payment_batches_unmatched_total_amount
+                      )
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td"),
+                _vm._v(" "),
+                _c("td"),
+                _vm._v(" "),
+                _c("td")
+              ])
             ],
             2
           )
@@ -21413,7 +21518,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", { staticStyle: { width: "10px" } }, [_vm._v("#")]),
+      _c("th", { staticStyle: { width: "60px" } }, [_vm._v("#")]),
       _vm._v(" "),
       _c("th", [_vm._v("批次总金额")]),
       _vm._v(" "),
@@ -21433,7 +21538,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", { staticStyle: { width: "10px" } }, [_vm._v("#")]),
+      _c("th", { staticStyle: { width: "60px" } }, [_vm._v("#")]),
       _vm._v(" "),
       _c("th", [_vm._v("预计交期")]),
       _vm._v(" "),
@@ -21447,15 +21552,15 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", { staticStyle: { width: "10px" } }, [_vm._v("#")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("付款时间")]),
+      _c("th", { staticStyle: { width: "60px" } }, [_vm._v("#")]),
       _vm._v(" "),
       _c("th", [_vm._v("付款金额")]),
       _vm._v(" "),
       _c("th", [_vm._v("已匹配发票金额")]),
       _vm._v(" "),
       _c("th", [_vm._v("待匹配发票金额")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("付款时间")]),
       _vm._v(" "),
       _c("th", [_vm._v("备注")]),
       _vm._v(" "),
@@ -21822,7 +21927,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "box" }, [
       _c("div", { staticClass: "box-header" }, [
-        _c("h3", { staticClass: "box-title" }, [_vm._v("发货顺序")]),
+        _c("h3", { staticClass: "box-title" }, [_vm._v("发货序列")]),
         _vm._v(" "),
         _c("div", { staticClass: "box-tools" }, [
           _c(
@@ -21857,6 +21962,23 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [_vm._v("$ " + _vm._s(item.amount))]),
                   _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.declaration_number))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    item.file
+                      ? _c(
+                          "a",
+                          {
+                            attrs: {
+                              href: "/uploads/" + item.file,
+                              target: "_blank"
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-download" })]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(item.comment))]),
                   _vm._v(" "),
                   _c("td", [
@@ -21873,7 +21995,30 @@ var render = function() {
                     )
                   ])
                 ])
-              })
+              }),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("合计：")]),
+                _vm._v(" "),
+                _c("td"),
+                _vm._v(" "),
+                _c("td"),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "$ " +
+                      _vm._s(_vm.salesOrder.total_sales_order_batches_amount)
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td"),
+                _vm._v(" "),
+                _c("td"),
+                _vm._v(" "),
+                _c("td"),
+                _vm._v(" "),
+                _c("td")
+              ])
             ],
             2
           )
@@ -21883,7 +22028,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "box" }, [
       _c("div", { staticClass: "box-header" }, [
-        _c("h3", { staticClass: "box-title" }, [_vm._v("收款顺序")]),
+        _c("h3", { staticClass: "box-title" }, [_vm._v("收款序列")]),
         _vm._v(" "),
         _c("div", { staticClass: "box-tools" }, [
           _c(
@@ -21939,7 +22084,28 @@ var render = function() {
                     )
                   ])
                 ])
-              })
+              }),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v("合计：")]),
+                _vm._v(" "),
+                _c("td"),
+                _vm._v(" "),
+                _c("td"),
+                _vm._v(" "),
+                _c("td", [
+                  _vm._v(
+                    "$ " +
+                      _vm._s(
+                        _vm.salesOrder.total_receive_payment_batches_amount
+                      )
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td"),
+                _vm._v(" "),
+                _c("td")
+              ])
             ],
             2
           )
@@ -21970,13 +22136,17 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", { staticStyle: { width: "10px" } }, [_vm._v("#")]),
+      _c("th", { staticStyle: { width: "60px" } }, [_vm._v("#")]),
       _vm._v(" "),
       _c("th", [_vm._v("DO 编号")]),
       _vm._v(" "),
       _c("th", [_vm._v("发货时间")]),
       _vm._v(" "),
       _c("th", [_vm._v("批次金额")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("报关单号")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("盖章的报关单")]),
       _vm._v(" "),
       _c("th", [_vm._v("备注")]),
       _vm._v(" "),
@@ -21988,7 +22158,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", { staticStyle: { width: "10px" } }, [_vm._v("#")]),
+      _c("th", { staticStyle: { width: "60px" } }, [_vm._v("#")]),
       _vm._v(" "),
       _c("th", [_vm._v("NO")]),
       _vm._v(" "),

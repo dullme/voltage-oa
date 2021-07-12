@@ -181,10 +181,9 @@ class InvoiceController extends ResponseController
     public function associatedInvoice($id)
     {
         $receiptBatchInvoice = ReceiptBatch::with('purchaseOrder.vendor.invoices.receiptBatchInvoices', 'receiptBatchInvoices')->findOrFail($id);
-
         $receiptBatch = ReceiptBatchInvoice::with('invoice')->where('receipt_batch_id', $id)->get();
 
-        $invoices = $receiptBatchInvoice->purchaseOrder->vendor->invoices->map(function ($item) {
+        $invoices = $receiptBatchInvoice->purchaseOrder->vendor->invoices->where('purchase_order_id', $receiptBatchInvoice->purchase_order_id)->map(function ($item) {
             $receiptBatchInvoicesTotalAmount = $item->receiptBatchInvoices->sum('amount');
             $over_amount = bigNumber($item->amount)->subtract($receiptBatchInvoicesTotalAmount)->getValue();
 
@@ -224,10 +223,8 @@ class InvoiceController extends ResponseController
     public function associatedPaymentInvoice($id)
     {
         $paymentBatchInvoice = PaymentBatch::with('purchaseOrder.vendor.invoices.paymentBatchInvoices', 'paymentBatchInvoices')->findOrFail($id);
-
         $paymentBatch = PaymentBatchInvoice::with('invoice')->where('payment_batch_id', $id)->get();
-
-        $invoices = $paymentBatchInvoice->purchaseOrder->vendor->invoices->map(function ($item) {
+        $invoices = $paymentBatchInvoice->purchaseOrder->vendor->invoices->where('purchase_order_id', $paymentBatchInvoice->purchase_order_id)->map(function ($item) {
             $paymentBatchInvoicesTotalAmount = $item->paymentBatchInvoices->sum('amount');
             $over_amount = bigNumber($item->amount)->subtract($paymentBatchInvoicesTotalAmount)->getValue();
 
@@ -286,7 +283,10 @@ class InvoiceController extends ResponseController
         }
 
         try {
-            collect($request->all())->map(function ($item) use($receipt_batch_over_amount, $id) {
+            collect($request->all())->map(function ($item) use($receipt_batch_over_amount, $id, $receipt_batch) {
+                if($receipt_batch->purchase_order_id != $item['purchase_order_id']){
+                    throw new \Exception('匹配错误');
+                }
                 if($item['match_amount']){
                     $invoice = Invoice::with('receiptBatchInvoices')->findOrFail($item['id']);
                     $matched_amount = $invoice->receiptBatchInvoices->sum('amount'); //已关联金额
@@ -321,6 +321,7 @@ class InvoiceController extends ResponseController
         }
 
         $payment_batch = PaymentBatch::with('paymentBatchInvoices')->findOrFail($id);
+
         if($payment_batch->paymentBatchInvoices->sum('amount') >= $payment_batch->amount){
             return $this->setStatusCode(422)->responseError('该批次金额已完成匹配');
         }
@@ -336,7 +337,10 @@ class InvoiceController extends ResponseController
         }
 
         try {
-            collect($request->all())->map(function ($item) use($payment_batch_over_amount, $id) {
+            collect($request->all())->map(function ($item) use($payment_batch_over_amount, $id, $payment_batch) {
+                if($payment_batch->purchase_order_id != $item['purchase_order_id']){
+                    throw new \Exception('匹配错误');
+                }
                 if($item['match_amount']){
                     $invoice = Invoice::with('paymentBatchInvoices')->findOrFail($item['id']);
                     $matched_amount = $invoice->paymentBatchInvoices->sum('amount'); //已关联金额

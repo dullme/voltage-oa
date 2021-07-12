@@ -86,6 +86,8 @@ class SalesOrderBatchController extends BaseController
         $form->text('no', __('DO 编号'))->required();
         $form->decimal('amount', __('总金额'))->icon('fa-dollar')->required();
         $form->date('delivery_at', __('发货时间'))->required();
+        $form->text('declaration_number',  __('报关单号'));
+        $form->file('file',  __('盖章的报关单'))->move('/declaration')->uniqueName();
         $form->text('comment', __('备注'));
 
         $form->saved(function (Form $form) {

@@ -73,7 +73,7 @@
 
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">发货顺序</h3>
+                <h3 class="box-title">发货序列</h3>
                 <div class="box-tools">
                     <a :href="'/admin/sales-order-batches/create?so_id='+this.salesOrder.id" class="btn btn-xs btn-success"><i class="fa fa-plus"></i></a>
                 </div>
@@ -84,10 +84,12 @@
                 <table class="table table-striped">
                     <tbody>
                     <tr>
-                        <th style="width: 10px">#</th>
+                        <th style="width: 60px">#</th>
                         <th>DO 编号</th>
                         <th>发货时间</th>
                         <th>批次金额</th>
+                        <th>报关单号</th>
+                        <th>盖章的报关单</th>
                         <th>备注</th>
                         <th>操作</th>
                     </tr>
@@ -97,11 +99,23 @@
                         <td>{{ item.no }}</td>
                         <td>{{ item.delivery_at }}</td>
                         <td>$ {{ item.amount }}</td>
+                        <td>{{ item.declaration_number }}</td>
+                        <td><a v-if="item.file" :href="'/uploads/'+item.file" target="_blank"><i class="fa fa-download"></i></a></td>
                         <td>{{ item.comment }}</td>
                         <td>
                             <a :href="'/admin/sales-order-batches/'+item.id+'/edit'" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
 <!--                            <button class="btn btn-xs btn-default" @click="invoice(item.id)"><i class="fa fa-ticket"></i></button>-->
                         </td>
+                    </tr>
+                    <tr>
+                        <td>合计：</td>
+                        <td></td>
+                        <td></td>
+                        <td>$ {{ salesOrder.total_sales_order_batches_amount }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     </tbody>
                 </table>
@@ -111,7 +125,7 @@
 
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">收款顺序</h3>
+                <h3 class="box-title">收款序列</h3>
                 <div class="box-tools">
                     <a :href="'/admin/receive-payment-batches/create?so_id='+this.salesOrder.id" class="btn btn-xs btn-success"><i class="fa fa-plus"></i></a>
                 </div>
@@ -122,7 +136,7 @@
                 <table class="table table-striped">
                     <tbody>
                     <tr>
-                        <th style="width: 10px">#</th>
+                        <th style="width: 60px">#</th>
                         <th>NO</th>
                         <th>收款时间</th>
                         <th>收款金额</th>
@@ -140,6 +154,15 @@
                             <a :href="'/admin/receive-payment-batches/'+item.id+'/edit'" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>
                             <!--                            <button class="btn btn-xs btn-default" @click="invoice(item.id)"><i class="fa fa-ticket"></i></button>-->
                         </td>
+                    </tr>
+
+                    <tr>
+                        <td>合计：</td>
+                        <td></td>
+                        <td></td>
+                        <td>$ {{ salesOrder.total_receive_payment_batches_amount }}</td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     </tbody>
                 </table>

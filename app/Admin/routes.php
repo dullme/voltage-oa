@@ -38,4 +38,6 @@ Route::group([
     $router->resource('delivery-batches', DeliveryBatchController::class);//交货批次
 
     $router->resource('clocks', ClockController::class);
+    $router->resource('customers', CustomerController::class);
+    $router->resource('receives', ReceiveController::class);
 });

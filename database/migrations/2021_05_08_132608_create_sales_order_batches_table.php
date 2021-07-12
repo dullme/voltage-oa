@@ -19,6 +19,8 @@ class CreateSalesOrderBatchesTable extends Migration
             $table->string('no')->comment('DO 编号');
             $table->decimal('amount',10, 2)->comment('发货总金额');
             $table->date('delivery_at')->comment('发货时间');
+            $table->string('declaration_number')->nullable()->comment('报关单号');
+            $table->string('file')->nullable()->comment('盖章的报关单');
             $table->string('comment')->nullable()->comment('备注');
             $table->timestamps();
         });

@@ -177,12 +177,24 @@ EOF
 
             return $item;
         });
+        $batches_matched_amount = bigNumber($receipt_batches->sum('matched_amount'))->getValue();
+        $batches_total_amount = bigNumber($receipt_batches->sum('amount'))->getValue();
 
         $payment_batches = $purchaseOrder->paymentBatches->map(function ($item) {
             $item['matched_amount'] = $item->paymentBatchInvoices->sum('amount');
 
             return $item;
         });
+
+        $payment_batches_total_amount = bigNumber($payment_batches->sum('amount'))->getValue();
+        $payment_batches_matched_total_amount = bigNumber($payment_batches->sum('matched_amount'))->getValue();
+
+        $purchaseOrder->setAttribute('batches_matched_amount', $batches_matched_amount);
+        $purchaseOrder->setAttribute('batches_unmatched_amount', bigNumber($batches_total_amount)->subtract($batches_matched_amount)->getValue());
+        $purchaseOrder->setAttribute('batches_total_amount', $batches_total_amount);
+        $purchaseOrder->setAttribute('payment_batches_total_amount', $payment_batches_total_amount);
+        $purchaseOrder->setAttribute('payment_batches_matched_total_amount', $payment_batches_matched_total_amount);
+        $purchaseOrder->setAttribute('payment_batches_unmatched_total_amount', bigNumber($payment_batches_total_amount)->subtract($payment_batches_matched_total_amount)->getValue());
 
         $purchaseOrder->setAttribute('receipt_batches', $receipt_batches);
         $purchaseOrder->setAttribute('payment_batches', $payment_batches);
