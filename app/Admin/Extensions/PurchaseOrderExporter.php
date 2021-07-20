@@ -89,7 +89,7 @@ class PurchaseOrderExporter extends ExcelExporter implements WithMapping, Should
     {
         $res = '';
         foreach ($deliveryBatches->toArray() as $key => $item){
-            $res.= (++$key) . '、' . $item['estimated_delivery'] . ' 【¥' . $item['comment']."】\r\n";
+            $res.= (++$key) . '、' . $item['estimated_delivery'] . ' 【' . $item['comment']."】\r\n";
         }
 
         return $res;
