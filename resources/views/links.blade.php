@@ -37,6 +37,7 @@
     <a class="links" href="http://pv20140610.synology.me:88/admin" target="_blank">Voltage OA</a>
     <a class="links" href="http://erp.voltage-llc.com" target="_blank">物流网站</a>
     <a class="links" href="https://pv20140610.synology.me:5001" target="_blank">Synology Drive</a>
+    <a class="links" href="https://outlook.office.com" target="_blank">Outlook</a>
 </div>
 
 </body>
