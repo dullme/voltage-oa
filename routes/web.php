@@ -18,5 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/clock', 'HomeController@clock');
+Route::get('/download', 'HomeController@downloadSoftware');
+Route::get('/links', 'HomeController@links');
 Route::get('/cn/signature', 'HomeController@cnSignature');
 Route::get('/en/signature', 'HomeController@enSignature');

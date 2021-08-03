@@ -14,6 +14,14 @@ class HomeController extends Controller
         return view('clock', compact('clocks'));
     }
 
+    public function downloadSoftware(){
+        return view('software');
+    }
+
+    public function links(){
+        return view('links');
+    }
+
     public function cnSignature()
     {
         return view('cn_signature');
