@@ -38,8 +38,11 @@
     </style>
 </head>
 <body>
+<div style="margin: 0 auto;text-align: center;padding: 80px">
+    <img src="{{ asset('images/logo.png') }}" width="300px"/>
+</div>
 <div style="width: 80%;margin: 0 auto;">
-    <div style="margin-top: 80px;margin-left:8px;font-size: 40px;color: #4b4b52">Links</div>
+    <div style="margin-top: 40px;margin-left:8px;font-size: 40px;color: #4b4b52">Links</div>
     <div style="display: flex;flex-wrap:wrap;">
         <a class="links" href="http://40.73.31.249:8080/Voltage" target="_blank">
             <img src="{{ asset('images/dynamic365.png') }}"/>
