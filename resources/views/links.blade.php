@@ -39,7 +39,7 @@
 </head>
 <body>
 <div style="margin: 0 auto;text-align: center;padding: 80px">
-    <img src="{{ asset('images/logo.png') }}" width="300px"/>
+    <img src="{{ asset('images/logo.png') }}" style="max-width:300px; width:100%"/>
 </div>
 <div style="width: 80%;margin: 0 auto;">
     <div style="margin-top: 40px;margin-left:8px;font-size: 40px;color: #4b4b52">Links</div>
