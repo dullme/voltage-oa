@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Voltage-Links</title>
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('css/nunito.css') }}?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <style>
@@ -18,11 +18,18 @@
         }
 
         .links {
-            background-color: #f5f5f6;
-            padding: 5px 10px;
+            padding: 8px 8px;
             border-radius: 4px;
-            margin-right: 10px;
-            margin-top: 10px;
+            margin-right: 25px;
+            margin-top: 25px;
+            display:flex;
+            align-items: center;
+        }
+
+        .links > img {
+            margin-right: 8px;
+            width: 52px;
+            height: 52px;
         }
 
         .links:hover{
@@ -31,14 +38,117 @@
     </style>
 </head>
 <body>
-<div style="margin: 0 auto;text-align: center;padding-top: 80px;font-size: 40px;color: #4b4b52">Links</div>
-<div style="width: 80%;display: flex;flex-wrap:wrap;margin: 10px auto;padding: 20px">
-    <a class="links" href="http://40.73.31.249:8080/Voltage" target="_blank">Dynamics 365 Business Central</a>
-    <a class="links" href="http://pv20140610.synology.me:88/admin" target="_blank">Voltage OA</a>
-    <a class="links" href="http://erp.voltage-llc.com" target="_blank">物流网站</a>
-    <a class="links" href="https://pv20140610.synology.me:5001" target="_blank">Synology Drive</a>
-    <a class="links" href="https://outlook.office.com" target="_blank">Outlook</a>
+<div style="width: 80%;margin: 0 auto;">
+    <div style="margin-top: 80px;margin-left:8px;font-size: 40px;color: #4b4b52">Links</div>
+    <div style="display: flex;flex-wrap:wrap;">
+        <a class="links" href="http://40.73.31.249:8080/Voltage" target="_blank">
+            <img src="{{ asset('images/dynamic365.png') }}"/>
+            Dynamics 365
+        </a>
+        <a class="links" href="http://pv20140610.synology.me:88/admin" target="_blank">
+            <img src="{{ asset('images/oa.png') }}"/>
+            Voltage OA
+        </a>
+        <a class="links" href="http://erp.voltage-llc.com" target="_blank">
+            <img src="{{ asset('images/erp.png') }}"/>
+            物流网站
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001" target="_blank">
+            <img src="{{ asset('images/drive.png') }}"/>
+            Synology Drive
+        </a>
+        <a class="links" href="https://outlook.office.com" target="_blank">
+            <img src="{{ asset('images/outlook.png') }}"/>
+            Outlook
+        </a>
+        <a class="links" href="{{ url('clock') }}" target="_blank">
+            <img src="{{ asset('images/clock.png') }}" />
+            世界时钟
+        </a>
+    </div>
 </div>
+
+
+<div style="width: 80%;margin: 0 auto;">
+    <div style="margin-top: 120px;margin-left:8px;font-size: 40px;color: #4b4b52">Download</div>
+    <div style="display: flex;flex-wrap:wrap;">
+        <a class="links" href="https://down.qq.com/qqweb/PCQQ/PCQQ_EXE/PCQQ2021.exe" target="_blank">
+            <img src="{{ asset('images/qq.png') }}"/>
+            QQ
+        </a>
+        <a class="links" href="https://dldir1.qq.com/weixin/Windows/WeChatSetup.exe" target="_blank">
+            <img src="{{ asset('images/wechat.png') }}"/>
+            微信
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/dVhWEZSLt" target="_blank">
+            <img src="{{ asset('images/dingtalk.png') }}"/>
+            钉钉
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/pK5Dit3fu" target="_blank">
+            <img src="{{ asset('images/office.png') }}"/>
+            Office 365
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/6SGFPqLDT" target="_blank">
+            <img src="{{ asset('images/teams.png') }}"/>
+            Microsoft Teams
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/RGdL32Zku" target="_blank">
+            <img src="{{ asset('images/chrome.png') }}"/>
+            Google Chrome
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/S5vSQ0PKJ" target="_blank">
+            <img src="{{ asset('images/drive.png') }}"/>
+            Synology Drive
+        </a>
+
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/58blRYr2Z" target="_blank">
+            <img src="{{ asset('images/raidrive.png') }}"/>
+            RaiDrive
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/ACrInX9bJ" target="_blank">
+            <img src="{{ asset('images/wps.png') }}"/>
+            WPS Office
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/XAEdxdTkb" target="_blank">
+            <img src="{{ asset('images/sougou.png') }}"/>
+            搜狗输入法
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/lUr9JXRSu" target="_blank">
+            <img src="{{ asset('images/winrar.png') }}"/>
+            WinRAR
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/MmSEGHwXE" target="_blank">
+            <img src="{{ asset('images/reader.png') }}"/>
+            Adobe Reader DC
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/3TY9MRrlG" target="_blank">
+            <img src="{{ asset('images/skype.png') }}"/>
+            Skype for business
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/2pxLelnXo" target="_blank">
+            <img src="{{ asset('images/c3120l.png') }}"/>
+            Canon iR C3120L
+        </a>
+
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/byHGDNiYI" target="_blank">
+            <img src="{{ asset('images/hp5200.png') }}"/>
+            HP LaserJet 5200
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/0I4z0idBE" target="_blank">
+            <img src="{{ asset('images/m118w.png') }}"/>
+            DocuPrint M118w
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/t0P8egsPJ" target="_blank">
+            <img src="{{ asset('images/brady.png') }}"/>
+            BRADY i7100
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/DMrA083Jk" target="_blank">
+            <img src="{{ asset('images/deli1515.png') }}"/>
+            Deli 15155
+        </a>
+    </div>
+</div>
+
 
 </body>
 </html>

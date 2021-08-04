@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Voltage-Software</title>
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('css/nunito.css') }}?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <style>
@@ -110,7 +110,14 @@
     <a href="https://pv20140610.synology.me:5001/sharing/MmSEGHwXE" target="_blank" title="https://www.adobe.com/cn/acrobat/pdf-reader.html">
         <div class="box">
             <div style="display: flex;align-items: center"><img src="{{ asset('/images/reader.png') }}"></div>
-            <div style="margin-left: 10px;display: flex;align-items: center">Adobe Acrobat Reader DC</div>
+            <div style="margin-left: 10px;display: flex;align-items: center">Adobe Reader DC</div>
+        </div>
+    </a>
+
+    <a href="https://pv20140610.synology.me:5001/sharing/3TY9MRrlG" target="_blank">
+        <div class="box">
+            <div style="display: flex;align-items: center"><img src="{{ asset('/images/skype.png') }}"></div>
+            <div style="margin-left: 10px;display: flex;align-items: center">Skype for business</div>
         </div>
     </a>
 
