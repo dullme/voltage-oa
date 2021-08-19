@@ -132,6 +132,19 @@
             <img src="{{ asset('images/skype.png') }}"/>
             Skype for business
         </a>
+
+
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/ULmRijOvt" target="_blank">
+            <img src="{{ asset('images/zzsfpkprj.png') }}"/>
+            增值税发票开票软件(税务UKey版)
+        </a>
+
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/C2CU1l2rg" target="_blank">
+            <img src="{{ asset('images/zgdzka.png') }}"/>
+            中国电子口岸控件
+        </a>
+
+
         <a class="links" href="https://pv20140610.synology.me:5001/sharing/2pxLelnXo" target="_blank">
             <img src="{{ asset('images/c3120l.png') }}"/>
             Canon iR C3120L
