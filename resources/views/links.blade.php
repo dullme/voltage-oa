@@ -83,7 +83,7 @@
             <img src="{{ asset('images/wechat.png') }}"/>
             微信
         </a>
-        <a class="links" href="https://pv20140610.synology.me:5001/sharing/dVhWEZSLt" target="_blank">
+        <a class="links" href="https://dtapp-pub.dingtalk.com/dingtalk-desktop/win_downloader/dingtalk_downloader.exe" target="_blank">
             <img src="{{ asset('images/dingtalk.png') }}"/>
             钉钉
         </a>
@@ -123,6 +123,10 @@
         <a class="links" href="https://pv20140610.synology.me:5001/sharing/MmSEGHwXE" target="_blank">
             <img src="{{ asset('images/reader.png') }}"/>
             Adobe Reader DC
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/oNvbegrPW" target="_blank">
+            <img src="{{ asset('images/reader.png') }}"/>
+            OFD 文件阅读器
         </a>
         <a class="links" href="https://pv20140610.synology.me:5001/sharing/3TY9MRrlG" target="_blank">
             <img src="{{ asset('images/skype.png') }}"/>
