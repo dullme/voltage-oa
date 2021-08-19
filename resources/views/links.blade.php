@@ -125,7 +125,7 @@
             Adobe Reader DC
         </a>
         <a class="links" href="https://pv20140610.synology.me:5001/sharing/oNvbegrPW" target="_blank">
-            <img src="{{ asset('images/reader.png') }}"/>
+            <img src="{{ asset('images/ofd.png') }}"/>
             OFD 文件阅读器
         </a>
         <a class="links" href="https://pv20140610.synology.me:5001/sharing/3TY9MRrlG" target="_blank">
