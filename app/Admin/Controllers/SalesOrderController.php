@@ -128,7 +128,7 @@ EOF
         $salesOder->setAttribute('days', Carbon::parse($salesOder->order_at)->diffInDays(Carbon::now(), false));
         $salesOder->setAttribute('total_sales_order_batches_amount', bigNumber($salesOder->salesOrderBatches->sum('amount'))->getValue());
         $salesOder->setAttribute('total_receive_payment_batches_amount', bigNumber($salesOder->receivePaymentBatches->sum('amount'))->getValue());
-        
+
         return view('admin.sales_order', compact('salesOder'));
     }
 
@@ -165,7 +165,7 @@ EOF
             ->updateRules(['required', "unique:sales_orders,no,{{id}}"]);
         $form->decimal('amount', __('总金额'))->icon('fa-dollar')->rules('nullable|gt:0');
         $form->date('order_at', __('下单时间'))->default(date('Y-m-d'));
-        $form->select('customer_id', __('客户 PO'))->options(Customer::pluck('name', 'id'));
+        $form->select('customer_id', __('客户'))->options(Customer::pluck('name', 'id'))->default(1);
         $form->text('customer_po', __('客户 PO'));
         $form->number('vendors_count', __('Vendors count'))->setDisplay(false);
         $form->multipleSelect('vendors', __('供应商'))->options(Vendor::pluck('name', 'id'));
