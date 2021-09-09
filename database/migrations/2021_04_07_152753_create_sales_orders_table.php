@@ -16,6 +16,7 @@ class CreateSalesOrdersTable extends Migration
         Schema::create('sales_orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('customer_id');
             $table->string('no')->unique()->comment('销售订单编号');
             $table->decimal('amount',10, 2)->comment('总金额');
             $table->date('order_at')->comment('下单时间');

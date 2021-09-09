@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Customer;
 use App\Models\PurchaseOrder;
 use Carbon\Carbon;
 use DB;
@@ -54,6 +55,7 @@ class SalesOrderController extends BaseController
         $grid->column('amount', __('销售总额（美元）'))->display(function ($amount){
             return is_null($amount) ? '-' : '$ '.$amount;
         });
+        $grid->customer()->name('客户');
         $grid->column('customer_po', __('客户PO'));
         $grid->purchaseOrders(__('采购订单'))->display(function ($purchases){
             $pos = collect($purchases)->pluck('po')->toArray();
@@ -97,7 +99,24 @@ class SalesOrderController extends BaseController
 EOF
         );
 
-        $salesOder = SalesOrder::with('salesOrderBatches', 'receivePaymentBatches')->findOrFail($id);
+        $salesOder = SalesOrder::with('salesOrderBatches.salesOrderBatchReceives', 'receivePaymentBatches.receivePaymentBatchReceives')->findOrFail($id);
+        $receivePaymentBatches = $salesOder->receivePaymentBatches->map(function ($item){
+            $item['matched_amount'] = bigNumber($item->receivePaymentBatchReceives->sum('amount'))->getValue();
+            $item['unmatched_amount'] = bigNumber($item['amount'])->subtract($item->receivePaymentBatchReceives->sum('amount'))->getValue();
+            $item['is_matched'] = $item['matched_amount'] == $item['amount'];
+            return $item;
+        });
+        $salesOder->setAttribute('receive_payment_batches', $receivePaymentBatches);
+
+        $salesOrderBatches = $salesOder->salesOrderBatches->map(function ($item){
+            $item['matched_amount'] = bigNumber($item->salesOrderBatchReceives->sum('amount'))->getValue();
+            $item['unmatched_amount'] = bigNumber($item['amount'])->subtract($item->salesOrderBatchReceives->sum('amount'))->getValue();
+            $item['is_matched'] = $item['matched_amount'] == $item['amount'];
+            return $item;
+        });
+        $salesOder->setAttribute('sales_order_batches', $salesOrderBatches);
+
+
         $shipped = bigNumber($salesOder->salesOrderBatches->sum('amount'))->getValue();//已发货总金额
         $received = bigNumber($salesOder->receivePaymentBatches->sum('amount'))->getValue();//已收款总金额
         $salesOder->setAttribute('shipped', $shipped);
@@ -109,7 +128,7 @@ EOF
         $salesOder->setAttribute('days', Carbon::parse($salesOder->order_at)->diffInDays(Carbon::now(), false));
         $salesOder->setAttribute('total_sales_order_batches_amount', bigNumber($salesOder->salesOrderBatches->sum('amount'))->getValue());
         $salesOder->setAttribute('total_receive_payment_batches_amount', bigNumber($salesOder->receivePaymentBatches->sum('amount'))->getValue());
-
+        
         return view('admin.sales_order', compact('salesOder'));
     }
 
@@ -146,6 +165,7 @@ EOF
             ->updateRules(['required', "unique:sales_orders,no,{{id}}"]);
         $form->decimal('amount', __('总金额'))->icon('fa-dollar')->rules('nullable|gt:0');
         $form->date('order_at', __('下单时间'))->default(date('Y-m-d'));
+        $form->select('customer_id', __('客户 PO'))->options(Customer::pluck('name', 'id'));
         $form->text('customer_po', __('客户 PO'));
         $form->number('vendors_count', __('Vendors count'))->setDisplay(false);
         $form->multipleSelect('vendors', __('供应商'))->options(Vendor::pluck('name', 'id'));

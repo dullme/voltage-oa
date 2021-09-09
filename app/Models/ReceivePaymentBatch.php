@@ -14,4 +14,9 @@ class ReceivePaymentBatch extends Model
     {
         return $this->belongsTo(SalesOrder::class);
     }
+
+    public function receivePaymentBatchReceives()
+    {
+        return $this->hasMany(ReceivePaymentBatchReceive::class);
+    }
 }

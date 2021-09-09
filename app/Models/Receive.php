@@ -14,4 +14,14 @@ class Receive extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function receivePaymentBatchReceives()
+    {
+        return $this->hasMany(ReceivePaymentBatchReceive::class);
+    }
+
+    public function salesOrderBatchReceives()
+    {
+        return $this->hasMany(SalesOrderBatchReceive::class);
+    }
 }

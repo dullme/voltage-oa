@@ -388,7 +388,7 @@ class InvoiceController extends ResponseController
         $invoice = Invoice::findOrFail($id);
 
         if($invoice->status == 1){
-            return admin_toastr('改发票已签收无法删除', 'error');
+            return admin_toastr('该发票已签收无法删除', 'error');
         }
 
         return $this->form()->destroy($id);

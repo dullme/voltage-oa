@@ -14,4 +14,9 @@ class SalesOrderBatch extends Model
     {
         return $this->belongsTo(SalesOrder::class);
     }
+
+    public function salesOrderBatchReceives()
+    {
+        return $this->hasMany(SalesOrderBatchReceive::class);
+    }
 }

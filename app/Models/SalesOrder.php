@@ -15,6 +15,11 @@ class SalesOrder extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
     public function purchaseOrders()
     {
         return $this->hasMany(PurchaseOrder::class);

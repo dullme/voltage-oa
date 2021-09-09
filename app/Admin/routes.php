@@ -40,4 +40,13 @@ Route::group([
     $router->resource('clocks', ClockController::class);
     $router->resource('customers', CustomerController::class);
     $router->resource('receives', ReceiveController::class);
+
+
+    $router->get('associated-receive/{id}', 'ReceiveController@associatedReceive');//关联水单
+    $router->post('associated-receive/{id}', 'ReceiveController@saveAssociatedReceive');//保存关联水单
+    $router->post('associated-receive/delete/{id}', 'ReceiveController@deleteAssociatedReceive');//撤销关联收款水单
+
+    $router->get('associated-receive/water-bill/{id}', 'ReceiveController@associatedWaterBill');//关联收款水单
+    $router->post('associated-receive/water-bill/{id}', 'ReceiveController@saveAssociatedWaterBill');//保存关联收款水单
+    $router->post('associated-receive/water-bill/delete/{id}', 'ReceiveController@deleteAssociatedWaterBill');//撤销关联收款水单
 });
