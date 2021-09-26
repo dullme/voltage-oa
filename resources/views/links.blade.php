@@ -58,7 +58,11 @@
         </a>
         <a class="links" href="https://pv20140610.synology.me:5001" target="_blank">
             <img src="{{ asset('images/drive.png') }}"/>
-            Synology Drive
+            普光公共盘
+        </a>
+        <a class="links" href="https://fute.synology.me:5001" target="_blank">
+            <img src="{{ asset('images/drive.png') }}"/>
+            伏特公共盘
         </a>
         <a class="links" href="https://outlook.office.com" target="_blank">
             <img src="{{ asset('images/outlook.png') }}"/>
@@ -74,7 +78,7 @@
 
 <div style="width: 80%;margin: 0 auto;">
     <div style="margin-top: 120px;margin-left:8px;font-size: 40px;color: #4b4b52">Download</div>
-    <div style="display: flex;flex-wrap:wrap;">
+    <div style="display: flex;flex-wrap:wrap;margin-bottom: 100px">
         <a class="links" href="https://down.qq.com/qqweb/PCQQ/PCQQ_EXE/PCQQ2021.exe" target="_blank">
             <img src="{{ asset('images/qq.png') }}"/>
             QQ
