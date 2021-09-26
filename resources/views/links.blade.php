@@ -99,7 +99,7 @@
             <img src="{{ asset('images/chrome.png') }}"/>
             Google Chrome
         </a>
-        <a class="links" href="https://pv20140610.synology.me:5001/sharing/S5vSQ0PKJ" target="_blank">
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/PV23Rxuwh" target="_blank">
             <img src="{{ asset('images/drive.png') }}"/>
             Synology Drive
         </a>
@@ -123,6 +123,10 @@
         <a class="links" href="https://pv20140610.synology.me:5001/sharing/MmSEGHwXE" target="_blank">
             <img src="{{ asset('images/reader.png') }}"/>
             Adobe Reader DC
+        </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/6SGFPqLDT" target="_blank">
+            <img src="{{ asset('images/teamviewer.png') }}"/>
+            TeamViewer
         </a>
         <a class="links" href="https://pv20140610.synology.me:5001/sharing/oNvbegrPW" target="_blank">
             <img src="{{ asset('images/ofd.png') }}"/>
