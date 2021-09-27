@@ -56,7 +56,36 @@ class PurchaseOrderController extends BaseController
                 'MV'       => 'MV',
                 'OTHER'    => 'OTHER',
             ]);
+
+            $filter->equal('is_received', '是否完成收货')->radio([
+                ''   => '不限',
+                0    => '未完成',
+                1    => '已完成',
+            ]);
+
+            $filter->equal('is_paid', '是否完成付款')->radio([
+                ''   => '不限',
+                0    => '未完成',
+                1    => '已完成',
+            ]);
         });
+
+        $grid->column('项目名称')->display(function () {
+            $url = url('/admin/projects/' . optional($this->project)->id);
+
+            return '<a href="' . $url . '"><p>' . optional($this->project)->name . '</p>' . optional($this->project)->no . '</a>';
+        })->width(200);
+
+        $grid->vendor()->name('供应商')->width(250);
+
+        $grid->column('type', __('类别'))->label([
+            'HARNESS'  => 'success',
+            'EXTENDER' => 'success',
+            'PV AL'    => 'danger',
+            'PV CU'    => 'danger',
+            'MV'       => 'warning',
+            'OTHER'    => 'info',
+        ])->width(100);
 
         $grid->column('po', __('采购单号'))->display(function ($po) {
             $url = url('/admin/purchase-orders/' . $this->id);
@@ -71,30 +100,24 @@ class PurchaseOrderController extends BaseController
             return "<a href='{$url}'>{$no}</a>";
         });
 
-        $grid->column('项目名称')->display(function () {
-            $url = url('/admin/projects/' . optional($this->project)->id);
-
-            return '<a href="' . $url . '"><p>' . optional($this->project)->name . '</p>' . optional($this->project)->no . '</a>';
-        });
-
-        $grid->column('type', __('类别'))->label([
-            'HARNESS'  => 'success',
-            'EXTENDER' => 'success',
-            'PV AL'    => 'danger',
-            'PV CU'    => 'danger',
-            'MV'       => 'warning',
-            'OTHER'    => 'info',
-        ]);
-
-        $grid->column('创建日期')->display(function () {
-            return optional(optional($this->salesOrder)->created_at)->toDateString();
-        })->width(81);
-
         $grid->column('order_at', __('下单时间'))->sortable()->width(90);
 
-        $grid->column('double_signed_at', __('双签时间'))->width(81);
         $grid->column('amount', __('订单总额'))->prefix('¥');
-        $grid->vendor()->name('供应商');
+        $grid->column('received_amount', __('已收货金额'))->display(function ($received_amount){
+            $text = '';
+            if($this->is_received){
+                $text = " <i class='fa fa-check-circle text-success'></i>";
+            }
+            return is_null($received_amount) ? '-' : '¥ '.$received_amount . $text;
+        });
+        $grid->column('paid_amount', __('已付款金额'))->display(function ($paid_amount){
+            $text = '';
+            if($this->is_paid){
+                $text = " <i class='fa fa-check-circle text-success'></i>";
+            }
+            return is_null($paid_amount) ? '-' : '¥ '.$paid_amount . $text;
+        });
+
 
 //        $grid->column('交货批次')->display(function (){
 //            return $this->receiptBatches->count();
@@ -151,6 +174,12 @@ class PurchaseOrderController extends BaseController
 
             return '<div style="display: flex;align-items: flex-end"><div data-toggle="tooltip" data-placement="top" data-original-title="收货进度" class="progress progress-striped active" style="min-width: 100px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-success" style="width: ' . $receipt_progress . '%"><span>' . $receipt_progress . '%</span></div></div></div> <div style="display: flex;align-items: flex-end"><div data-toggle="tooltip" data-placement="top" data-original-title="付款进度" class="progress progress-striped active" style="min-width: 100px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-warning" style="width: ' . $payment_progress . '%"><span>' . $payment_progress . '%</span></div></div></div>';
         });
+
+        $grid->column('创建日期')->display(function () {
+            return optional(optional($this->salesOrder)->created_at)->toDateString();
+        })->width(81);
+
+        $grid->column('double_signed_at', __('双签时间'))->width(81);
 
         return $grid;
     }
@@ -253,6 +282,13 @@ EOF
         $form->decimal('amount', __('订单总额'))->required();
         $form->date('order_at', __('下单日期'));
         $form->date('double_signed_at', __('获取双签合同时间'));
+        $form->hidden('is_received');
+        $form->hidden('is_paid');
+
+        $form->saving(function (Form $form) {
+            $form->is_received = $form->model()->received_amount >= $form->amount;
+            $form->is_paid = $form->model()->paid_amount >= $form->amount;
+        });
 
         $form->saved(function (Form $form) {
 

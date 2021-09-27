@@ -2,9 +2,9 @@
 
 namespace App\Admin\Controllers;
 
+use DB;
 use App\Models\PurchaseOrder;
 use App\Models\ReceiptBatch;
-use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
@@ -82,11 +82,51 @@ class ReceiptBatchController extends BaseController
         $form->date('receipt_at', __('实际交期'));
         $form->textarea('comment', __('备注'));
 
+        $form->saving(function (Form $form){
+            $purchaseOrder = PurchaseOrder::findOrfail($form->purchase_order_id);
+            if($form->isCreating()){
+                $purchaseOrder->received_amount = bigNumber($purchaseOrder->received_amount)->add($form->amount);
+            }elseif ($form->isEditing()){
+                $purchaseOrder->received_amount = bigNumber($purchaseOrder->received_amount)->subtract($form->model()->amount)->add($form->amount);
+            }
+
+            $purchaseOrder->is_received = $purchaseOrder->received_amount >= $purchaseOrder->amount;
+
+            $purchaseOrder->save();
+        });
+
         $form->saved(function (Form $form) {
             admin_toastr('批次添加成功！', 'success');
             return redirect('/admin/purchase-orders/'.$form->model()->purchase_order_id);
         });
 
         return $form;
+    }
+
+
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+            $receiptBatch = ReceiptBatch::with('receiptBatchInvoices')->findOrFail($id);
+            $receiptBatchInvoicesCount = $receiptBatch->receiptBatchInvoices->count();
+
+            if($receiptBatchInvoicesCount > 0){
+                throw new \Exception('该收货序列已匹配发票无法删除');
+            }
+
+            $purchaseOrder = PurchaseOrder::findOrFail($receiptBatch->purchase_order_id);
+            $purchaseOrder->received_amount = bigNumber($purchaseOrder->received_amount)->subtract($receiptBatch->amount);
+            $purchaseOrder->is_received = $purchaseOrder->received_amount >= $purchaseOrder->amount;
+            $purchaseOrder->save();
+
+            $this->form()->destroy($id);
+            DB::commit();
+
+            return true;
+        } catch (\Exception $e){
+            DB::rollback();
+            return admin_toastr($e->getMessage(), 'error');
+        }
     }
 }

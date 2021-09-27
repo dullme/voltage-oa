@@ -39,6 +39,7 @@ class SalesOrderController extends BaseController
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
             $filter->like('no', '销售编号');
+            $filter->between('order_at', '下单时间')->date();
             $filter->equal('is_shipment', '是否已完成发货')->radio([
                 ''   => '不限',
                 0    => '未完成',

@@ -15,23 +15,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    $a = \App\Models\SalesOrder::with('salesOrderBatches', 'receivePaymentBatches')->get();
+    $a = \App\Models\PurchaseOrder::with('receiptBatches', 'paymentBatches')->get();
     $res = $a->map(function ($item){
-        $salesOrder = \App\Models\SalesOrder::find($item->id);
-        $shipment_amount = $item->salesOrderBatches->sum('amount');
-        $received_amount = $item->receivePaymentBatches->sum('amount');
-        $salesOrder->shipment_amount = $shipment_amount;
-        $salesOrder->received_amount = $received_amount;
+        $purchaseOrder = \App\Models\PurchaseOrder::find($item->id);
+        $receiptBatches = $item->receiptBatches->sum('amount');
+        $paymentBatches = $item->paymentBatches->sum('amount');
+        $purchaseOrder->received_amount = $receiptBatches;
+        $purchaseOrder->paid_amount = $paymentBatches;
 
-        if($salesOrder->amount == 0){
-            $salesOrder->is_shipment = false;
-            $salesOrder->is_received = false;
+        if($purchaseOrder->amount == 0){
+            $purchaseOrder->is_received = false;
+            $purchaseOrder->is_paid = false;
         }else{
-            $salesOrder->is_shipment = $shipment_amount >= $salesOrder->amount;
-            $salesOrder->is_received = $received_amount >= $salesOrder->amount;
+            $purchaseOrder->is_received = $receiptBatches >= $purchaseOrder->amount;
+            $purchaseOrder->is_paid = $paymentBatches >= $purchaseOrder->amount;
         }
-        
-        $salesOrder->save();
+
+        $purchaseOrder->save();
 
         return $item;
     });

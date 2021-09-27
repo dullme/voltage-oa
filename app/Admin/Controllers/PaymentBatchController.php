@@ -2,9 +2,10 @@
 
 namespace App\Admin\Controllers;
 
+use DB;
 use App\Models\PaymentBatch;
 use App\Models\PurchaseOrder;
-use Encore\Admin\Controllers\AdminController;
+use App\Models\ReceiptBatch;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
@@ -82,6 +83,19 @@ class PaymentBatchController extends BaseController
         $form->date('payment_at', __('付款时间'))->required();
         $form->textarea('comment', __('备注'));
 
+        $form->saving(function (Form $form){
+            $purchaseOrder = PurchaseOrder::findOrfail($form->purchase_order_id);
+            if($form->isCreating()){
+                $purchaseOrder->paid_amount = bigNumber($purchaseOrder->paid_amount)->add($form->amount);
+            }elseif ($form->isEditing()){
+                $purchaseOrder->paid_amount = bigNumber($purchaseOrder->paid_amount)->subtract($form->model()->amount)->add($form->amount);
+            }
+
+            $purchaseOrder->is_paid = $purchaseOrder->paid_amount >= $purchaseOrder->amount;
+
+            $purchaseOrder->save();
+        });
+
         $form->saved(function (Form $form) {
             admin_toastr('批次添加成功！', 'success');
             return redirect('/admin/purchase-orders/'.$form->model()->purchase_order_id);
@@ -89,5 +103,32 @@ class PaymentBatchController extends BaseController
 
         return $form;
 
+    }
+
+
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+            $paymentBatch = PaymentBatch::with('paymentBatchInvoices')->findOrFail($id);
+            $paymentBatchInvoicesCount = $paymentBatch->paymentBatchInvoices->count();
+
+            if($paymentBatchInvoicesCount > 0){
+                throw new \Exception('该付款序列已匹配发票无法删除');
+            }
+
+            $purchaseOrder = PurchaseOrder::findOrFail($paymentBatch->purchase_order_id);
+            $purchaseOrder->paid_amount = bigNumber($purchaseOrder->paid_amount)->subtract($paymentBatch->amount);
+            $purchaseOrder->is_paid = $purchaseOrder->paid_amount >= $purchaseOrder->amount;
+            $purchaseOrder->save();
+
+            $this->form()->destroy($id);
+            DB::commit();
+
+            return true;
+        } catch (\Exception $e){
+            DB::rollback();
+            return admin_toastr($e->getMessage(), 'error');
+        }
     }
 }
