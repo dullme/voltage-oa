@@ -2,9 +2,10 @@
 
 namespace App\Admin\Controllers;
 
+use DB;
 use App\Models\ReceivePaymentBatch;
 use App\Models\SalesOrder;
-use Encore\Admin\Controllers\AdminController;
+use App\Models\SalesOrderBatch;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
@@ -87,11 +88,50 @@ class ReceivePaymentBatchController extends BaseController
         $form->date('receive_payment_at', __('收款时间'))->required();
         $form->text('comment', __('备注'));
 
+
+        $form->saving(function (Form $form){
+            if($form->isCreating()){
+                $salesOrder = SalesOrder::findOrfail($form->sales_order_id);
+                $salesOrder->received_amount = bigNumber($salesOrder->received_amount)->add($form->amount);
+            }elseif ($form->isEditing()){
+                $salesOrder = SalesOrder::findOrfail($form->sales_order_id);
+                $salesOrder->received_amount = bigNumber($salesOrder->received_amount)->subtract($form->model()->amount)->add($form->amount);
+            }
+            $salesOrder->is_received = $salesOrder->received_amount >= $salesOrder->amount;
+            $salesOrder->save();
+        });
+
         $form->saved(function (Form $form) {
             admin_toastr('收款记录添加成功！', 'success');
             return redirect('/admin/sales-orders/'.$form->model()->sales_order_id);
         });
 
         return $form;
+    }
+
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+            $receivePaymentBatch = ReceivePaymentBatch::with('receivePaymentBatchReceives')->findOrFail($id);
+            $receivePaymentBatchReceivesCount = $receivePaymentBatch->receivePaymentBatchReceives->count();
+
+            if($receivePaymentBatchReceivesCount > 0){
+                throw new \Exception('收款序列已匹配水单无法删除');
+            }
+
+            $salesOrder = SalesOrder::findOrFail($receivePaymentBatch->sales_order_id);
+            $salesOrder->received_amount = bigNumber($salesOrder->received_amount)->subtract($receivePaymentBatch->amount);
+            $salesOrder->is_received = $salesOrder->received_amount >= $salesOrder->amount;
+            $salesOrder->save();
+
+            $this->form()->destroy($id);
+            DB::commit();
+
+            return re;
+        } catch (\Exception $e){
+            DB::rollback();
+            return admin_toastr($e->getMessage(), 'error');
+        }
     }
 }

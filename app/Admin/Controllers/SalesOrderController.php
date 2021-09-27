@@ -39,33 +39,68 @@ class SalesOrderController extends BaseController
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
             $filter->like('no', '销售编号');
-        });
+            $filter->equal('is_shipment', '是否已完成发货')->radio([
+                ''   => '不限',
+                0    => '未完成',
+                1    => '已完成',
+            ]);
 
-        $grid->column('no', __('销售编号'))->display(function ($no){
-            $url = url('/admin/sales-orders/'.$this->id);
-            return "<a href='{$url}'>{$no}</a>";
+            $filter->equal('is_received', '是否已完成收款')->radio([
+                ''   => '不限',
+                0    => '未完成',
+                1    => '已完成',
+            ]);
+
         });
 
         $grid->project()->name('项目名称')->display(function ($name){
             $url = url('/admin/projects/'.optional($this->project)->id);
             $no = optional($this->project)->no;
             return "<a href='{$url}'>{$no}【{$name}】</a>";
+        })->width(300);
+
+        $grid->customer()->name('客户');
+
+        $grid->column('no', __('销售编号'))->display(function ($no){
+            $url = url('/admin/sales-orders/'.$this->id);
+            return "<a href='{$url}'>{$no}</a>";
         });
+
+        $grid->column('order_at', __('下单时间'));
+
+
 
         $grid->column('amount', __('销售总额（美元）'))->display(function ($amount){
             return is_null($amount) ? '-' : '$ '.$amount;
         });
-        $grid->customer()->name('客户');
-        $grid->column('customer_po', __('客户PO'));
-        $grid->purchaseOrders(__('采购订单'))->display(function ($purchases){
-            $pos = collect($purchases)->pluck('po')->toArray();
-            $res = '';
-            foreach ($pos as $key => $po){
-                $res .= "<p>{$po}</p>";
 
+
+        $grid->column('shipment_amount', __('已发货总金额'))->display(function ($shipment_amount){
+            $text = '';
+            if($this->is_shipment){
+                $text = " <i class='fa fa-check-circle text-success'></i>";
             }
-            return $res;
+            return is_null($shipment_amount) ? '-' : '$ '.$shipment_amount . $text;
         });
+
+        $grid->column('received_amount', __('已收款金额'))->display(function ($received_amount){
+            $text = '';
+            if($this->is_received){
+                $text = " <i class='fa fa-check-circle text-success'></i>";
+            }
+            return is_null($received_amount) ? '-' : '$ '.$received_amount . $text;
+        });
+
+//        $grid->column('customer_po', __('客户PO'));
+//        $grid->purchaseOrders(__('采购订单'))->display(function ($purchases){
+//            $pos = collect($purchases)->pluck('po')->toArray();
+//            $res = '';
+//            foreach ($pos as $key => $po){
+//                $res .= "<p>{$po}</p>";
+//
+//            }
+//            return $res;
+//        });
 
         $grid->column('progress', __('进度'))->display(function (){
             $order_progress = getOrderProgress($this->vendors, $this->purchaseOrders->pluck('vendor_id')->toArray()); //下单进度
@@ -78,8 +113,6 @@ class SalesOrderController extends BaseController
 
             return '<div style="display: flex;align-items: flex-end"><span>下单进度：</span><div class="progress progress-striped active" style="min-width: 200px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-primary" style="width: '.$order_progress.'%"><span>'.$order_progress.'%</span></div></div></div> <div style="display: flex;align-items: flex-end"><span>发货进度：</span><div class="progress progress-striped active" style="min-width: 200px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-success" style="width: '.$shipped_progress.'%"><span>'.$shipped_progress.'%</span></div></div></div> <div style="display: flex;align-items: flex-end"><span>收款进度：</span><div class="progress progress-striped active" style="min-width: 200px;margin-bottom:unset;border-radius: .25em"><div class="progress-bar progress-bar-warning" style="width: '.$received_progress.'%"><span>'.$received_progress.'%</span></div></div></div>';
         });
-
-        $grid->column('order_at', __('下单时间'));
 
         return $grid;
     }
@@ -170,9 +203,14 @@ EOF
         $form->number('vendors_count', __('Vendors count'))->setDisplay(false);
         $form->multipleSelect('vendors', __('供应商'))->options(Vendor::pluck('name', 'id'));
 
+        $form->hidden('is_shipment');
+        $form->hidden('is_received');
+
         $form->saving(function (Form $form) {
             $vendors = collect($form->vendors)->whereNotNull();
             $form->vendors_count = $vendors->count();
+            $form->is_shipment = $form->model()->shipment_amount >= $form->amount;
+            $form->is_received = $form->model()->received_amount >= $form->amount;
         });
 
         $form->saved(function (Form $form) {
