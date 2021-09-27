@@ -14,28 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
-    $a = \App\Models\PurchaseOrder::with('receiptBatches', 'paymentBatches')->get();
-    $res = $a->map(function ($item){
-        $purchaseOrder = \App\Models\PurchaseOrder::find($item->id);
-        $receiptBatches = $item->receiptBatches->sum('amount');
-        $paymentBatches = $item->paymentBatches->sum('amount');
-        $purchaseOrder->received_amount = $receiptBatches;
-        $purchaseOrder->paid_amount = $paymentBatches;
-
-        if($purchaseOrder->amount == 0){
-            $purchaseOrder->is_received = false;
-            $purchaseOrder->is_paid = false;
-        }else{
-            $purchaseOrder->is_received = $receiptBatches >= $purchaseOrder->amount;
-            $purchaseOrder->is_paid = $paymentBatches >= $purchaseOrder->amount;
-        }
-
-        $purchaseOrder->save();
-
-        return $item;
-    });
-
     return view('links');
 });
 
