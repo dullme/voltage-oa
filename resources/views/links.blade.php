@@ -128,7 +128,7 @@
             <img src="{{ asset('images/reader.png') }}"/>
             Adobe Reader DC
         </a>
-        <a class="links" href="https://pv20140610.synology.me:5001/sharing/6SGFPqLDT" target="_blank">
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/UzRZuhRJ3" target="_blank">
             <img src="{{ asset('images/teamviewer.png') }}"/>
             TeamViewer
         </a>
