@@ -85,9 +85,9 @@ class ReceiptBatchController extends BaseController
         $form->saving(function (Form $form){
             $purchaseOrder = PurchaseOrder::findOrfail($form->purchase_order_id);
             if($form->isCreating()){
-                $purchaseOrder->received_amount = bigNumber($purchaseOrder->received_amount)->add($form->amount);
+                $purchaseOrder->received_amount = bigNumber($purchaseOrder->received_amount)->add(is_null($form->amount) ? 0 : $form->amount);
             }elseif ($form->isEditing()){
-                $purchaseOrder->received_amount = bigNumber($purchaseOrder->received_amount)->subtract($form->model()->amount)->add($form->amount);
+                $purchaseOrder->received_amount = bigNumber($purchaseOrder->received_amount)->subtract(is_null($form->model()->amount) ? 0 : $form->model()->amount)->add(is_null($form->amount) ? 0 : $form->amount);
             }
 
             $purchaseOrder->is_received = $purchaseOrder->received_amount >= $purchaseOrder->amount;
