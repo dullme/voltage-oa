@@ -78,7 +78,7 @@ class ReceiptBatchController extends BaseController
             $form->select('purchase_order_id', __('采购单号'))->options(PurchaseOrder::pluck('po', 'id'));
         }
 
-        $form->decimal('amount', __('金额'));
+        $form->decimal('amount', __('金额'))->required();
         $form->date('receipt_at', __('实际交期'));
         $form->textarea('comment', __('备注'));
 
