@@ -119,9 +119,9 @@ class InvoiceController extends ResponseController
             $query->with('project', 'salesOrder');
         }])->findOrFail($id);
 
-        $invoices = Invoice::where('purchase_order_id', $invoice->purchase_order_id)->get();
+        $invoices = Invoice::where('purchase_order_id', $invoice->purchase_order_id)->orderBy('serial', 'ASC')->get();
         $invoice_total_amount = $invoices->sum('amount');
-        $invoices = $invoices->groupBy('serial')->sort();
+        $invoices = $invoices->groupBy('serial');
 
         return view('admin/invoice', compact('invoice', 'invoices', 'invoice_total_amount'));
     }

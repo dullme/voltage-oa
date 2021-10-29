@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "20e733447adf1b1a3b5bbf1258e21a2a",
+    "content-hash": "7c6a39dc48305447a3b65e188f808288",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -273,6 +273,69 @@
                 }
             ],
             "time": "2021-01-20T22:51:39+00:00"
+        },
+        {
+            "name": "cyd622/laravel-admin-ext-echarts",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cyd622/laravel-admin-ext-echarts.git",
+                "reference": "4311388d499a9f1c68f5c645a6e9352f36fa6e92"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cyd622/laravel-admin-ext-echarts/zipball/4311388d499a9f1c68f5c645a6e9352f36fa6e92",
+                "reference": "4311388d499a9f1c68f5c645a6e9352f36fa6e92",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\Admin\\Widgets\\Echarts\\EchartsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\Admin\\Widgets\\Echarts\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "cyd622",
+                    "email": "luffywang622@gmail.com"
+                }
+            ],
+            "description": "Use Echarts in laravel-admin",
+            "homepage": "https://github.com/cyd622/laravel-admin-ext-echarts",
+            "keywords": [
+                "echarts",
+                "extension",
+                "laravel-admin"
+            ],
+            "support": {
+                "issues": "https://github.com/cyd622/laravel-admin-ext-echarts/issues",
+                "source": "https://github.com/cyd622/laravel-admin-ext-echarts/tree/v1.0.1"
+            },
+            "time": "2019-04-10T08:24:24+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -7442,67 +7505,6 @@
             "time": "2020-07-09T08:09:16+00:00"
         },
         {
-            "name": "laravel-admin-ext/grid-lightbox",
-            "version": "v1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel-admin-extensions/grid-lightbox.git",
-                "reference": "f8a247f0d017eb05830cc720fb621401b1bfbc2c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/grid-lightbox/zipball/f8a247f0d017eb05830cc720fb621401b1bfbc2c",
-                "reference": "f8a247f0d017eb05830cc720fb621401b1bfbc2c",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "encore/laravel-admin": "~1.6",
-                "php": ">=7.0.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~6.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Encore\\Grid\\Lightbox\\LightboxServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Encore\\Grid\\Lightbox\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "song",
-                    "email": "zosong@126.com"
-                }
-            ],
-            "description": "Turn your grid into a lightbox & gallery",
-            "homepage": "https://github.com/laravel-admin-ext/grid-lightbox",
-            "keywords": [
-                "extension",
-                "gallery",
-                "grid",
-                "laravel-admin",
-                "lightbox"
-            ],
-            "time": "2019-10-11T06:38:51+00:00"
-        },
-        {
             "name": "laravel/sail",
             "version": "v1.4.9",
             "source": {
@@ -9627,5 +9629,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.1.0"
 }
