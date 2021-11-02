@@ -22,3 +22,5 @@ Route::get('/download', 'HomeController@downloadSoftware');
 Route::get('/links', 'HomeController@links');
 Route::get('/cn/signature', 'HomeController@cnSignature');
 Route::get('/en/signature', 'HomeController@enSignature');
+Route::get('/create/no', 'HomeController@OrderNo');
+Route::get('/create-no', 'HomeController@OrderNoCreate');

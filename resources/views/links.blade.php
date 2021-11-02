@@ -72,6 +72,10 @@
             <img src="{{ asset('images/clock.png') }}" />
             世界时钟
         </a>
+        <a class="links" href="{{ url('create/no') }}" target="_blank">
+            <img src="{{ asset('images/no.png') }}" />
+            伏特编号生成器
+        </a>
     </div>
 </div>
 
