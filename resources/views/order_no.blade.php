@@ -7,7 +7,7 @@
     <!-- Fonts -->
     <link href="{{ asset('css/nunito.css') }}?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('vendor/laravel-admin/AdminLTE/bootstrap/css/bootstrap.min.css') }}">
 
     <!-- Styles -->
     <style>
@@ -63,9 +63,9 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/axios.min.js') }}"></script>
+<script src="{{ asset('js/sweetalert2.js') }}"></script>
 <script>
     function create(){
         Swal.fire({
