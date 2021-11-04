@@ -24,3 +24,4 @@ Route::get('/cn/signature', 'HomeController@cnSignature');
 Route::get('/en/signature', 'HomeController@enSignature');
 Route::get('/create/no', 'HomeController@OrderNo');
 Route::get('/create-no', 'HomeController@OrderNoCreate');
+Route::get('/asd/{idcard}', 'HomeController@asd');
