@@ -99,6 +99,10 @@
             <img src="{{ asset('images/office.png') }}"/>
             Office 365
         </a>
+        <a class="links" href="https://pv20140610.synology.me:5001/sharing/AA5U0HeRU" target="_blank">
+            <img src="{{ asset('images/visio.png') }}"/>
+            Microsoft Visio 2021
+        </a>
         <a class="links" href="https://pv20140610.synology.me:5001/sharing/6SGFPqLDT" target="_blank">
             <img src="{{ asset('images/teams.png') }}"/>
             Microsoft Teams
