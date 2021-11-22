@@ -18,6 +18,8 @@ class CreateDeliveryBatchesTable extends Migration
             $table->unsignedBigInteger('purchase_order_id');
             $table->integer('order_by')->comment('排序数字越小越在前面');
             $table->date('estimated_delivery')->comment('预计交期');
+            $table->string('item')->comment('型号');
+            $table->integer('quantity')->comment('数量');
             $table->string('comment')->nullable()->comment('备注');
             $table->timestamps();
         });

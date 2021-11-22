@@ -91,12 +91,16 @@
                             <tr>
                                 <th style="width: 60px">#</th>
                                 <th>预计交期</th>
+                                <th>型号</th>
+                                <th>数量</th>
                                 <th>备注</th>
                                 <th>操作</th>
                             </tr>
                             <tr v-for="(item,key) in purchaseOrder.delivery_batches">
                                 <td>{{ ++key }}</td>
                                 <td><span data-toggle="tooltip" data-placement="top" :data-original-title="'排序编号'+item.order_by">{{ item.estimated_delivery }}</span></td>
+                                <td>{{ item.item }}</td>
+                                <td>{{ item.quantity }}</td>
                                 <td>{{ item.comment }}</td>
                                 <td>
                                     <a :href="'/admin/delivery-batches/'+item.id+'/edit'" class="btn btn-xs btn-default" ><i class="fa fa-edit"></i></a>

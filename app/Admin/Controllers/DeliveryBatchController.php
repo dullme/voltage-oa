@@ -74,7 +74,10 @@ class DeliveryBatchController extends AdminController
 
         $form->date('estimated_delivery', __('预计交期'))->required();
         $form->number('order_by', __('排序'))->required();
+        $form->text('item', __('型号'));
+        $form->number('quantity', __('数量'));
         $form->textarea('comment', __('备注'));
+
 
         $form->saved(function (Form $form) {
             admin_toastr('交货批次添加成功！', 'success');
