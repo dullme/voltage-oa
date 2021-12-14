@@ -102,7 +102,10 @@ class InvoiceController extends ResponseController
         ]);
 
 
-//        $grid->column('created_at', __('创建时间'));
+        $grid->column('print', __('打印'))->display(function (){
+            $url = url('/admin/print/invoices/'.$this->id);
+            return '<a href="'.$url.'" target="_blank"><i class="fa fa-print"></i></a>';
+        });
 
         return $grid;
     }
@@ -154,7 +157,13 @@ class InvoiceController extends ResponseController
     {
         $form = new Form(new Invoice());
         $form->select('admin_users_id', __('制单人'))->options(\Illuminate\Support\Facades\DB::table('admin_users')->pluck('name', 'id'))->required();
-        $form->select('purchase_order_id', __('工厂PO'))->options(PurchaseOrder::pluck('po', 'id'))->required();
+
+        $po = PurchaseOrder::with('project')->get()->map(function ($item){
+            $item['po'] = '【'.$item['project']['name'].'】'.$item['po'];
+            return $item;
+        });
+
+        $form->select('purchase_order_id', __('工厂PO'))->options($po->pluck('po', 'id'))->required();
         $form->hidden('vendor_id');
         $form->number('serial', __('序号'))->rules('required|numeric|min:0|max:100')->default('');
         $form->text('title', __('标题'));
