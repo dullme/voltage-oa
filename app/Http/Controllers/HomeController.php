@@ -37,7 +37,7 @@ class HomeController extends Controller
 
     public function OrderNo()
     {
-        $order_nos = OrderNoCreate::orderBy('created_at', 'DESC')->get();
+        $order_nos = OrderNoCreate::orderBy('created_at', 'DESC')->paginate(10);
 
         return view('order_no', compact('order_nos'));
     }

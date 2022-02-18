@@ -60,6 +60,10 @@
             @endforeach
         </div>
 
+        <div class="paginate">
+            {{ $order_nos->links('vendor.pagination.bootstrap-4') }}
+        </div>
+
     </div>
 </div>
 
