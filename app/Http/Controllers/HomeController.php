@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
 
+    public function random()
+    {
+        return view('random');
+    }
+
     public function clock()
     {
         $clocks = Clock::where('star', true)->get();

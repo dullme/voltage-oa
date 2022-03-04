@@ -76,6 +76,11 @@
             <img src="{{ asset('images/no.png') }}" />
             伏特编号生成器
         </a>
+
+        <a class="links" href="{{ url('random') }}" target="_blank">
+            <img src="{{ asset('images/kaifanla.png') }}" />
+            开饭啦
+        </a>
     </div>
 </div>
 
