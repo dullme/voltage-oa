@@ -1,5 +1,20 @@
 <?php
 
+function int2Excel($num)
+{
+    $az = 26;
+    $m = (int)($num % $az);
+
+    $q = (int)($num / $az);
+
+    $letter = chr(ord('A') + $m);
+
+    if ($q > 0) {
+        return int2Excel($q - 1) . $letter;
+    }
+    return $letter;
+}
+
 /**
  * 默认的精度为小数点后两位
  * @param $number
