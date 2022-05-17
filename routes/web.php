@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('PTL Extender标签 IFC - V4 04252022(inch).xlsx'));
-//    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\WhipTemplateImport(), public_path('PTL Whip标签 IFC - V3 04252022(inch).xlsx'));
+//    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('BWR Extender 标签 - V2 03252022.xlsx'));
+    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\WhipTemplateImport(), public_path('BWR Whip 标签 - V2 03252022.xlsx'));
 
     return view('links');
 });

@@ -117,7 +117,7 @@ class WhipTemplateImport implements ToCollection,WithEvents
                         $splittedItemList[] = $itemList;
                     }else{
                         $splittedItemList[] = $itemList.'-Pos';
-                        $splittedItemList[] = $itemList.'-Nos';
+                        $splittedItemList[] = $itemList.'-Neg';
                     }
                 }
 

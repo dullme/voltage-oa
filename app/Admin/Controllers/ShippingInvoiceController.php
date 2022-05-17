@@ -62,7 +62,7 @@ class ShippingInvoiceController extends BaseController
     {
         $shipping_invoice = ShippingInvoice::with('project', 'adminUser')->findOrFail($id);
 
-        $shipping_invoices = ShippingInvoice::where('b_l', $shipping_invoice->b_l)->get();
+        $shipping_invoices = ShippingInvoice::where('b_l', $shipping_invoice->b_l)->where('shipping', $shipping_invoice->shipping)->get();
 
         $orders = PurchaseOrder::with('salesOrder')->whereIn('id', collect($shipping_invoice->detail)->pluck('po'))->get();
 
@@ -76,7 +76,7 @@ class ShippingInvoiceController extends BaseController
     {
         $shipping_invoice = ShippingInvoice::with('project')->findOrFail($id);
 
-        $shipping_invoices = ShippingInvoice::where('b_l', $shipping_invoice->b_l)->get();
+        $shipping_invoices = ShippingInvoice::where('b_l', $shipping_invoice->b_l)->where('shipping', $shipping_invoice->shipping)->get();
 
         $orders = PurchaseOrder::with('salesOrder')->whereIn('id', collect($shipping_invoice->detail)->pluck('po'))->get();
 
