@@ -44,10 +44,16 @@
 <div style="width: 80%;margin: 0 auto;">
     <div style="margin-top: 40px;margin-left:8px;font-size: 40px;color: #4b4b52">Links</div>
     <div style="display: flex;flex-wrap:wrap;">
-        <a class="links" href="http://40.73.31.249:8080/BC190" target="_blank">
+        <a class="links" href="http://40.73.31.249:8080/VOLTAGE" target="_blank">
             <img src="{{ asset('images/dynamic365.png') }}"/>
             Dynamics 365
         </a>
+
+        <a class="links" href="http://dynamic-shadow.voltage-llc.com" target="_blank">
+            <img src="{{ asset('images/dynamic-shadow.png') }}"/>
+            Dynamics Shadow
+        </a>
+
         <a class="links" href="http://pv20140610.synology.me:88/admin" target="_blank">
             <img src="{{ asset('images/oa.png') }}"/>
             Voltage OA
