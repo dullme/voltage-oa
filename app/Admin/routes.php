@@ -49,4 +49,7 @@ Route::group([
     $router->get('associated-receive/water-bill/{id}', 'ReceiveController@associatedWaterBill');//关联收款水单
     $router->post('associated-receive/water-bill/{id}', 'ReceiveController@saveAssociatedWaterBill');//保存关联收款水单
     $router->post('associated-receive/water-bill/delete/{id}', 'ReceiveController@deleteAssociatedWaterBill');//撤销关联收款水单
+
+    $router->resource('test-models', TestModelController::class);
+    $router->resource('entry-summary-lines', EntrySummaryLineController::class);
 });

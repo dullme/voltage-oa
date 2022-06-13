@@ -12,3 +12,10 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/storage/app/2018
+/storage/app/2019
+/storage/app/2020
+/storage/app/2021
+/storage/app/2022
+/storage/framework
+public/files
