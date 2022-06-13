@@ -36,11 +36,12 @@ class TestModelController extends AdminController
 //        $grid->column('path', __('Path'));
         $grid->column('buu', __('Buu'))->sortable();
         $grid->column('matched', __('matched'))->sortable();
-        $grid->column('line_goods_value_amount', __('line_goods_value_amount'))->sortable();
-        $grid->column('line_duty_amount', __('line_duty_amount'))->sortable();
-        $grid->column('line_mpf_amount', __('line_mpf_amount'))->sortable();
-        $grid->column('line_hmf_amount', __('line_hmf_amount'))->sortable();
-        $grid->column('remarks', __('Remarks'));
+//        $grid->column('line_goods_value_amount', __('line_goods_value_amount'))->sortable();
+//        $grid->column('line_duty_amount', __('line_duty_amount'))->sortable();
+//        $grid->column('line_mpf_amount', __('line_mpf_amount'))->sortable();
+//        $grid->column('line_hmf_amount', __('line_hmf_amount'))->sortable();
+//        $grid->column('remarks', __('Remarks'));
+        $grid->column('details', __('Details'))->view('content');
         $grid->column('image', __('Image'))->display(function (){
             $data = [];
             for ($i=1; $i>=1; $i++){
@@ -53,7 +54,7 @@ class TestModelController extends AdminController
             }
 
             return $data;
-        })->image('', '', 1000);
+        })->lightbox();
 //        $grid->column('pdf', __('PDF'))->display(function (){
 //            $url = asset('files/'.$this->path);
 //            return "<iframe src='{$url}' width='800' height='800'></iframe>";
