@@ -15,15 +15,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-//    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('AMD Extender - V1 05242022.xlsx'));
-//    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\WhipTemplateImport(), public_path('BFP Whip标签 IFC - V3 05302022.xlsx'));
+//    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('EVR Extender标签 90% V2 04292022 - rev1.xlsx'));
+    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\WhipTemplateImport(), public_path('EVR Whip标签 90% V2 04292022 - rev1.xlsx'));
 
-//
-//    $etsl = \App\Models\EntrySummaryLine::all();
+
+//    $etsl = \App\Models\TestModel::all();
 //
 //    $etsl->map(function ($item){
 //        if($item->path){
-//            File::copy(public_path('/files/'.$item->path), public_path('/pdfs/'.$item->year . '/'.$item->id.'.pdf'));
+//            if(File::exists(public_path('/files/'.$item->path)))
+//            File::copy(public_path('/files/'.$item->path), public_path('/t_pdfs/'.$item->year . '/'.$item->id.'.pdf'));
 //        }
 //    });
 
@@ -50,7 +51,7 @@ Route::get('/', function () {
 //   $res =  $en->map(function ($item){
 //        return substr($item->entry_summary_number, 0 ,3);
 //    })->unique();
-    
+
     return view('links');
 });
 

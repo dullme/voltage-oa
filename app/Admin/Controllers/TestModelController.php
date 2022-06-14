@@ -57,7 +57,7 @@ class TestModelController extends AdminController
 //        })->image('', '', 800);
         $grid->column('pdf', __('PDF'))->display(function (){
 //            $path = preg_replace(['/[\x7f]/',], '', $this->path);
-            $url = asset('files/'.$this->path);
+            $url = asset('t_pdfs/'.$this->year.'/'.$this->id.'.pdf');
 
 //            if($this->id == 6144){
 //

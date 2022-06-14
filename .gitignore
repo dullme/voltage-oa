@@ -20,3 +20,4 @@ yarn-error.log
 /storage/framework
 public/files
 public/pdfs
+public/t_pdfs
