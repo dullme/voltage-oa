@@ -65,7 +65,7 @@ class TestModelController extends AdminController
 //                dd("<iframe src='{$url}' width='800' height='800'></iframe>");
 //            }
 
-            return "<span>{$this->path}</span><iframe src='{$url}' width='800' height='800'></iframe>";
+            return "<span>{$this->path}</span><br/><iframe src='{$url}' width='800' height='800'></iframe>";
         });
 //        $grid->column('created_at', __('Created at'));
 //        $grid->column('updated_at', __('Updated at'));
