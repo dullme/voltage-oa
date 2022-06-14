@@ -32,24 +32,32 @@ class EntrySummaryLineController extends AdminController
 //        $grid->column('buu', __('Buu'));
 
         $grid->column('entry_summary_number', __('Entry summary number'));
-        $grid->column('entry_type_code', __('Entry type code'));
-        $grid->column('entry_summary_line_number', __('Entry summary line number'));
+//        $grid->column('entry_type_code', __('Entry type code'));
+//        $grid->column('entry_summary_line_number', __('Entry summary line number'));
 //        $grid->column('review_team_number', __('Review team number'));
 //        $grid->column('country_of_origin_code', __('Country of origin code'));
 //        $grid->column('country_of_export_code', __('Country of export code'));
-        $grid->column('manufacturer_id', __('Manufacturer id'));
+//        $grid->column('manufacturer_id', __('Manufacturer id'));
         $grid->column('manufacturer_name', __('Manufacturer name'));
 //        $grid->column('foreign_exporter_id', __('Foreign exporter id'));
 //        $grid->column('foreign_exporter_name', __('Foreign exporter name'));
 //        $grid->column('line_spi_code', __('Line spi code'));
-        $grid->column('line_spi', __('Line spi'));
+//        $grid->column('line_spi', __('Line spi'));
 //        $grid->column('reconciliation_fta_status', __('Reconciliation fta status'));
 //        $grid->column('reconciliation_other_status', __('Reconciliation other status'));
-        $grid->column('line_goods_value_amount', __('Line goods value amount'));
-        $grid->column('line_duty_amount', __('Line duty amount'));
-        $grid->column('line_mpf_amount', __('Line mpf amount'));
-        $grid->column('line_hmf_amount', __('Line hmf amount'));
-        $grid->column('path', __('Path'));
+        $grid->column('line_goods_value_amount2', __('Line Goods Value Amount2'))->editable();
+        $grid->column('line_duty_amount2', __('Line Duty Amount2'))->editable();
+        $grid->column('line_mpf_amount2', __('Line MPF Amount2'))->editable();
+        $grid->column('line_hmf_amount2', __('Line HMF Amount2'))->editable();
+        $grid->column('path', __('Path'))->display(function (){
+            if($this->path){
+                $url = asset('pdfs/'.$this->year.'/'.$this->id.'.pdf');
+                return "<iframe title='{$this->path}' src='{$url}' width='700' height='800'></iframe>";
+            }else{
+                return '';
+            }
+
+        });
         $grid->column('matched', __('Matched'))->sortable();
 
         $grid->filter(function ($filter) {
@@ -147,6 +155,11 @@ class EntrySummaryLineController extends AdminController
         $form->decimal('line_duty_amount', __('Line duty amount'));
         $form->decimal('line_mpf_amount', __('Line mpf amount'));
         $form->decimal('line_hmf_amount', __('Line hmf amount'));
+
+        $form->decimal('line_goods_value_amount2', __('Line goods value amount2'));
+        $form->decimal('line_duty_amount2', __('Line duty amount2'));
+        $form->decimal('line_mpf_amount2', __('Line mpf amount2'));
+        $form->decimal('line_hmf_amount2', __('Line hmf amount2'));
 
         return $form;
     }

@@ -34,5 +34,9 @@ class EntrySummaryLine extends Model
         'line_duty_amount',
         'line_mpf_amount',
         'line_hmf_amount',
+        'line_goods_value_amount2',
+        'line_duty_amount2',
+        'line_mpf_amount2',
+        'line_hmf_amount2',
     ];
 }

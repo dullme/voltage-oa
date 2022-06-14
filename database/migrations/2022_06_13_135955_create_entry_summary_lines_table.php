@@ -38,6 +38,10 @@ class CreateEntrySummaryLinesTable extends Migration
             $table->decimal('line_duty_amount', 10, 2)->nullable();
             $table->decimal('line_mpf_amount', 10, 2)->nullable();
             $table->decimal('line_hmf_amount', 10, 2)->nullable();
+            $table->decimal('line_goods_value_amount2', 10, 2)->nullable();
+            $table->decimal('line_duty_amount2', 10, 2)->nullable();
+            $table->decimal('line_mpf_amount2', 10, 2)->nullable();
+            $table->decimal('line_hmf_amount2', 10, 2)->nullable();
             $table->timestamps();
         });
     }

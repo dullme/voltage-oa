@@ -41,24 +41,32 @@ class TestModelController extends AdminController
 //        $grid->column('line_mpf_amount', __('line_mpf_amount'))->sortable();
 //        $grid->column('line_hmf_amount', __('line_hmf_amount'))->sortable();
 //        $grid->column('remarks', __('Remarks'));
-        $grid->column('details', __('Details'))->view('content');
-        $grid->column('image', __('Image'))->display(function (){
-            $data = [];
-            for ($i=1; $i>=1; $i++){
-                $path = '/files/'.$this->dir.'/'.$this->id.'_'.$i.'.jpg';
-                if(File::exists(public_path($path))){
-                    $data[] = asset($path);
-                }else{
-                    break;
-                }
-            }
+//        $grid->column('details', __('Details'))->view('content');
+//        $grid->column('image', __('Image'))->display(function (){
+//            $data = [];
+//            for ($i=1; $i>=1; $i++){
+//                $path = '/files/'.$this->dir.'/'.$this->id.'_'.$i.'.jpg';
+//                if(File::exists(public_path($path))){
+//                    $data[] = asset($path);
+//                }else{
+//                    break;
+//                }
+//            }
+//
+//            return $data;
+//        })->image('', '', 800);
+        $grid->column('pdf', __('PDF'))->display(function (){
+//            $path = preg_replace(['/[\x7f]/',], '', $this->path);
+            $url = asset('files/'.$this->path);
 
-            return $data;
-        })->lightbox();
-//        $grid->column('pdf', __('PDF'))->display(function (){
-//            $url = asset('files/'.$this->path);
-//            return "<iframe src='{$url}' width='800' height='800'></iframe>";
-//        });
+//            if($this->id == 6144){
+//
+//                dd($this->path, preg_replace(['/[\x7f]/',], '', $this->path));
+//                dd("<iframe src='{$url}' width='800' height='800'></iframe>");
+//            }
+
+            return "<iframe src='{$url}' width='800' height='800'></iframe>";
+        });
 //        $grid->column('created_at', __('Created at'));
 //        $grid->column('updated_at', __('Updated at'));
 

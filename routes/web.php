@@ -16,7 +16,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
 
 //    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('AMD Extender - V1 05242022.xlsx'));
-//    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\WhipTemplateImport(), public_path('AMD Whip - V1 05242022.xlsx'));
+//    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\WhipTemplateImport(), public_path('BFP Whip标签 IFC - V3 05302022.xlsx'));
+
+
+    $etsl = \App\Models\EntrySummaryLine::all();
+
+    $etsl->map(function ($item){
+        if($item->path){
+            File::copy(public_path('/files/'.$item->path), public_path('/pdfs/'.$item->year . '/'.$item->id.'.pdf'));
+        }
+    });
+
 
 
 //    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('/files/ES-002_Entry_Summary_Line_Details.xlsx'))[0];
