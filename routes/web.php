@@ -45,6 +45,13 @@ Route::get('/', function () {
 //
 //    }
 
+//    $en = \App\Models\EntrySummaryLine::all();
+//
+//   $res =  $en->map(function ($item){
+//        return substr($item->entry_summary_number, 0 ,3);
+//    })->unique();
+
+dd($res);
     return view('links');
 });
 

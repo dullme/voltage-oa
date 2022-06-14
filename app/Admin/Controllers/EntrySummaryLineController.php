@@ -26,7 +26,7 @@ class EntrySummaryLineController extends AdminController
     {
         $grid = new Grid(new EntrySummaryLine());
 
-        $grid->column('id', __('Id'));
+        $grid->column('id', __('Id'))->sortable();
 //        $grid->column('year', __('Year'));
 //        $grid->column('dir', __('Dir'));
 //        $grid->column('buu', __('Buu'));
@@ -76,6 +76,26 @@ class EntrySummaryLineController extends AdminController
                 '' => 'All',
                 'yes' => '已匹配',
                 'no' => '未匹配',
+            ]);
+
+
+            $filter->where(function ($query) {
+                $query->where('entry_summary_number', 'like', $this->input.'%');
+            }, 'matched', 'Matched')->radio([
+                '' => 'All',
+                '101' => '101',
+                '178' => '178',
+                '799' => '799',
+                '86P' => '86P',
+                '96U' => '96U',
+                'ATN' => 'ATN',
+                'BQK' => 'BQK',
+                'BUU' => 'BUU',
+                'DZ1' => 'DZ1',
+                'E4Y' => 'E4Y',
+                'EE3' => 'EE3',
+                'NBF' => 'NBF',
+                'NIK' => 'NIK',
             ]);
 
         });
