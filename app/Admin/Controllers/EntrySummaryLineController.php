@@ -45,10 +45,10 @@ class EntrySummaryLineController extends AdminController
 //        $grid->column('line_spi', __('Line spi'));
 //        $grid->column('reconciliation_fta_status', __('Reconciliation fta status'));
 //        $grid->column('reconciliation_other_status', __('Reconciliation other status'));
-        $grid->column('line_goods_value_amount2', __('Line Goods Value Amount2'))->editable();
-        $grid->column('line_duty_amount2', __('Line Duty Amount2'))->editable();
-        $grid->column('line_mpf_amount2', __('Line MPF Amount2'))->editable();
-        $grid->column('line_hmf_amount2', __('Line HMF Amount2'))->editable();
+        $grid->column('line_goods_value_amount2', __('Line Goods Value Amount2'))->editable()->sortable();
+        $grid->column('line_duty_amount2', __('Line Duty Amount2'))->editable()->sortable();
+        $grid->column('line_mpf_amount2', __('Line MPF Amount2'))->editable()->sortable();
+        $grid->column('line_hmf_amount2', __('Line HMF Amount2'))->editable()->sortable();
         $grid->column('check', __('Check'))->bool()->sortable();
         $grid->column('path', __('Path'))->display(function (){
             if($this->path){

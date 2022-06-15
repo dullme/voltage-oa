@@ -21,17 +21,17 @@ Route::get('/', function () {
         $Test = \App\Models\TestModel::where('buu', $item->entry_summary_number)->first();
         if($Test){
             $details = str_replace([PHP_EOL, ' ', ','],'',  $Test->details);
-            if($item->line_goods_value_amount2){
-                if(strpos($details, $item->line_goods_value_amount2)){
-                    $item->check = true;
-                    $item->save();
-                }
+            $amount = bigNumber($item->line_duty_amount2)->add($item->line_mpf_amount2)->add($item->line_hmf_amount2)->getValue();
+            if($amount > 0 && strpos($details, $amount)){
+                $item->check = true;
+                $item->save();
+            }else{
+                $item->check = false;
+                $item->save();
             }
-
-
         }
     });
-    
+
 
 //    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('EVR Extender标签 90% V2 04292022 - rev1.xlsx'));
 //    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\WhipTemplateImport(), public_path('EVR Whip标签 90% V2 04292022 - rev1.xlsx'));
