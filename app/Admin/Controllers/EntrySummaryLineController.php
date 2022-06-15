@@ -49,6 +49,7 @@ class EntrySummaryLineController extends AdminController
         $grid->column('line_duty_amount2', __('Line Duty Amount2'))->editable();
         $grid->column('line_mpf_amount2', __('Line MPF Amount2'))->editable();
         $grid->column('line_hmf_amount2', __('Line HMF Amount2'))->editable();
+        $grid->column('check', __('Check'))->bool()->sortable();
         $grid->column('path', __('Path'))->display(function (){
             if($this->path){
                 $url = asset('pdfs/'.$this->year.'/'.$this->id.'.pdf');
@@ -76,6 +77,21 @@ class EntrySummaryLineController extends AdminController
                 '' => 'All',
                 'yes' => '已匹配',
                 'no' => '未匹配',
+            ]);
+
+            $filter->where(function ($query) {
+                switch ($this->input) {
+                    case 'yes':
+                        $query->where('check', 1);
+                        break;
+                    case 'no':
+                        $query->where('check', 0);
+                        break;
+                }
+            }, 'check', 'Check')->radio([
+                '' => 'All',
+                'yes' => '验证成功',
+                'no' => '未验证',
             ]);
 
 

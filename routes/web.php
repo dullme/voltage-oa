@@ -15,8 +15,26 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
+    $ent = \App\Models\EntrySummaryLine::get();
+
+    $ent->map(function ($item){
+        $Test = \App\Models\TestModel::where('buu', $item->entry_summary_number)->first();
+        if($Test){
+            $details = str_replace([PHP_EOL, ' ', ','],'',  $Test->details);
+            if($item->line_goods_value_amount2){
+                if(strpos($details, $item->line_goods_value_amount2)){
+                    $item->check = true;
+                    $item->save();
+                }
+            }
+
+
+        }
+    });
+    
+
 //    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('EVR Extender标签 90% V2 04292022 - rev1.xlsx'));
-    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\WhipTemplateImport(), public_path('EVR Whip标签 90% V2 04292022 - rev1.xlsx'));
+//    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\WhipTemplateImport(), public_path('EVR Whip标签 90% V2 04292022 - rev1.xlsx'));
 
 
 //    $etsl = \App\Models\TestModel::all();

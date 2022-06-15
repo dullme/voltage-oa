@@ -38,5 +38,6 @@ class EntrySummaryLine extends Model
         'line_duty_amount2',
         'line_mpf_amount2',
         'line_hmf_amount2',
+        'check',
     ];
 }
