@@ -49,6 +49,9 @@ class EntrySummaryLineController extends AdminController
         $grid->column('line_duty_amount2', __('Line Duty Amount2'))->editable()->sortable();
         $grid->column('line_mpf_amount2', __('Line MPF Amount2'))->editable()->sortable();
         $grid->column('line_hmf_amount2', __('Line HMF Amount2'))->editable()->sortable();
+        $grid->column('total', __('Total'))->display(function (){
+            return bigNumber($this->line_duty_amount2)->add($this->line_mpf_amount2)->add($this->line_hmf_amount2)->getValue();
+        });
         $grid->column('check', __('Check'))->bool()->sortable();
         $grid->column('path', __('Path'))->display(function (){
             if($this->path){
