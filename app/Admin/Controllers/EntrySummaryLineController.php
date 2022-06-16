@@ -45,6 +45,13 @@ class EntrySummaryLineController extends AdminController
             $total['df_total_line_mpf_amount'] = bigNumber($total['total_line_mpf_amount2'])->subtract($total['total_line_mpf_amount'])->getValue();
             $total['df_total_line_hmf_amount'] = bigNumber($total['total_line_hmf_amount2'])->subtract($total['total_line_hmf_amount'])->getValue();
 
+            $total['total_hyf'] = $data->sum('hyf');
+            $total['total_gs'] = $data->sum('gs');
+            $total['total_nlyf'] = $data->sum('nlyf');
+
+            $total['wf_total_hyf'] = $data->where('sfzf_hyf', false)->sum('hyf');
+            $total['wf_total_gs'] = $data->where('sfzf_gs', false)->sum('gs');
+            $total['wf_total_nlyf'] = $data->where('sfzf_gs', false)->sum('nlyf');
 
             return view('total', compact('total'));
         });
