@@ -117,7 +117,8 @@ class EntrySummaryLineController extends AdminController
             'off' => ['value' => 0, 'text' => '不退', 'color' => 'default'],
         ];
         $grid->column('sfxyts', __('是否需要退税'))->switch($states2);
-        $grid->column('daili', __('代理'))->editable()->sortable();
+        $grid->column('hy_daili', __('海运代理'))->editable()->sortable();
+        $grid->column('qg_daili', __('清关代理'))->editable()->sortable();
         $grid->column('kcsj', __('开船时间'))->sortable();
 //        $grid->column('source', __('数据来源'))->sortable();
 
@@ -197,10 +198,19 @@ class EntrySummaryLineController extends AdminController
                 if($this->input == 'All' || $this->input == ''){
 
                 }else{
-                    $query->where('daili', $this->input);
+                    $query->where('hy_daili', $this->input);
                 }
 
-            }, 'daili', '代理')->radio(array_merge([''=>'All'], EntrySummaryLine::where('daili', '!=', null)->pluck('daili', 'daili')->unique()->toArray()));
+            }, '海运代理')->radio(array_merge([''=>'All'], EntrySummaryLine::where('hy_daili', '!=', null)->pluck('hy_daili', 'hy_daili')->unique()->toArray()));
+
+            $filter->where(function ($query) {
+                if($this->input == 'All' || $this->input == ''){
+
+                }else{
+                    $query->where('qg_daili', $this->input);
+                }
+
+            }, '清关代理')->radio(array_merge([''=>'All'], EntrySummaryLine::where('qg_daili', '!=', null)->pluck('qg_daili', 'qg_daili')->unique()->toArray()));
 
         });
 
@@ -293,6 +303,8 @@ class EntrySummaryLineController extends AdminController
         $form->switch('sfzf_gs', __('sfzf_gs'))->states($states);
         $form->switch('sfzf_nlyf', __('sfzf_nlyf'))->states($states);
         $form->switch('sfxyts', __('sfxyts'))->states();
+        $form->text('hy_daili', __('hy_daili'));
+        $form->text('qg_daili', __('qg_daili'));
 
         return $form;
     }

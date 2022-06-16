@@ -56,7 +56,8 @@ class CreateEntrySummaryLinesTable extends Migration
             $table->boolean('sfzf_nlyf')->nullable()->comment('是否支付内陆运费');
             $table->boolean('sfxyts')->nullable()->comment('是否需要退税');
             $table->string('source')->nullable()->comment('数据来源');
-            $table->string('daili')->nullable()->comment('代理');
+            $table->string('hy_daili')->nullable()->comment('海运代理');
+            $table->string('qg_daili')->nullable()->comment('清关代理');
 
 
             $table->timestamps();

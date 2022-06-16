@@ -51,6 +51,7 @@ class EntrySummaryLine extends Model
         'sfzf_nlyf',
         'sfxyts',
         'source',
-        'daili',
+        'hy_daili',
+        'qg_daili',
     ];
 }

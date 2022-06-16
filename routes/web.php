@@ -14,36 +14,40 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-//          //根据开头三位编码匹配代理
-//        $ent = \App\Models\EntrySummaryLine::get();
-//
-//        foreach ($ent as $item){
-//
-//            if($item->entry_summary_number){
-//                $sub_res = substr($item->entry_summary_number, 0, 3);
-//
-//                if($sub_res == 'BUU'){
-//                    $item->daili = 'PNL';
-//                    $item->save();
-//                }
-//
-//                if($sub_res == 'NIK' || $sub_res == 'ATN' || $sub_res == '86P' || $sub_res == '96U'){
-//                    $item->daili = 'Safround';
-//                    $item->save();
-//                }
-//
-//                if($sub_res == 'E4Y'){
-//                    $item->daili = 'Taggart';
-//                    $item->save();
-//                }
-//
-//                if($sub_res == 'DZ1'){
-//                    $item->daili = 'APEX';
-//                    $item->save();
-//                }
-//
-//            }
-//        }
+          //根据开头三位编码匹配代理
+        $ent = \App\Models\EntrySummaryLine::get();
+
+        foreach ($ent as $item){
+
+            if($item->entry_summary_number){
+                $sub_res = substr($item->entry_summary_number, 0, 3);
+
+                if($sub_res == 'BUU'){
+                    $item->hy_daili = 'PNL';
+                    $item->qg_daili = 'PNL';
+                    $item->save();
+                }
+
+                if($sub_res == 'NIK' || $sub_res == 'ATN' || $sub_res == '86P' || $sub_res == '96U'){
+                    $item->hy_daili = 'Safround';
+                    $item->qg_daili = 'Safround';
+                    $item->save();
+                }
+
+                if($sub_res == 'E4Y'){
+                    $item->hy_daili = 'Taggart';
+                    $item->qg_daili = 'Taggart';
+                    $item->save();
+                }
+
+                if($sub_res == 'DZ1'){
+                    $item->hy_daili = 'APEX';
+                    $item->qg_daili = 'APEX';
+                    $item->save();
+                }
+
+            }
+        }
 
 
 
