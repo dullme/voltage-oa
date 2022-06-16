@@ -66,6 +66,10 @@
         <p style="min-width: 300px">
             合计未付：{{ bigNumber($total['wf_total_hyf'])->add($total['wf_total_gs'])->add($total['wf_total_nlyf'])->getValue() }}
         </p>
+
+        <p style="min-width: 300px">
+            合计退税金额：{{ bigNumber($total['txje'])->getValue() }}
+        </p>
     </div>
 
 </div>

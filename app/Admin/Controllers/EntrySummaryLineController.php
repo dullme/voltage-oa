@@ -53,6 +53,12 @@ class EntrySummaryLineController extends AdminController
             $total['wf_total_gs'] = $data->where('sfzf_gs', false)->sum('gs');
             $total['wf_total_nlyf'] = $data->where('sfzf_gs', false)->sum('nlyf');
 
+            $total['txje'] = $data->where('sfxyts', 1)->map(function ($item){
+                return [
+                    'txje' =>bigNumber($item->line_goods_value_amount2)->multiply(0.25)->getValue()
+                ];
+            })->sum('txje');
+
             return view('total', compact('total'));
         });
 
@@ -123,7 +129,7 @@ class EntrySummaryLineController extends AdminController
             'on'  => ['value' => 1, 'text' => '退', 'color' => 'primary'],
             'off' => ['value' => 0, 'text' => '不退', 'color' => 'default'],
         ];
-        $grid->column('sfxyts', __('是否需要退税'))->switch($states2);
+        $grid->column('sfxyts', __('是否需要退税'))->switch($states2)->sortable();
         $grid->column('hy_daili', __('海运代理'))->editable()->sortable();
         $grid->column('qg_daili', __('清关代理'))->editable()->sortable();
         $grid->column('kcsj', __('开船时间'))->sortable();
@@ -302,10 +308,16 @@ class EntrySummaryLineController extends AdminController
         $form->decimal('line_mpf_amount2', __('Line mpf amount2'));
         $form->decimal('line_hmf_amount2', __('Line hmf amount2'));
 
+
         $states = [
             'on'  => ['value' => 1, 'text' => '已付', 'color' => 'primary'],
             'off' => ['value' => 0, 'text' => '未付', 'color' => 'default'],
         ];
+
+        $form->decimal('hyf', __('hyf'));
+        $form->decimal('gs', __('gs'));
+        $form->decimal('nlyf', __('nlyf'));
+
         $form->switch('sfzf_hyf', __('sfzf_hyf'))->states($states);
         $form->switch('sfzf_gs', __('sfzf_gs'))->states($states);
         $form->switch('sfzf_nlyf', __('sfzf_nlyf'))->states($states);
