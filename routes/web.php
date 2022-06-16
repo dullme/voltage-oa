@@ -14,6 +14,37 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+        $ent = \App\Models\EntrySummaryLine::get();
+
+        foreach ($ent as $item){
+
+            if($item->entry_summary_number){
+                $sub_res = substr($item->entry_summary_number, 0, 3);
+
+                if($sub_res == 'BUU'){
+                    $item->daili = 'PNL';
+                    $item->save();
+                }
+
+                if($sub_res == 'NIK' || $sub_res == 'ATN' || $sub_res == '86P' || $sub_res == '96U'){
+                    $item->daili = 'Safround';
+                    $item->save();
+                }
+
+                if($sub_res == 'E4Y'){
+                    $item->daili = 'Taggart';
+                    $item->save();
+                }
+
+                if($sub_res == 'DZ1'){
+                    $item->daili = 'APEX';
+                    $item->save();
+                }
+
+            }
+        }
+
+
 
 //    $ent = \App\Models\EntrySummaryLine::get();
 //
@@ -33,7 +64,7 @@ Route::get('/', function () {
 //    });
 
 
-//    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('EVR Extender标签 90% V2 04292022 - rev1.xlsx'));
+//    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('AMD Extender - V1 05242022(2).xlsx'));
 //    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\WhipTemplateImport(), public_path('EVR Whip标签 90% V2 04292022 - rev1.xlsx'));
 
 
@@ -47,91 +78,91 @@ Route::get('/', function () {
 //    });
 
 
-    //表格一
-    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('表格1(1).xlsx'))[0];
-
-    $buu = $importData->map(function ($item){
-        return [
-            'buu' => str_replace('-', '', $item[4])
-        ];
-    });
-
-    if($buu->where('buu', '!=', '')->pluck('buu')->count() != $buu->where('buu', '!=', '')->pluck('buu')->unique()->count()){
-        dd('有重复值');
-    }
-
-
-    $res = $importData->map(function ($item, $key){
-        $buu = str_replace('-', '', $item[4]);
-        $b_l = rtrim(ltrim($item[5]));
-
-        if($key > 3){
-            if($item[4]){ //如果存在BUU
-                \App\Models\EntrySummaryLine::updateOrCreate([
-                    'buu' => $buu,
-                ], [
-                    'b_l' => $b_l,
-                    'kcsj' => $item[6],
-                    'hyf' => $item[9],
-                    'gs' => $item[10],
-                    'yjfksj' => $item[11],
-                    'source' => '表格一【系统中不存在BUU】'
-                ]);
-
-            }else if($item[5]){
-                \App\Models\EntrySummaryLine::updateOrCreate([
-                    'b_l' => $b_l,
-                ], [
-                    'buu' => $buu,
-                    'kcsj' => $item[6],
-                    'hyf' => $item[9],
-                    'gs' => $item[10],
-                    'yjfksj' => $item[11],
-                    'source' => '表格一【系统中不存在B/L】'
-                ]);
-            }
-        }
-
-    });
-
-
-    //表格二
-    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('表格2.xlsx'))[0];
-    $res = $importData->map(function ($item, $key){
-        $data = [
-            'b_l' => rtrim(ltrim($item[0])),
-            'nlyf' => $item[1]
-        ];
-        if($key > 0){
-            \App\Models\EntrySummaryLine::updateOrCreate([
-                'b_l' => $data['b_l'],
-            ], [
-                'nlyf' => $data['nlyf'],
-                'source' => '表格二【系统中不存在B/L】'
-            ]);
-        }
-
-
-       return $data;
-    });
-
-    //表格三
-    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('表格3.xlsx'))[0];
-
-    $res = $importData->map(function ($item, $key){
-        $data = [
-            'b_l' => rtrim(ltrim($item[1])),
-            'buu' => str_replace('-', '', $item[2])
-        ];
-        if($key > 0){
-            \App\Models\EntrySummaryLine::where('buu', $data['buu'])->update([
-                'sfxyts' => true
-            ]);
-        }
-
-
-       return $data;
-    });
+//    //表格一
+//    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('表格1(1).xlsx'))[0];
+//
+//    $buu = $importData->map(function ($item){
+//        return [
+//            'buu' => str_replace('-', '', $item[4])
+//        ];
+//    });
+//
+//    if($buu->where('buu', '!=', '')->pluck('buu')->count() != $buu->where('buu', '!=', '')->pluck('buu')->unique()->count()){
+//        dd('有重复值');
+//    }
+//
+//
+//    $res = $importData->map(function ($item, $key){
+//        $buu = str_replace('-', '', $item[4]);
+//        $b_l = rtrim(ltrim($item[5]));
+//
+//        if($key > 3){
+//            if($item[4]){ //如果存在BUU
+//                \App\Models\EntrySummaryLine::updateOrCreate([
+//                    'buu' => $buu,
+//                ], [
+//                    'b_l' => $b_l,
+//                    'kcsj' => $item[6],
+//                    'hyf' => $item[9],
+//                    'gs' => $item[10],
+//                    'yjfksj' => $item[11],
+//                    'source' => '表格一【系统中不存在BUU】'
+//                ]);
+//
+//            }else if($item[5]){
+//                \App\Models\EntrySummaryLine::updateOrCreate([
+//                    'b_l' => $b_l,
+//                ], [
+//                    'buu' => $buu,
+//                    'kcsj' => $item[6],
+//                    'hyf' => $item[9],
+//                    'gs' => $item[10],
+//                    'yjfksj' => $item[11],
+//                    'source' => '表格一【系统中不存在B/L】'
+//                ]);
+//            }
+//        }
+//
+//    });
+//
+//
+//    //表格二
+//    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('表格2.xlsx'))[0];
+//    $res = $importData->map(function ($item, $key){
+//        $data = [
+//            'b_l' => rtrim(ltrim($item[0])),
+//            'nlyf' => $item[1]
+//        ];
+//        if($key > 0){
+//            \App\Models\EntrySummaryLine::updateOrCreate([
+//                'b_l' => $data['b_l'],
+//            ], [
+//                'nlyf' => $data['nlyf'],
+//                'source' => '表格二【系统中不存在B/L】'
+//            ]);
+//        }
+//
+//
+//       return $data;
+//    });
+//
+//    //表格三
+//    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('表格3.xlsx'))[0];
+//
+//    $res = $importData->map(function ($item, $key){
+//        $data = [
+//            'b_l' => rtrim(ltrim($item[1])),
+//            'buu' => str_replace('-', '', $item[2])
+//        ];
+//        if($key > 0){
+//            \App\Models\EntrySummaryLine::where('buu', $data['buu'])->update([
+//                'sfxyts' => true
+//            ]);
+//        }
+//
+//
+//       return $data;
+//    });
 
 
 //

@@ -26,12 +26,45 @@ class EntrySummaryLineController extends AdminController
     {
         $grid = new Grid(new EntrySummaryLine());
 
+        $grid->header(function ($query) {
+
+            $data = $query->get();
+
+            $total['total_line_goods_value_amount'] = $data->sum('line_goods_value_amount');
+            $total['total_line_duty_amount'] = $data->sum('line_duty_amount');
+            $total['total_line_mpf_amount'] = $data->sum('line_mpf_amount');
+            $total['total_line_hmf_amount'] = $data->sum('line_hmf_amount');
+            $total['total_line_goods_value_amount2'] = $data->sum('line_goods_value_amount2');
+            $total['total_line_duty_amount2'] = $data->sum('line_duty_amount2');
+            $total['total_line_mpf_amount2'] = $data->sum('line_mpf_amount2');
+            $total['total_line_hmf_amount2'] = $data->sum('line_hmf_amount2');
+
+
+
+            $total['df_total_line_duty_amount'] = bigNumber($total['total_line_duty_amount2'])->subtract($total['total_line_duty_amount'])->getValue();
+            $total['df_total_line_mpf_amount'] = bigNumber($total['total_line_mpf_amount2'])->subtract($total['total_line_mpf_amount'])->getValue();
+            $total['df_total_line_hmf_amount'] = bigNumber($total['total_line_hmf_amount2'])->subtract($total['total_line_hmf_amount'])->getValue();
+
+
+            return view('total', compact('total'));
+        });
+
+
         $grid->column('id', __('Id'))->sortable();
 //        $grid->column('year', __('Year'));
 //        $grid->column('dir', __('Dir'));
 //        $grid->column('buu', __('Buu'));
 
-        $grid->column('entry_summary_number', __('Entry summary number'));
+//        $grid->column('b_l', __('B/L'))->sortable();
+        $grid->column('entry_summary_number', __('B/L & No.'))->display(function ($entry_summary_number){
+            $bl = '<p>'.$this->b_l.'</p>';
+
+            if($entry_summary_number != $this->buu){
+                return $bl.'<p>'.$this->buu.' / ' . $entry_summary_number.'</p>';
+            }
+
+            return $bl.'<p>'.$entry_summary_number.'</p>';
+        });
 //        $grid->column('entry_type_code', __('Entry type code'));
 //        $grid->column('entry_summary_line_number', __('Entry summary line number'));
 //        $grid->column('review_team_number', __('Review team number'));
@@ -45,25 +78,48 @@ class EntrySummaryLineController extends AdminController
 //        $grid->column('line_spi', __('Line spi'));
 //        $grid->column('reconciliation_fta_status', __('Reconciliation fta status'));
 //        $grid->column('reconciliation_other_status', __('Reconciliation other status'));
-        $grid->column('line_goods_value_amount', __('Line Goods Value Amount'))->editable()->sortable();
-        $grid->column('line_duty_amount', __('Line Duty Amount'))->editable()->sortable();
-        $grid->column('line_mpf_amount', __('Line MPF Amount'))->editable()->sortable();
-        $grid->column('line_hmf_amount', __('Line HMF Amount'))->editable()->sortable();
-        $grid->column('line_goods_value_amount2', __('Line Goods Value Amount2'))->editable()->sortable();
-        $grid->column('line_duty_amount2', __('Line Duty Amount2'))->editable()->sortable();
-        $grid->column('line_mpf_amount2', __('Line MPF Amount2'))->editable()->sortable();
-        $grid->column('line_hmf_amount2', __('Line HMF Amount2'))->editable()->sortable();
-        $grid->column('total', __('Total'))->display(function (){
-            return bigNumber($this->line_duty_amount2)->add($this->line_mpf_amount2)->add($this->line_hmf_amount2)->getValue();
+
+        $grid->column('line_goods_value_amount', __('已申报货值'))->sortable();
+        $grid->column('line_goods_value_amount2', __('实际申报货值'))->editable()->sortable();
+        $grid->column('line_goods_value_amount3', __('未申报货值'))->display(function (){
+            return bigNumber($this->line_goods_value_amount2)->subtract($this->line_goods_value_amount)->getValue();
         });
-        $grid->column('check', __('Check'))->sortable();
-        $grid->column('b_l', __('B/L'))->sortable();
+
+        $grid->column('amount')->view('test');
+
+
+//        $grid->column('line_duty_amount', __('Line Duty Amount'))->sortable();
+//        $grid->column('line_mpf_amount', __('Line MPF Amount'))->sortable();
+//        $grid->column('line_hmf_amount', __('Line HMF Amount'))->sortable();
+//
+//        $grid->column('line_duty_amount2', __('Line Duty Amount2'))->editable()->sortable();
+//        $grid->column('line_mpf_amount2', __('Line MPF Amount2'))->editable()->sortable();
+//        $grid->column('line_hmf_amount2', __('Line HMF Amount2'))->editable()->sortable();
+//        $grid->column('total', __('Total'))->display(function (){
+//            return bigNumber($this->line_duty_amount2)->add($this->line_mpf_amount2)->add($this->line_hmf_amount2)->getValue();
+//        });
+//        $grid->column('check', __('Check'))->sortable();
+
         $grid->column('kcsj', __('开船时间'))->sortable();
         $grid->column('hyf', __('海运费'))->sortable();
+        $states = [
+            'on'  => ['value' => 1, 'text' => '已付', 'color' => 'primary'],
+            'off' => ['value' => 0, 'text' => '未付', 'color' => 'default'],
+        ];
+
         $grid->column('gs', __('关税'))->sortable();
         $grid->column('nlyf', __('内陆运费'))->sortable();
-        $grid->column('sfxyts', __('是否需要退税'))->sortable();
-        $grid->column('source', __('数据来源'))->sortable();
+        $grid->column('sfzf_hyf', __('已支付海运费'))->switch($states);
+        $grid->column('sfzf_gs', __('已支付关税'))->switch($states);
+        $grid->column('sfzf_nlyf', __('已支付内陆运费'))->switch($states);
+
+        $states2 = [
+            'on'  => ['value' => 1, 'text' => '退', 'color' => 'primary'],
+            'off' => ['value' => 0, 'text' => '不退', 'color' => 'default'],
+        ];
+        $grid->column('sfxyts', __('是否需要退税'))->switch($states2);
+        $grid->column('daili', __('代理'))->editable()->sortable();
+//        $grid->column('source', __('数据来源'))->sortable();
 
 
 //        $grid->column('path', __('Path'))->display(function (){
@@ -83,6 +139,8 @@ class EntrySummaryLineController extends AdminController
             $filter->like('b_l', 'B/L');
             $filter->where(function ($query) {
                 switch ($this->input) {
+                    case 'All':
+                        break;
                     case 'yes':
                         $query->where('matched', 1);
                         break;
@@ -90,7 +148,7 @@ class EntrySummaryLineController extends AdminController
                         $query->where('matched', 0);
                         break;
                 }
-            }, 'matched', 'Matched')->radio([
+            }, 'Matched')->radio([
                 '' => 'All',
                 'yes' => '已匹配',
                 'no' => '未匹配',
@@ -98,6 +156,8 @@ class EntrySummaryLineController extends AdminController
 
             $filter->where(function ($query) {
                 switch ($this->input) {
+                    case 'All':
+                        break;
                     case 'yes':
                         $query->where('check', 1);
                         break;
@@ -105,7 +165,7 @@ class EntrySummaryLineController extends AdminController
                         $query->where('check', 0);
                         break;
                 }
-            }, 'check', 'Check')->radio([
+            }, 'Check')->radio([
                 '' => 'All',
                 'yes' => '验证成功',
                 'no' => '未验证',
@@ -114,7 +174,7 @@ class EntrySummaryLineController extends AdminController
 
             $filter->where(function ($query) {
                 $query->where('entry_summary_number', 'like', $this->input.'%');
-            }, 'matched', 'Matched')->radio([
+            }, 'Head NO.')->radio([
                 '' => 'All',
                 '101' => '101',
                 '178' => '178',
@@ -130,6 +190,15 @@ class EntrySummaryLineController extends AdminController
                 'NBF' => 'NBF',
                 'NIK' => 'NIK',
             ]);
+
+            $filter->where(function ($query) {
+                if($this->input == 'All' || $this->input == ''){
+
+                }else{
+                    $query->where('daili', $this->input);
+                }
+
+            }, 'daili', '代理')->radio(array_merge([''=>'All'], EntrySummaryLine::where('daili', '!=', null)->pluck('daili', 'daili')->unique()->toArray()));
 
         });
 
@@ -213,6 +282,15 @@ class EntrySummaryLineController extends AdminController
         $form->decimal('line_duty_amount2', __('Line duty amount2'));
         $form->decimal('line_mpf_amount2', __('Line mpf amount2'));
         $form->decimal('line_hmf_amount2', __('Line hmf amount2'));
+
+        $states = [
+            'on'  => ['value' => 1, 'text' => '已付', 'color' => 'primary'],
+            'off' => ['value' => 0, 'text' => '未付', 'color' => 'default'],
+        ];
+        $form->switch('sfzf_hyf', __('sfzf_hyf'))->states($states);
+        $form->switch('sfzf_gs', __('sfzf_gs'))->states($states);
+        $form->switch('sfzf_nlyf', __('sfzf_nlyf'))->states($states);
+        $form->switch('sfxyts', __('sfxyts'))->states();
 
         return $form;
     }

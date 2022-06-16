@@ -25,7 +25,7 @@ class ExtenderTemplateImport implements ToCollection,WithEvents
     private $itemIncludeHarness = true;//Item列表是否需要包含harness
     private $splitStr = '/';//Item 拆分符号
     private $sheetTemplateName = '模板';//定位item等基本信息的模板
-    private $blockPrefixName = 'INV';//Block 前缀
+    private $blockPrefixName = 'PCS';//Block 前缀
     private $sheetStartRow = 6;//每个 sheet 从第几行开始为数据体
     private $CBXColumn = 5;//CBX编号所在的列
     private $typicalColumn = 6;//Typical编号所在的列
