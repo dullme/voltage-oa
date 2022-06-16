@@ -92,23 +92,22 @@ class EntrySummaryLineController extends AdminController
 //        $grid->column('line_mpf_amount', __('Line MPF Amount'))->sortable();
 //        $grid->column('line_hmf_amount', __('Line HMF Amount'))->sortable();
 //
-//        $grid->column('line_duty_amount2', __('Line Duty Amount2'))->editable()->sortable();
-//        $grid->column('line_mpf_amount2', __('Line MPF Amount2'))->editable()->sortable();
-//        $grid->column('line_hmf_amount2', __('Line HMF Amount2'))->editable()->sortable();
+        $grid->column('line_duty_amount2', __('Line Duty Amount2'))->editable()->sortable();
+        $grid->column('line_mpf_amount2', __('Line MPF Amount2'))->editable()->sortable();
+        $grid->column('line_hmf_amount2', __('Line HMF Amount2'))->editable()->sortable();
 //        $grid->column('total', __('Total'))->display(function (){
 //            return bigNumber($this->line_duty_amount2)->add($this->line_mpf_amount2)->add($this->line_hmf_amount2)->getValue();
 //        });
 //        $grid->column('check', __('Check'))->sortable();
 
-        $grid->column('kcsj', __('开船时间'))->sortable();
-        $grid->column('hyf', __('海运费'))->sortable();
+        $grid->column('hyf', __('海运费'))->editable()->sortable();
         $states = [
             'on'  => ['value' => 1, 'text' => '已付', 'color' => 'primary'],
             'off' => ['value' => 0, 'text' => '未付', 'color' => 'default'],
         ];
 
-        $grid->column('gs', __('关税'))->sortable();
-        $grid->column('nlyf', __('内陆运费'))->sortable();
+        $grid->column('gs', __('关税'))->editable()->sortable();
+        $grid->column('nlyf', __('内陆运费'))->editable()->sortable();
         $grid->column('sfzf_hyf', __('已支付海运费'))->switch($states);
         $grid->column('sfzf_gs', __('已支付关税'))->switch($states);
         $grid->column('sfzf_nlyf', __('已支付内陆运费'))->switch($states);
@@ -119,6 +118,7 @@ class EntrySummaryLineController extends AdminController
         ];
         $grid->column('sfxyts', __('是否需要退税'))->switch($states2);
         $grid->column('daili', __('代理'))->editable()->sortable();
+        $grid->column('kcsj', __('开船时间'))->sortable();
 //        $grid->column('source', __('数据来源'))->sortable();
 
 
@@ -132,6 +132,8 @@ class EntrySummaryLineController extends AdminController
 //
 //        });
 //        $grid->column('matched', __('Matched'))->sortable();
+
+        $grid->disableActions();
 
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
