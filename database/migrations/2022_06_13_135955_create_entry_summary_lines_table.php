@@ -20,14 +20,14 @@ class CreateEntrySummaryLinesTable extends Migration
             $table->string('path')->nullable();
             $table->string('buu')->nullable();
             $table->boolean('matched')->default(false);
-            $table->string('entry_summary_number');
-            $table->string('entry_type_code');
-            $table->string('entry_summary_line_number');
-            $table->string('review_team_number');
-            $table->string('country_of_origin_code');
-            $table->string('country_of_export_code');
-            $table->string('manufacturer_id');
-            $table->string('manufacturer_name');
+            $table->string('entry_summary_number')->nullable();
+            $table->string('entry_type_code')->nullable();
+            $table->string('entry_summary_line_number')->nullable();
+            $table->string('review_team_number')->nullable();
+            $table->string('country_of_origin_code')->nullable();
+            $table->string('country_of_export_code')->nullable();
+            $table->string('manufacturer_id')->nullable();
+            $table->string('manufacturer_name')->nullable();
             $table->string('foreign_exporter_id')->nullable();
             $table->string('foreign_exporter_name')->nullable();
             $table->string('line_spi_code')->nullable();
@@ -42,6 +42,22 @@ class CreateEntrySummaryLinesTable extends Migration
             $table->decimal('line_duty_amount2', 10, 2)->nullable();
             $table->decimal('line_mpf_amount2', 10, 2)->nullable();
             $table->decimal('line_hmf_amount2', 10, 2)->nullable();
+            $table->integer('check')->default(0);
+
+            $table->string('b_l')->nullable()->comment('提单号');
+            $table->date('kcsj')->nullable()->comment('开船时间');
+            $table->date('yjfksj')->nullable()->comment('预计付款时间');
+            $table->date('sjfksj')->nullable()->comment('实际付款时间');
+            $table->decimal('hyf', 10, 2)->nullable()->comment('海运费');
+            $table->decimal('gs', 10, 2)->nullable()->comment('关税');
+            $table->decimal('nlyf', 10, 2)->nullable()->comment('内陆运费');
+            $table->boolean('sfzf_hyf')->nullable()->comment('是否支付海运费');
+            $table->boolean('sfzf_gs')->nullable()->comment('是否支付关税');
+            $table->boolean('sfzf_nlyf')->nullable()->comment('是否支付内陆运费');
+            $table->boolean('sfxyts')->nullable()->comment('是否需要退税');
+            $table->string('source')->nullable()->comment('数据来源');
+
+
             $table->timestamps();
         });
     }

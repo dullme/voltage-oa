@@ -39,5 +39,17 @@ class EntrySummaryLine extends Model
         'line_mpf_amount2',
         'line_hmf_amount2',
         'check',
+        'b_l',
+        'kcsj',
+        'yjfksj',
+        'sjfksj',
+        'hyf',
+        'gs',
+        'nlyf',
+        'sfzf_hyf',
+        'sfzf_gs',
+        'sfzf_nlyf',
+        'sfxyts',
+        'source',
     ];
 }

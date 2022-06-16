@@ -38,13 +38,17 @@ class EntrySummaryLineController extends AdminController
 //        $grid->column('country_of_origin_code', __('Country of origin code'));
 //        $grid->column('country_of_export_code', __('Country of export code'));
 //        $grid->column('manufacturer_id', __('Manufacturer id'));
-        $grid->column('manufacturer_name', __('Manufacturer name'));
+//        $grid->column('manufacturer_name', __('Manufacturer name'));
 //        $grid->column('foreign_exporter_id', __('Foreign exporter id'));
 //        $grid->column('foreign_exporter_name', __('Foreign exporter name'));
 //        $grid->column('line_spi_code', __('Line spi code'));
 //        $grid->column('line_spi', __('Line spi'));
 //        $grid->column('reconciliation_fta_status', __('Reconciliation fta status'));
 //        $grid->column('reconciliation_other_status', __('Reconciliation other status'));
+        $grid->column('line_goods_value_amount', __('Line Goods Value Amount'))->editable()->sortable();
+        $grid->column('line_duty_amount', __('Line Duty Amount'))->editable()->sortable();
+        $grid->column('line_mpf_amount', __('Line MPF Amount'))->editable()->sortable();
+        $grid->column('line_hmf_amount', __('Line HMF Amount'))->editable()->sortable();
         $grid->column('line_goods_value_amount2', __('Line Goods Value Amount2'))->editable()->sortable();
         $grid->column('line_duty_amount2', __('Line Duty Amount2'))->editable()->sortable();
         $grid->column('line_mpf_amount2', __('Line MPF Amount2'))->editable()->sortable();
@@ -52,21 +56,31 @@ class EntrySummaryLineController extends AdminController
         $grid->column('total', __('Total'))->display(function (){
             return bigNumber($this->line_duty_amount2)->add($this->line_mpf_amount2)->add($this->line_hmf_amount2)->getValue();
         });
-        $grid->column('check', __('Check'))->bool()->sortable();
-        $grid->column('path', __('Path'))->display(function (){
-            if($this->path){
-                $url = asset('pdfs/'.$this->year.'/'.$this->id.'.pdf');
-                return "<iframe title='{$this->path}' src='{$url}' width='700' height='800'></iframe>";
-            }else{
-                return '';
-            }
+        $grid->column('check', __('Check'))->sortable();
+        $grid->column('b_l', __('B/L'))->sortable();
+        $grid->column('kcsj', __('开船时间'))->sortable();
+        $grid->column('hyf', __('海运费'))->sortable();
+        $grid->column('gs', __('关税'))->sortable();
+        $grid->column('nlyf', __('内陆运费'))->sortable();
+        $grid->column('sfxyts', __('是否需要退税'))->sortable();
+        $grid->column('source', __('数据来源'))->sortable();
 
-        });
-        $grid->column('matched', __('Matched'))->sortable();
+
+//        $grid->column('path', __('Path'))->display(function (){
+//            if($this->path){
+//                $url = asset('pdfs/'.$this->year.'/'.$this->id.'.pdf');
+//                return "<iframe title='{$this->path}' src='{$url}' width='700' height='800'></iframe>";
+//            }else{
+//                return '';
+//            }
+//
+//        });
+//        $grid->column('matched', __('Matched'))->sortable();
 
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
             $filter->like('entry_summary_number', 'Entry summary number');
+            $filter->like('b_l', 'B/L');
             $filter->where(function ($query) {
                 switch ($this->input) {
                     case 'yes':

@@ -15,22 +15,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    $ent = \App\Models\EntrySummaryLine::get();
-
-    $ent->map(function ($item){
-        $Test = \App\Models\TestModel::where('buu', $item->entry_summary_number)->first();
-        if($Test){
-            $details = str_replace([PHP_EOL, ' ', ','],'',  $Test->details);
-            $amount = bigNumber($item->line_duty_amount2)->add($item->line_mpf_amount2)->add($item->line_hmf_amount2)->getValue();
-            if($amount > 0 && strpos($details, $amount)){
-                $item->check = true;
-                $item->save();
-            }else{
-                $item->check = false;
-                $item->save();
-            }
-        }
-    });
+//    $ent = \App\Models\EntrySummaryLine::get();
+//
+//    $ent->map(function ($item){
+//        $Test = \App\Models\TestModel::where('buu', $item->entry_summary_number)->first();
+//        if($Test){
+//            $details = str_replace([PHP_EOL, ' ', ','],'',  $Test->details);
+//            $amount = bigNumber($item->line_duty_amount2)->add($item->line_mpf_amount2)->add($item->line_hmf_amount2)->getValue();
+//            if($amount > 0 && strpos($details, $amount)){
+//                $item->check = true;
+//                $item->save();
+//            }else{
+//                $item->check = false;
+//                $item->save();
+//            }
+//        }
+//    });
 
 
 //    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('EVR Extender标签 90% V2 04292022 - rev1.xlsx'));
@@ -47,8 +47,93 @@ Route::get('/', function () {
 //    });
 
 
+    //表格一
+    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('表格1(1).xlsx'))[0];
 
-//    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('/files/NIK（6.6）.xls'))[0];
+    $buu = $importData->map(function ($item){
+        return [
+            'buu' => str_replace('-', '', $item[4])
+        ];
+    });
+
+    if($buu->where('buu', '!=', '')->pluck('buu')->count() != $buu->where('buu', '!=', '')->pluck('buu')->unique()->count()){
+        dd('有重复值');
+    }
+
+
+    $res = $importData->map(function ($item, $key){
+        $buu = str_replace('-', '', $item[4]);
+        $b_l = rtrim(ltrim($item[5]));
+
+        if($key > 3){
+            if($item[4]){ //如果存在BUU
+                \App\Models\EntrySummaryLine::updateOrCreate([
+                    'buu' => $buu,
+                ], [
+                    'b_l' => $b_l,
+                    'kcsj' => $item[6],
+                    'hyf' => $item[9],
+                    'gs' => $item[10],
+                    'yjfksj' => $item[11],
+                    'source' => '表格一【系统中不存在BUU】'
+                ]);
+
+            }else if($item[5]){
+                \App\Models\EntrySummaryLine::updateOrCreate([
+                    'b_l' => $b_l,
+                ], [
+                    'buu' => $buu,
+                    'kcsj' => $item[6],
+                    'hyf' => $item[9],
+                    'gs' => $item[10],
+                    'yjfksj' => $item[11],
+                    'source' => '表格一【系统中不存在B/L】'
+                ]);
+            }
+        }
+
+    });
+
+
+    //表格二
+    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('表格2.xlsx'))[0];
+    $res = $importData->map(function ($item, $key){
+        $data = [
+            'b_l' => rtrim(ltrim($item[0])),
+            'nlyf' => $item[1]
+        ];
+        if($key > 0){
+            \App\Models\EntrySummaryLine::updateOrCreate([
+                'b_l' => $data['b_l'],
+            ], [
+                'nlyf' => $data['nlyf'],
+                'source' => '表格二【系统中不存在B/L】'
+            ]);
+        }
+
+
+       return $data;
+    });
+
+    //表格三
+    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('表格3.xlsx'))[0];
+
+    $res = $importData->map(function ($item, $key){
+        $data = [
+            'b_l' => rtrim(ltrim($item[1])),
+            'buu' => str_replace('-', '', $item[2])
+        ];
+        if($key > 0){
+            \App\Models\EntrySummaryLine::where('buu', $data['buu'])->update([
+                'sfxyts' => true
+            ]);
+        }
+
+
+       return $data;
+    });
+
+
 //
 //    foreach ($importData as $key => $item) {
 //        if ($key > 0) {
