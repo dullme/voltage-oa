@@ -153,14 +153,23 @@ Route::get('/', function () {
 
 
 
-//    //表格一
-//    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('表格1(1).xlsx'))[0];
-//
-//    $buu = $importData->map(function ($item){
-//        return [
-//            'buu' => str_replace('-', '', $item[4])
-//        ];
-//    });
+    //表格一
+    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('工作簿3.xlsx'))[0];
+    $buu = $importData->map(function ($item){
+        $buu = str_replace('-', '', $item[1]);
+        $b_l = rtrim(ltrim($item[2]));
+        $kcsj = rtrim(ltrim($item[3]));
+        $hyf = rtrim(ltrim($item[6]));
+        $gs = rtrim(ltrim($item[7]));
+
+        $enno = \App\Models\EntrySummaryLine::where('entry_summary_number', $buu)->first();
+
+        $enno->hyf = $hyf;
+        $enno->gs = $gs;
+
+        $enno->save();
+
+    });
 //
 //    if($buu->where('buu', '!=', '')->pluck('buu')->count() != $buu->where('buu', '!=', '')->pluck('buu')->unique()->count()){
 //        dd('有重复值');
