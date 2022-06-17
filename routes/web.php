@@ -107,9 +107,20 @@ Route::get('/', function () {
 //dd(array_diff($res->pluck('buu')->toArray(), $rrr));
 
 
-//    //buu 对应 BL 数据匹配
-//    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('从物流网站invoice 导出的BUU对于BL数据 含金额.xlsx'))[0];
-//
+    //buu 对应 BL 数据匹配
+    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('物流网站海关编码对应开船时间.xlsx'))[0];
+
+    $importData->map(function ($item, $key){
+        $buu = str_replace('-', '', rtrim(ltrim($item[0])));
+        \App\Models\EntrySummaryLine::where('entry_summary_number', $buu)->update([
+            'kcsj' => $item[1]
+        ]);
+
+
+    });
+
+
+
 //    $importData->map(function ($item, $key){
 //        if($key > 0){
 //            $buu = str_replace('-', '', rtrim(ltrim($item[0])));
