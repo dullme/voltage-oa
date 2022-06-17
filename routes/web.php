@@ -94,23 +94,50 @@ Route::get('/', function () {
 //    });
 
 
-
-//    //buu 对应 BL 数据匹配
-//    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('从物流网站invoice 导出的BUU对于BL数据.xlsx'))[0];
-//    $importData->map(function ($item, $key){
-//        if($key > 0){
-//            $buu = str_replace('-', '', rtrim(ltrim($item[1])));
-//            $b_l = rtrim(ltrim($item[0]));
+//    //比对海关数据是否齐全
+//    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('ES-002_Entry_Summary_Line_Details (2)_010116-060122888888888888.xls'))[0];
 //
-//            $encount = \App\Models\EntrySummaryLine::where('entry_summary_number', $buu)->get();
-//            $encount->map(function ($entry) use($buu, $b_l){
-//                if($entry->b_l == null || $entry->b_l = ''){
-//                    $entry->b_l = $b_l;
-//                    $entry->save();
-//                }
-//            });
-//        }
+//    $res = $importData->map(function ($item){
+//        return [
+//            'buu' => $item[0]
+//        ];
 //    });
+//
+//    $rrr = \App\Models\EntrySummaryLine::pluck('entry_summary_number')->toArray();
+//dd(array_diff($res->pluck('buu')->toArray(), $rrr));
+
+
+    //buu 对应 BL 数据匹配
+    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('从物流网站invoice 导出的BUU对于BL数据 含金额.xlsx'))[0];
+
+    $importData->map(function ($item, $key){
+        if($key > 0){
+            $buu = str_replace('-', '', rtrim(ltrim($item[0])));
+            $hyf = $item[1];
+            $gs = $item[2];
+
+            $encount = \App\Models\EntrySummaryLine::where('entry_summary_number', $buu)->get();
+            $encount->map(function ($entry) use($buu, $hyf, $gs){
+
+                if($entry->entry_summary_number == $buu){
+
+                    if($entry->hyf){
+                        $entry->hyf = $hyf;
+                    }
+
+                    if($entry->gs){
+                        $entry->gs = $gs;
+                    }
+
+                    if($entry->hyf || $entry->gs){
+                        $entry->save();
+                    }
+
+                }
+
+            });
+        }
+    });
 
 
 
