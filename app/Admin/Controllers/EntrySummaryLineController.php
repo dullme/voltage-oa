@@ -225,6 +225,79 @@ class EntrySummaryLineController extends AdminController
 
             }, '清关代理')->radio(array_merge([''=>'All'], EntrySummaryLine::where('qg_daili', '!=', null)->pluck('qg_daili', 'qg_daili')->unique()->toArray()));
 
+
+
+
+            $filter->where(function ($query) {
+                switch ($this->input) {
+                    case 'All':
+                        break;
+                    case 'yes':
+                        $query->where('sfzf_hyf', 1);
+                        break;
+                    case 'no':
+                        $query->where('sfzf_hyf', 0);
+                        break;
+                }
+            }, '海运费')->radio([
+                '' => 'All',
+                'yes' => '已支付海运费',
+                'no' => '未支付海运费',
+            ]);
+
+            $filter->where(function ($query) {
+                switch ($this->input) {
+                    case 'All':
+                        break;
+                    case 'yes':
+                        $query->where('sfzf_gs', 1);
+                        break;
+                    case 'no':
+                        $query->where('sfzf_gs', 0);
+                        break;
+                }
+            }, '关税')->radio([
+                '' => 'All',
+                'yes' => '已支付关税',
+                'no' => '未支付关税',
+            ]);
+
+            $filter->where(function ($query) {
+                switch ($this->input) {
+                    case 'All':
+                        break;
+                    case 'yes':
+                        $query->where('sfzf_nlyf', 1);
+                        break;
+                    case 'no':
+                        $query->where('sfzf_nlyf', 0);
+                        break;
+                }
+            }, '内陆运费')->radio([
+                '' => 'All',
+                'yes' => '已支付内陆运费',
+                'no' => '未支付内陆运费',
+            ]);
+
+            $filter->where(function ($query) {
+                switch ($this->input) {
+                    case 'All':
+                        break;
+                    case 'yes':
+                        $query->where('sfxyts', 1);
+                        break;
+                    case 'no':
+                        $query->where('sfxyts', 0);
+                        break;
+                }
+            }, '退税')->radio([
+                '' => 'All',
+                'yes' => '需要退税',
+                'no' => '不需要退税',
+            ]);
+
+
+
         });
 
         return $grid;
