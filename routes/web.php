@@ -14,14 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    //计算退税金额
-    $ent = \App\Models\EntrySummaryLine::get();
-    foreach ($ent as $item){
-        if($item->line_goods_value_amount2){
-            $item->tsje = bigNumber($item->line_goods_value_amount2)->multiply(0.25)->getValue();
-            $item->save();
-        }
-    }
+//    //计算退税金额
+//    $ent = \App\Models\EntrySummaryLine::get();
+//    foreach ($ent as $item){
+//        if($item->line_goods_value_amount2){
+//            $item->tsje = bigNumber($item->line_goods_value_amount2)->multiply(0.25)->getValue();
+//            $item->save();
+//        }
+//    }
 
 
 
