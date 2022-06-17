@@ -64,7 +64,7 @@ class EntrySummaryLineController extends AdminController
 //        $grid->column('dir', __('Dir'));
 //        $grid->column('buu', __('Buu'));
 
-//        $grid->column('b_l', __('B/L'))->sortable();
+        $grid->column('b_l', __('B/L'))->sortable();
         $grid->column('entry_summary_number', __('B/L & No.'))->display(function ($entry_summary_number){
             $bl = '<p>'.$this->b_l.'</p>';
 
