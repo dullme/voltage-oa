@@ -94,6 +94,27 @@ Route::get('/', function () {
 //    });
 
 
+
+    //buu 对应 BL 数据匹配
+    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('从物流网站invoice 导出的BUU对于BL数据.xlsx'))[0];
+    $importData->map(function ($item, $key){
+        if($key > 0){
+            $buu = str_replace('-', '', rtrim(ltrim($item[1])));
+            $b_l = rtrim(ltrim($item[0]));
+
+            $encount = \App\Models\EntrySummaryLine::where('entry_summary_number', $buu)->get();
+            $encount->map(function ($entry) use($buu, $b_l){
+                if($entry->b_l == null || $entry->b_l = ''){
+                    $entry->b_l = $b_l;
+                    $entry->save();
+                }
+            });
+        }
+    });
+
+
+
+
 //    //表格一
 //    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('表格1(1).xlsx'))[0];
 //
