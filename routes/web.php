@@ -69,7 +69,7 @@ Route::get('/', function () {
 //    });
 
 
-//    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('AMD Extender - V1 05242022(2).xlsx'));
+    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('AMD Extender - V1 05242022(3).xlsx'));
 //    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\WhipTemplateImport(), public_path('EVR Whip标签 90% V2 04292022 - rev1.xlsx'));
 
 

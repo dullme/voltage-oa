@@ -152,7 +152,10 @@ class EntrySummaryLineController extends AdminController
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
             $filter->like('entry_summary_number', 'Entry summary number');
-            $filter->like('b_l', 'B/L');
+            $filter->where(function ($query) {
+                $input = explode(' ', $this->input);
+                $query->whereIn('b_l', $input);
+            }, 'B/L');
             $filter->where(function ($query) {
                 switch ($this->input) {
                     case 'All':
