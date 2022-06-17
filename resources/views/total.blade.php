@@ -42,12 +42,9 @@
         </p>
 
         <p style="min-width: 300px">
-            内陆运费：{{ $total['total_nlyf'] }}
+            内陆运费：¥ {{ $total['total_nlyf'] }}
         </p>
 
-        <p style="min-width: 300px">
-            合计多付：{{ bigNumber($total['df_total_line_duty_amount'])->add($total['df_total_line_mpf_amount'])->add($total['df_total_line_hmf_amount'])->getValue() }}
-        </p>
     </div>
 
     <div class="col-md-3">
@@ -60,11 +57,7 @@
         </p>
 
         <p style="min-width: 300px">
-            未付内陆运费：{{ $total['wf_total_nlyf'] }}
-        </p>
-
-        <p style="min-width: 300px">
-            合计未付：{{ bigNumber($total['wf_total_hyf'])->add($total['wf_total_gs'])->add($total['wf_total_nlyf'])->getValue() }}
+            未付内陆运费：¥ {{ $total['wf_total_nlyf'] }}
         </p>
 
         <p style="min-width: 300px">
