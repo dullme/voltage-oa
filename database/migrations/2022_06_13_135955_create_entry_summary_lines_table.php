@@ -51,6 +51,7 @@ class CreateEntrySummaryLinesTable extends Migration
             $table->decimal('hyf', 10, 2)->nullable()->comment('海运费');
             $table->decimal('gs', 10, 2)->nullable()->comment('关税');
             $table->decimal('nlyf', 10, 2)->nullable()->comment('内陆运费');
+            $table->decimal('tsje', 10, 2)->nullable()->comment('退税金额');
             $table->boolean('sfzf_hyf')->nullable()->comment('是否支付海运费');
             $table->boolean('sfzf_gs')->nullable()->comment('是否支付关税');
             $table->boolean('sfzf_nlyf')->nullable()->comment('是否支付内陆运费');

@@ -14,6 +14,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    //计算退税金额
+    $ent = \App\Models\EntrySummaryLine::get();
+    foreach ($ent as $item){
+        if($item->line_goods_value_amount2){
+            $item->tsje = bigNumber($item->line_goods_value_amount2)->multiply(0.25)->getValue();
+            $item->save();
+        }
+    }
+
+
+
 //          //根据开头三位编码匹配代理
 //        $ent = \App\Models\EntrySummaryLine::get();
 //
@@ -69,7 +80,7 @@ Route::get('/', function () {
 //    });
 
 
-    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('AMD Extender - V1 05242022(3).xlsx'));
+//    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ExtenderTemplateImport(), public_path('AMD Extender - V1 05242022(3).xlsx'));
 //    $excel = \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\WhipTemplateImport(), public_path('EVR Whip标签 90% V2 04292022 - rev1.xlsx'));
 
 

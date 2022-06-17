@@ -68,7 +68,7 @@
         </p>
 
         <p style="min-width: 300px">
-            合计退税金额：{{ bigNumber($total['txje'])->getValue() }}
+            合计退税金额：{{ bigNumber($total['tsje'])->getValue() }}
         </p>
     </div>
 

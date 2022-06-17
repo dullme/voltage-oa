@@ -53,11 +53,7 @@ class EntrySummaryLineController extends AdminController
             $total['wf_total_gs'] = $data->where('sfzf_gs', false)->sum('gs');
             $total['wf_total_nlyf'] = $data->where('sfzf_gs', false)->sum('nlyf');
 
-            $total['txje'] = $data->where('sfxyts', 1)->map(function ($item){
-                return [
-                    'txje' =>bigNumber($item->line_goods_value_amount2)->multiply(0.25)->getValue()
-                ];
-            })->sum('txje');
+            $total['tsje'] = $data->where('sfxyts', 1)->sum('tsje');
 
             return view('total', compact('total'));
         });
@@ -130,6 +126,7 @@ class EntrySummaryLineController extends AdminController
             'off' => ['value' => 0, 'text' => '不退', 'color' => 'default'],
         ];
         $grid->column('sfxyts', __('是否需要退税'))->switch($states2)->sortable();
+        $grid->column('tsje', __('退税金额'))->editable()->sortable();
         $grid->column('hy_daili', __('海运代理'))->editable()->sortable();
         $grid->column('qg_daili', __('清关代理'))->editable()->sortable();
         $grid->column('kcsj', __('开船时间'))->sortable();
@@ -393,6 +390,7 @@ class EntrySummaryLineController extends AdminController
         $form->decimal('hyf', __('hyf'));
         $form->decimal('gs', __('gs'));
         $form->decimal('nlyf', __('nlyf'));
+        $form->decimal('tsje', __('tsje'));
 
         $form->switch('sfzf_hyf', __('sfzf_hyf'))->states($states);
         $form->switch('sfzf_gs', __('sfzf_gs'))->states($states);

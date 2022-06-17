@@ -46,6 +46,7 @@ class EntrySummaryLine extends Model
         'hyf',
         'gs',
         'nlyf',
+        'tsje',
         'sfzf_hyf',
         'sfzf_gs',
         'sfzf_nlyf',
@@ -53,5 +54,6 @@ class EntrySummaryLine extends Model
         'source',
         'hy_daili',
         'qg_daili',
+
     ];
 }
