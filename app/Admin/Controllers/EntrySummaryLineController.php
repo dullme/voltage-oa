@@ -51,7 +51,7 @@ class EntrySummaryLineController extends AdminController
 
             $total['wf_total_hyf'] = $data->where('sfzf_hyf', false)->sum('hyf');
             $total['wf_total_gs'] = $data->where('sfzf_gs', false)->sum('gs');
-            $total['wf_total_nlyf'] = $data->where('sfzf_gs', false)->sum('nlyf');
+            $total['wf_total_nlyf'] = $data->where('sfzf_nlyf', false)->sum('nlyf');
 
             $total['tsje'] = $data->where('sfxyts', 1)->sum('tsje');
 

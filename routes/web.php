@@ -150,7 +150,7 @@ Route::get('/', function () {
 //        }
 //    });
 //
-//    
+//
 //    //entry date 时间
 //    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('ES-002_Entry_Summary_Line_Details (2)_010116-060122888888888888.xls'))[0];
 //    $fixation = 25569;
