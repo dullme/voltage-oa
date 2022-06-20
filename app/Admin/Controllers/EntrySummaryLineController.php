@@ -356,6 +356,7 @@ class EntrySummaryLineController extends AdminController
         $form->text('dir', __('Dir'));
         $form->text('path', __('Path'));
         $form->text('buu', __('Buu'));
+        $form->text('b_l', __('B/L'));
         $form->switch('matched', __('Matched'));
         $form->text('entry_summary_number', __('Entry summary number'));
         $form->text('entry_type_code', __('Entry type code'));
