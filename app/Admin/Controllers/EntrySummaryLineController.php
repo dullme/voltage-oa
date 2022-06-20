@@ -148,7 +148,12 @@ class EntrySummaryLineController extends AdminController
 
         $grid->filter(function ($filter) {
             $filter->disableIdFilter();
-            $filter->like('entry_summary_number', 'Entry summary number');
+
+            $filter->where(function ($query) {
+                $input = explode(' ', $this->input);
+                $query->whereIn('entry_summary_number', $input);
+            }, 'Entry summary number');
+
             $filter->where(function ($query) {
                 $input = explode(' ', $this->input);
                 $query->whereIn('b_l', $input);
