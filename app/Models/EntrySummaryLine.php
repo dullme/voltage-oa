@@ -54,6 +54,7 @@ class EntrySummaryLine extends Model
         'source',
         'hy_daili',
         'qg_daili',
+        'entry_date',
 
     ];
 }

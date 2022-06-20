@@ -150,7 +150,25 @@ Route::get('/', function () {
 //        }
 //    });
 //
+    $importData = \Maatwebsite\Excel\Facades\Excel::toCollection(new \App\Imports\TemplateImport(), public_path('ES-002_Entry_Summary_Line_Details (2)_010116-060122888888888888.xls'))[0];
+    $fixation = 25569;
+    $fixationT = 24 * 60 * 60;
+    $date = gmdate('Y-m-d H:i:s', $fixation * $fixationT);
+//    dd($importData, $date);
 
+    $importData->map(function ($item, $key){
+        if($key > 0){
+            $fixation = 25569;
+            $fixationT = 24 * 60 * 60;
+            $date = gmdate('Y-m-d', ($item[1]-$fixation) * $fixationT);
+            $buu = str_replace('-', '', $item[0]);
+
+            \App\Models\EntrySummaryLine::where('entry_summary_number', $buu)->update([
+                'entry_date' => $date
+            ]);
+
+        }
+    });
 
 
 //    //表格一

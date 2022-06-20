@@ -48,6 +48,7 @@ class CreateEntrySummaryLinesTable extends Migration
             $table->date('kcsj')->nullable()->comment('开船时间');
             $table->date('yjfksj')->nullable()->comment('预计付款时间');
             $table->date('sjfksj')->nullable()->comment('实际付款时间');
+            $table->date('entry_date')->nullable()->comment('');
             $table->decimal('hyf', 10, 2)->nullable()->comment('海运费');
             $table->decimal('gs', 10, 2)->nullable()->comment('关税');
             $table->decimal('nlyf', 10, 2)->nullable()->comment('内陆运费');
