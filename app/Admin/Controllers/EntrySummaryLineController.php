@@ -65,15 +65,16 @@ class EntrySummaryLineController extends AdminController
 //        $grid->column('buu', __('Buu'));
 
         $grid->column('b_l', __('B/L'))->editable()->sortable();
-        $grid->column('entry_summary_number', __('B/L & No.'))->display(function ($entry_summary_number){
-            $bl = '<p>'.$this->b_l.'</p>';
-
-            if($entry_summary_number != $this->buu){
-                return $bl.'<p>'.$this->buu.' / ' . $entry_summary_number.'</p>';
-            }
-
-            return $bl.'<p>'.$entry_summary_number.'</p>';
-        });
+        $grid->column('entry_summary_number', __('No.'))->sortable();
+//        $grid->column('entry_summary_number', __('B/L & No.'))->display(function ($entry_summary_number){
+//            $bl = '<p>'.$this->b_l.'</p>';
+//
+//            if($entry_summary_number != $this->buu){
+//                return $bl.'<p>'.$this->buu.' / ' . $entry_summary_number.'</p>';
+//            }
+//
+//            return $bl.'<p>'.$entry_summary_number.'</p>';
+//        });
 //        $grid->column('entry_type_code', __('Entry type code'));
 //        $grid->column('entry_summary_line_number', __('Entry summary line number'));
 //        $grid->column('review_team_number', __('Review team number'));
@@ -130,6 +131,7 @@ class EntrySummaryLineController extends AdminController
         $grid->column('hy_daili', __('海运代理'))->editable()->sortable();
         $grid->column('qg_daili', __('清关代理'))->editable()->sortable();
         $grid->column('kcsj', __('开船时间'))->sortable();
+        $grid->column('entry_date', __('Entry Date'))->sortable()->width(100);
 //        $grid->column('source', __('数据来源'))->sortable();
 
 
@@ -158,6 +160,7 @@ class EntrySummaryLineController extends AdminController
                 $input = explode(' ', $this->input);
                 $query->whereIn('b_l', $input);
             }, 'B/L');
+            $filter->between('entry_date', 'Entry Date')->date();
             $filter->where(function ($query) {
                 switch ($this->input) {
                     case 'All':
