@@ -1,3 +1,5 @@
+<a style="margin-bottom:7px" class="btn btn-default btn-xs" target="_blank" href="{{ request()->url() }}?pdf=1">显示PDF</a>
+
 <div class="row">
     <div class="col-md-3">
         <p style="min-width: 300px">

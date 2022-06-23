@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use File;
 use App\Models\EntrySummaryLine;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -148,7 +149,10 @@ class EntrySummaryLineController extends AdminController
                 if($this->path){
                     $url = asset('pdfs/'.$this->year.'/'.$this->id.'.pdf');
                     return "<iframe title='{$this->path}' src='{$url}' width='700' height='800'></iframe>";
-                }else{
+                }elseif(File::exists(public_path('/pdfs/E4Y/'.$this->id.'.pdf'))){
+                    $url = asset('pdfs/E4Y/'.$this->id.'.pdf');
+                    return "<iframe title='{$this->path}' src='{$url}' width='700' height='800'></iframe>";
+                } else{
                     return '';
                 }
 
